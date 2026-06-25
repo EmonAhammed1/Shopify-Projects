@@ -2,10 +2,13 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { getProject, getProjects } from '@/lib/api';
 import Navbar from '@/components/ui/Navbar';
 import Footer from '@/components/ui/Footer';
 import styles from './project.module.css';
+
+const CursorGlow = dynamic(() => import('@/components/ui/CursorGlow'), { ssr: false });
 
 const DEMO = {
   title: 'LuxeWear Shopify Store',
@@ -62,6 +65,7 @@ export default function ProjectPage() {
 
   return (
     <>
+      <CursorGlow />
       <Navbar />
       <main className={styles.main}>
         {/* Hero banner */}
