@@ -10,7 +10,7 @@ import styles from '../admin.module.css';
 
 const EMPTY_PROJECT = {
   title: '', slug: '', shortDesc: '', description: '',
-  category: 'Shopify', thumbnail: '', liveUrl: '',
+  category: 'Shopify', thumbnail: '', screenshots: '', liveUrl: '',
   githubUrl: '', storefrontPassword: '', techStack: '', featured: false, order: 0,
 };
 
@@ -73,7 +73,12 @@ export default function AdminDashboard() {
   const openAdd = () => { setEditing(null); setFormData(EMPTY_PROJECT); setModal(true); };
   const openEdit = (p) => {
     setEditing(p);
-    setFormData({ ...p, techStack: p.techStack.join(', '), storefrontPassword: p.storefrontPassword || '' });
+    setFormData({
+      ...p,
+      techStack: p.techStack.join(', '),
+      screenshots: p.screenshots ? p.screenshots.join(', ') : '',
+      storefrontPassword: p.storefrontPassword || ''
+    });
     setModal(true);
   };
   const closeModal = () => { setModal(false); setEditing(null); };
@@ -90,6 +95,7 @@ export default function AdminDashboard() {
       const payload = {
         ...formData,
         techStack: formData.techStack.split(',').map((t) => t.trim()).filter(Boolean),
+        screenshots: formData.screenshots ? formData.screenshots.split(',').map((s) => s.trim()).filter(Boolean) : [],
         order: Number(formData.order),
       };
       if (editing) {
@@ -315,6 +321,10 @@ export default function AdminDashboard() {
               <div className={styles.modalField}>
                 <label>Thumbnail URL</label>
                 <input name="thumbnail" value={formData.thumbnail} onChange={handleChange} className={styles.modalInput} placeholder="https://..." />
+              </div>
+              <div className={styles.modalField}>
+                <label>Screenshots URLs (comma separated)</label>
+                <input name="screenshots" value={formData.screenshots} onChange={handleChange} className={styles.modalInput} placeholder="https://image1.com, https://image2.com" />
               </div>
               <div className={styles.modalField}>
                 <label>Tech Stack (comma separated)</label>
