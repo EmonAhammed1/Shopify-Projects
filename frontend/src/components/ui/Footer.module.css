@@ -1,0 +1,45 @@
+.footer {
+  padding: 2.5rem 0;
+  border-top: 1px solid var(--border);
+  margin-top: 4rem;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.logo {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.logo span {
+  color: var(--accent);
+}
+
+.copy {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.socials {
+  display: flex;
+  gap: 1.2rem;
+}
+
+.socials a {
+  color: var(--text-muted);
+  transition: color var(--transition);
+  display: flex;
+  align-items: center;
+}
+
+.socials a:hover {
+  color: var(--accent);
+}
