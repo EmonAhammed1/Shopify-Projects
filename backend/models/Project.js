@@ -48,6 +48,10 @@ const projectSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    storefrontPassword: {
+      type: String,
+      default: '',
+    },
     featured: {
       type: Boolean,
       default: false,

@@ -11,7 +11,7 @@ import styles from '../admin.module.css';
 const EMPTY_PROJECT = {
   title: '', slug: '', shortDesc: '', description: '',
   category: 'Shopify', thumbnail: '', liveUrl: '',
-  githubUrl: '', techStack: '', featured: false, order: 0,
+  githubUrl: '', storefrontPassword: '', techStack: '', featured: false, order: 0,
 };
 
 const CATEGORIES = ['Shopify', 'E-commerce', 'Landing Page', 'Web App', 'Other'];
@@ -73,7 +73,7 @@ export default function AdminDashboard() {
   const openAdd = () => { setEditing(null); setFormData(EMPTY_PROJECT); setModal(true); };
   const openEdit = (p) => {
     setEditing(p);
-    setFormData({ ...p, techStack: p.techStack.join(', ') });
+    setFormData({ ...p, techStack: p.techStack.join(', '), storefrontPassword: p.storefrontPassword || '' });
     setModal(true);
   };
   const closeModal = () => { setModal(false); setEditing(null); };
@@ -329,6 +329,10 @@ export default function AdminDashboard() {
                   <label>GitHub URL</label>
                   <input name="githubUrl" value={formData.githubUrl} onChange={handleChange} className={styles.modalInput} placeholder="https://github.com/..." />
                 </div>
+              </div>
+              <div className={styles.modalField}>
+                <label>Storefront Password (for Dev Stores)</label>
+                <input name="storefrontPassword" value={formData.storefrontPassword} onChange={handleChange} className={styles.modalInput} placeholder="Enter password to auto-bypass Shopify storefront lock" />
               </div>
               <label className={styles.modalCheckLabel}>
                 <input type="checkbox" name="featured" checked={formData.featured} onChange={handleChange} />

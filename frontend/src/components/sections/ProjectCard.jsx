@@ -51,7 +51,8 @@ export default function ProjectCard({ project, index }) {
     if (glowRef.current) glowRef.current.style.background = 'none';
   };
 
-  const { title, shortDesc, thumbnail, techStack = [], category, slug, liveUrl, featured } = project;
+  const { title, shortDesc, thumbnail, techStack = [], category, slug, liveUrl, storefrontPassword, featured } = project;
+  const finalLiveUrl = storefrontPassword ? `/api/projects/${slug}/preview` : liveUrl;
 
   return (
     <div
@@ -98,7 +99,7 @@ export default function ProjectCard({ project, index }) {
             Case Study
           </Link>
           {liveUrl && (
-            <a href={liveUrl} target="_blank" rel="noreferrer" className={styles.liveBtn}>
+            <a href={finalLiveUrl} target="_blank" rel="noreferrer" className={styles.liveBtn}>
               Live ↗
             </a>
           )}

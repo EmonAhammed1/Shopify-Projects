@@ -16,6 +16,7 @@ const projectSchema = new mongoose.Schema(
     techStack: { type: [String], default: [] },
     liveUrl: { type: String, default: '' },
     githubUrl: { type: String, default: '' },
+    storefrontPassword: { type: String, default: '' },
     featured: { type: Boolean, default: false },
     order: { type: Number, default: 0 },
   },

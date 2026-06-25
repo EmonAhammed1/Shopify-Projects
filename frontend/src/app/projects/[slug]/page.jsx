@@ -56,7 +56,8 @@ export default function ProjectPage() {
     );
   }
 
-  const { title, description, shortDesc, category, thumbnail, screenshots = [], techStack = [], liveUrl, githubUrl } = project;
+  const { title, description, shortDesc, category, thumbnail, screenshots = [], techStack = [], liveUrl, githubUrl, storefrontPassword } = project;
+  const finalLiveUrl = storefrontPassword ? `/api/projects/${slug}/preview` : liveUrl;
   const allImages = [thumbnail, ...screenshots].filter(Boolean);
 
   return (
@@ -76,7 +77,7 @@ export default function ProjectPage() {
             <p className={styles.shortDesc}>{shortDesc}</p>
             <div className={styles.actions}>
               {liveUrl && (
-                <a href={liveUrl} target="_blank" rel="noreferrer" className={styles.btnPrimary}>
+                <a href={finalLiveUrl} target="_blank" rel="noreferrer" className={styles.btnPrimary}>
                   View Live Site ↗
                 </a>
               )}
@@ -131,7 +132,7 @@ export default function ProjectPage() {
               <div className={styles.sideCard}>
                 <h3>Links</h3>
                 {liveUrl ? (
-                  <a href={liveUrl} target="_blank" rel="noreferrer" className={styles.sideLink}>
+                  <a href={finalLiveUrl} target="_blank" rel="noreferrer" className={styles.sideLink}>
                     🌐 Live Site
                   </a>
                 ) : <p className={styles.naText}>Not available</p>}
