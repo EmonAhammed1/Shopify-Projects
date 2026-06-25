@@ -85,7 +85,58 @@ export default function Projects() {
         scrollTrigger: { trigger: headerRef.current, start: 'top 85%' },
       }
     );
-  }, []);
+
+    // Flying Cards Animation from Hero -> Projects
+    setTimeout(() => {
+      const target = document.getElementById('hero-stack-target');
+      if (!target) return;
+      
+      const cards = document.querySelectorAll('.flying-card');
+      if (cards.length === 0) return;
+
+      const targetRect = target.getBoundingClientRect();
+      
+      cards.forEach((card, i) => {
+        // Force the card to clear any previous transforms to get accurate natural rect
+        gsap.set(card, { clearProps: "all" });
+        const cardRect = card.getBoundingClientRect();
+        
+        // Target is in the Hero right column. We add a slight stagger to make a stack
+        const stackOffsetX = i * 25;
+        const stackOffsetY = i * 25;
+        
+        const deltaX = targetRect.left - cardRect.left + stackOffsetX;
+        const deltaY = targetRect.top - cardRect.top + stackOffsetY;
+        const initialRotation = -10 + (i * 10);
+        
+        gsap.fromTo(card,
+          {
+            x: deltaX,
+            y: deltaY,
+            rotation: initialRotation,
+            scale: 0.8,
+            zIndex: 10 - i,
+            boxShadow: '0 30px 60px rgba(0,0,0,0.5)',
+            opacity: 1
+          },
+          {
+            x: 0,
+            y: 0,
+            rotation: 0,
+            scale: 1,
+            zIndex: 1,
+            boxShadow: 'none',
+            scrollTrigger: {
+              trigger: '#home',
+              start: 'top top',
+              end: 'bottom top',
+              scrub: 1,
+            }
+          }
+        );
+      });
+    }, 150); // Slight delay to ensure DOM and CSS are fully painted
+  }, [loading, projects]);
 
   const filtered = activeFilter === 'All'
     ? projects
@@ -124,7 +175,12 @@ export default function Projects() {
         ) : (
           <div className={styles.grid}>
             {filtered.map((project, i) => (
-              <ProjectCard key={project._id} project={project} index={i} />
+              <ProjectCard 
+                key={project._id} 
+                project={project} 
+                index={i} 
+                isFlying={activeFilter === 'All' && i < 3}
+              />
             ))}
           </div>
         )}

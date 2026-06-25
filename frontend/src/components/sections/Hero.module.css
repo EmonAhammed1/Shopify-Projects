@@ -10,11 +10,29 @@
 .content {
   position: relative;
   z-index: 1;
+  width: 100%;
+  padding-top: 7rem;
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.leftCol {
   display: flex;
   flex-direction: column;
   gap: 1.8rem;
-  padding-top: 7rem;
-  max-width: 780px;
+  max-width: 600px;
+}
+
+.rightCol {
+  position: relative;
+  height: 400px;
+  width: 100%;
+  perspective: 1000px;
 }
 
 .badge {
@@ -173,6 +191,8 @@
 
 @media (max-width: 768px) {
   .content { padding-top: 8rem; }
+  .heroGrid { grid-template-columns: 1fr; gap: 4rem; }
+  .rightCol { height: 300px; }
   .stats { gap: 1.5rem; }
   .btns { flex-direction: column; }
   .btnPrimary, .btnSecondary { width: 100%; justify-content: center; }

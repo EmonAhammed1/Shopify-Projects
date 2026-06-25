@@ -7,12 +7,14 @@ import styles from './ProjectCard.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function ProjectCard({ project, index }) {
+export default function ProjectCard({ project, index, isFlying }) {
   const cardRef = useRef(null);
   const glowRef = useRef(null);
 
   // Scroll-triggered entrance
   useEffect(() => {
+    if (isFlying) return; // Skip default animation if this card is part of the flying hero stack
+
     gsap.fromTo(
       cardRef.current,
       { opacity: 0, y: 60 },
@@ -22,7 +24,7 @@ export default function ProjectCard({ project, index }) {
         scrollTrigger: { trigger: cardRef.current, start: 'top 88%' },
       }
     );
-  }, [index]);
+  }, [index, isFlying]);
 
   // 3D tilt on mouse move
   const handleMouseMove = (e) => {
@@ -57,10 +59,10 @@ export default function ProjectCard({ project, index }) {
   return (
     <div
       ref={cardRef}
-      className={`${styles.card} ${featured ? styles.featured : ''}`}
+      className={`${styles.card} ${featured ? styles.featured : ''} ${isFlying ? 'flying-card' : ''}`}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{ opacity: 0 }}
+      style={{ opacity: isFlying ? 1 : 0 }}
     >
       <div ref={glowRef} className={styles.glow} />
 
