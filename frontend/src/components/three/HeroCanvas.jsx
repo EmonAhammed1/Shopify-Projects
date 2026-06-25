@@ -30,8 +30,8 @@ function FloatingGeometry() {
       <mesh ref={meshRef} position={[0, 0, 0]}>
         <torusKnotGeometry args={[1.2, 0.35, 180, 32]} />
         <meshStandardMaterial
-          color="#6c63ff"
-          emissive="#6c63ff"
+          color="#96bf48"
+          emissive="#96bf48"
           emissiveIntensity={0.4}
           wireframe={false}
           roughness={0.2}
@@ -41,7 +41,7 @@ function FloatingGeometry() {
       {/* Outer wireframe ring */}
       <mesh ref={mesh2Ref} position={[0, 0, 0]} scale={1.6}>
         <torusGeometry args={[1.2, 0.02, 16, 80]} />
-        <meshBasicMaterial color="#00f5d4" transparent opacity={0.3} />
+        <meshBasicMaterial color="#5e8e3e" transparent opacity={0.3} />
       </mesh>
     </>
   );
@@ -78,7 +78,7 @@ function ParticleField() {
     <Points ref={pointsRef} positions={positions} stride={3} frustumCulled={false}>
       <PointMaterial
         transparent
-        color="#6c63ff"
+        color="#96bf48"
         size={0.025}
         sizeAttenuation
         depthWrite={false}
@@ -92,7 +92,7 @@ function ParticleField() {
 function GridFloor() {
   return (
     <gridHelper
-      args={[30, 30, '#6c63ff', '#1a1a30']}
+      args={[30, 30, '#96bf48', '#1a2413']}
       position={[0, -3, 0]}
       rotation={[0, 0, 0]}
     />
@@ -108,8 +108,8 @@ export default function HeroCanvas() {
         dpr={[1, 1.5]}
       >
         <ambientLight intensity={0.3} />
-        <pointLight position={[5, 5, 5]} intensity={2} color="#6c63ff" />
-        <pointLight position={[-5, -5, -5]} intensity={1} color="#00f5d4" />
+        <pointLight position={[5, 5, 5]} intensity={2} color="#96bf48" />
+        <pointLight position={[-5, -5, -5]} intensity={1} color="#5e8e3e" />
         <spotLight position={[0, 8, 0]} intensity={1.5} color="#ffffff" castShadow />
 
         <FloatingGeometry />

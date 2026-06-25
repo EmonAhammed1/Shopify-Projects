@@ -5,16 +5,16 @@
   --bg-primary:     #050508;
   --bg-surface:     #0d0d14;
   --bg-card:        #111120;
-  --accent:         #6c63ff;
-  --accent-2:       #00f5d4;
-  --accent-glow:    rgba(108, 99, 255, 0.35);
-  --accent-2-glow:  rgba(0, 245, 212, 0.25);
+  --accent:         #96bf48; /* Shopify Green */
+  --accent-2:       #5e8e3e; /* Shopify Dark Green */
+  --accent-glow:    rgba(150, 191, 72, 0.35);
+  --accent-2-glow:  rgba(94, 142, 62, 0.25);
   --text-primary:   #f0f0ff;
   --text-muted:     #7a7a9d;
   --text-dim:       #3d3d5c;
-  --border:         rgba(108, 99, 255, 0.18);
-  --border-hover:   rgba(108, 99, 255, 0.5);
-  --shadow-glow:    0 0 40px rgba(108, 99, 255, 0.3);
+  --border:         rgba(150, 191, 72, 0.18);
+  --border-hover:   rgba(150, 191, 72, 0.5);
+  --shadow-glow:    0 0 40px rgba(150, 191, 72, 0.3);
   --shadow-card:    0 8px 32px rgba(0, 0, 0, 0.6);
   --font-heading:   'Space Grotesk', sans-serif;
   --font-body:      'Inter', sans-serif;
