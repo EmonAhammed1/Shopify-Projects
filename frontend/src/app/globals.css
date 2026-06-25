@@ -80,8 +80,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* ─── Utility Classes ────────────────────────────────────── */
 .container {
-  width: 91.666667%;
-  max-width: 1400px;
+  width: 91.666667%; /* 11/12 width */
   margin: 0 auto;
   padding: 0 clamp(1rem, 4vw, 3rem);
 }
