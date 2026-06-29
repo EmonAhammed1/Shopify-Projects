@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import { gsap } from 'gsap';
 import styles from './Hero.module.css';
 
-const HeroCanvas = dynamic(() => import('../three/HeroCanvas'), { ssr: false });
+const GlobeCanvas = dynamic(() => import('../three/GlobeCanvas'), { ssr: false });
 
 export default function Hero() {
   const headingRef = useRef(null);
@@ -26,12 +26,14 @@ export default function Hero() {
 
   return (
     <section className={styles.hero} id="home">
-      <HeroCanvas />
-      <div className={styles.scanline} />
-      <div className={`container ${styles.content}`}>
+      <div className={styles.globeWrapper}>
+        <GlobeCanvas />
+      </div>
+      <div className={styles.scanline} style={{ zIndex: 1 }} />
+      <div className={`container ${styles.content}`} style={{ pointerEvents: 'none', zIndex: 2 }}>
         <div className={styles.heroGrid}>
           {/* Left Column */}
-          <div className={styles.leftCol}>
+          <div className={styles.leftCol} style={{ pointerEvents: 'auto' }}>
             <div ref={badgeRef} className={styles.badge} style={{ opacity: 0 }}>
               <span className={styles.dot} />
               Available for new projects
@@ -76,7 +78,9 @@ export default function Hero() {
           </div>
           
           {/* Right Column Target for Flying Cards */}
-          <div className={styles.rightCol} id="hero-stack-target"></div>
+          <div className={styles.rightCol} id="hero-stack-target" style={{ pointerEvents: 'none' }}>
+            {/* Empty target column for layout purposes */}
+          </div>
         </div>
       </div>
 

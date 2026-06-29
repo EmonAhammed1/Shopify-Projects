@@ -11,6 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 const CATEGORIES = ['All', 'Shopify', 'E-commerce', 'Landing Page', 'Web App'];
 
 // Demo fallback data (used if API is not connected yet)
+  // Demo fallback data (used if API is not connected yet)
 const DEMO_PROJECTS = [
   {
     _id: '1', title: 'LuxeWear Shopify Store', slug: 'luxewear-shopify-store',
@@ -54,6 +55,34 @@ const DEMO_PROJECTS = [
     thumbnail: 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=800&q=80',
     techStack: ['Shopify Hydrogen', 'React', 'GraphQL', 'Node.js'], liveUrl: '#', githubUrl: '#',
   },
+  {
+    _id: '7', title: 'VibeAudio Headsets', slug: 'vibeaudio-headsets',
+    shortDesc: 'Immersive audio equipment store with 3D product visualizer.',
+    category: 'Shopify', featured: false, order: 7,
+    thumbnail: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80',
+    techStack: ['Shopify', 'Three.js', 'Liquid'], liveUrl: '#',
+  },
+  {
+    _id: '8', title: 'Nova Furniture', slug: 'nova-furniture',
+    shortDesc: 'Modern furniture e-commerce with AR placement capabilities.',
+    category: 'E-commerce', featured: false, order: 8,
+    thumbnail: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80',
+    techStack: ['Next.js', 'Shopify Storefront API', 'Tailwind'], liveUrl: '#',
+  },
+  {
+    _id: '9', title: 'Aura Perfumes', slug: 'aura-perfumes',
+    shortDesc: 'Luxury fragrance store with custom scent profiling quiz.',
+    category: 'Shopify', featured: false, order: 9,
+    thumbnail: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?w=800&q=80',
+    techStack: ['Shopify', 'Liquid', 'JavaScript'], liveUrl: '#',
+  },
+  {
+    _id: '10', title: 'Peak Activewear', slug: 'peak-activewear',
+    shortDesc: 'Performance apparel store with dynamic inventory tracking.',
+    category: 'E-commerce', featured: false, order: 10,
+    thumbnail: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80',
+    techStack: ['Shopify Plus', 'React', 'Tailwind'], liveUrl: '#',
+  },
 ];
 
 export default function Projects() {
@@ -76,6 +105,11 @@ export default function Projects() {
       }
     };
     fetchProjects();
+  }, []); // Run only once on mount
+
+  // GSAP Animations and Flying Cards
+  useEffect(() => {
+    if (loading) return; // Wait for loading to finish (even if demo data)
 
     gsap.fromTo(
       headerRef.current,
@@ -86,46 +120,77 @@ export default function Projects() {
       }
     );
 
-    // Flying Cards Animation from Hero -> Projects
+    // Flying Cards Animation from Hero Globe -> Projects Grid
     setTimeout(() => {
-      const target = document.getElementById('hero-stack-target');
-      if (!target) return;
-      
       const cards = document.querySelectorAll('.flying-card');
       if (cards.length === 0) return;
 
-      const targetRect = target.getBoundingClientRect();
-      
       cards.forEach((card, i) => {
+        // Find corresponding anchor on the globe
+        const anchor = document.getElementById(`globe-anchor-${i}`);
+        
         // Force the card to clear any previous transforms to get accurate natural rect
         gsap.set(card, { clearProps: "all" });
         const cardRect = card.getBoundingClientRect();
         
-        // Target is in the Hero right column. We add a slight stagger to make a stack
-        const stackOffsetX = i * 25;
-        const stackOffsetY = i * 25;
-        
-        const deltaX = targetRect.left - cardRect.left + stackOffsetX;
-        const deltaY = targetRect.top - cardRect.top + stackOffsetY;
-        const initialRotation = -10 + (i * 10);
+        let deltaX = 0;
+        let deltaY = 0;
+        let initialScale = 1;
+
+        if (anchor) {
+          const anchorRect = anchor.getBoundingClientRect();
+          
+          // Center of globe anchor
+          const anchorCenterX = anchorRect.left + anchorRect.width / 2;
+          const anchorCenterY = anchorRect.top + anchorRect.height / 2;
+          
+          // Center of card
+          const cardCenterX = cardRect.left + cardRect.width / 2;
+          const cardCenterY = cardRect.top + cardRect.height / 2;
+          
+          deltaX = anchorCenterX - cardCenterX;
+          deltaY = anchorCenterY - cardCenterY;
+          initialScale = anchorRect.width / cardRect.width;
+
+          // Fade out the anchor on the globe as we scroll
+          gsap.to(anchor, {
+            opacity: 0,
+            scrollTrigger: {
+              trigger: '#home',
+              start: 'top top',
+              end: '20% top', // fade out quickly
+              scrub: 1,
+            }
+          });
+        } else {
+           // Fallback if globe hasn't rendered anchors yet
+           deltaX = -window.innerWidth / 2;
+           deltaY = -window.innerHeight / 2;
+           initialScale = 0.2;
+        }
         
         gsap.fromTo(card,
           {
             x: deltaX,
             y: deltaY,
-            rotation: initialRotation,
-            scale: 0.8,
+            rotation: 0,
+            rotationX: 0,
+            rotationY: 0,
+            scale: initialScale,
             zIndex: 10 - i,
-            boxShadow: '0 30px 60px rgba(0,0,0,0.5)',
-            opacity: 1
+            boxShadow: 'none',
+            opacity: 0
           },
           {
             x: 0,
             y: 0,
             rotation: 0,
+            rotationX: 0,
+            rotationY: 0,
             scale: 1,
             zIndex: 1,
             boxShadow: 'none',
+            opacity: 1,
             scrollTrigger: {
               trigger: '#home',
               start: 'top top',
@@ -135,8 +200,8 @@ export default function Projects() {
           }
         );
       });
-    }, 150); // Slight delay to ensure DOM and CSS are fully painted
-  }, [loading, projects]);
+    }, 1500); // Wait longer to ensure 3D canvas is fully loaded and anchors are placed
+  }, [loading]);
 
   const filtered = activeFilter === 'All'
     ? projects
