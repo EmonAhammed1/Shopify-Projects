@@ -11,12 +11,20 @@ const Contact = dynamic(() => import('@/components/sections/Contact'));
 const Footer = dynamic(() => import('@/components/ui/Footer'));
 
 export default function Home() {
-  const [loaded, setLoaded] = useState(false);
+  const [loaded, setLoaded] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem('siteLoaded') === 'true';
+    }
+    return false;
+  });
 
   return (
     <>
       <CursorGlow />
-      {!loaded && <Loader onComplete={() => setLoaded(true)} />}
+      {!loaded && <Loader onComplete={() => {
+        setLoaded(true);
+        if (typeof window !== 'undefined') sessionStorage.setItem('siteLoaded', 'true');
+      }} />}
       <Navbar />
       <main>
         <Hero />

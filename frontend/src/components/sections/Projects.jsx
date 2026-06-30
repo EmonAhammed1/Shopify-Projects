@@ -93,10 +93,17 @@ export default function Projects() {
 
   useEffect(() => {
     const fetchProjects = async () => {
+      const cached = sessionStorage.getItem('projectsData');
+      if (cached) {
+        setProjects(JSON.parse(cached));
+        setLoading(false);
+      }
+
       try {
         const { data } = await getProjects();
         if (data.projects && data.projects.length > 0) {
           setProjects(data.projects);
+          sessionStorage.setItem('projectsData', JSON.stringify(data.projects));
         }
       } catch (err) {
         console.log('Using demo projects (API not connected)');
