@@ -8,78 +8,75 @@ import styles from './Projects.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const CATEGORIES = ['All', 'Shopify', 'E-commerce', 'Landing Page', 'Web App'];
-
 // Demo fallback data (used if API is not connected yet)
-  // Demo fallback data (used if API is not connected yet)
 const DEMO_PROJECTS = [
   {
     _id: '1', title: 'LuxeWear Shopify Store', slug: 'luxewear-shopify-store',
     shortDesc: 'A premium fashion Shopify store with custom sections and conversion-optimized UX.',
-    category: 'Shopify', featured: true, order: 1,
+    category: 'Fashion & Apparel Store', featured: true, order: 1,
     thumbnail: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80',
     techStack: ['Shopify', 'Liquid', 'JavaScript', 'SCSS', 'Klaviyo'], liveUrl: '#',
   },
   {
     _id: '2', title: 'GreenCart Organic Shop', slug: 'greencart-organic-shop',
     shortDesc: 'Eco-friendly product store with subscription boxes and loyalty program.',
-    category: 'Shopify', featured: true, order: 2,
+    category: 'General Multi-Category eCommerce Store', featured: true, order: 2,
     thumbnail: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&q=80',
     techStack: ['Shopify', 'Liquid', 'Recharge', 'Smile.io', 'SCSS'], liveUrl: '#',
   },
   {
     _id: '3', title: 'TechDrop Electronics', slug: 'techdrop-electronics',
     shortDesc: 'High-performance electronics Shopify store with advanced filtering.',
-    category: 'E-commerce', featured: true, order: 3,
+    category: 'Electronics & Gadgets Store', featured: true, order: 3,
     thumbnail: 'https://images.unsplash.com/photo-1498049794561-7780e7231661?w=800&q=80',
     techStack: ['Shopify Plus', 'Liquid', 'React', 'Algolia'], liveUrl: '#',
   },
   {
     _id: '4', title: 'SkinGlow Beauty Brand', slug: 'skinglow-beauty',
     shortDesc: 'Beauty & skincare DTC brand with quiz-based product recommendations.',
-    category: 'Shopify', featured: false, order: 4,
+    category: 'Beauty & Personal Care Store', featured: false, order: 4,
     thumbnail: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80',
     techStack: ['Shopify', 'Liquid', 'Klaviyo', 'Refersion'], liveUrl: '#',
   },
   {
     _id: '5', title: 'SportZone Athletic Gear', slug: 'sportzone-athletic',
     shortDesc: 'Multi-sport athletic gear store with custom bundle builder.',
-    category: 'Shopify', featured: false, order: 5,
+    category: 'Sports & Outdoor Store', featured: false, order: 5,
     thumbnail: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80',
     techStack: ['Shopify', 'Liquid', 'JavaScript', 'SCSS'], liveUrl: '#',
   },
   {
     _id: '6', title: 'CraftHaven Marketplace', slug: 'crafthaven-handmade',
     shortDesc: 'Multi-vendor handmade marketplace built on Shopify with headless storefront.',
-    category: 'E-commerce', featured: false, order: 6,
+    category: 'Marketplace / Multi-Vendor Store', featured: false, order: 6,
     thumbnail: 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=800&q=80',
     techStack: ['Shopify Hydrogen', 'React', 'GraphQL', 'Node.js'], liveUrl: '#', githubUrl: '#',
   },
   {
     _id: '7', title: 'VibeAudio Headsets', slug: 'vibeaudio-headsets',
     shortDesc: 'Immersive audio equipment store with 3D product visualizer.',
-    category: 'Shopify', featured: false, order: 7,
+    category: 'Electronics & Gadgets Store', featured: false, order: 7,
     thumbnail: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80',
     techStack: ['Shopify', 'Three.js', 'Liquid'], liveUrl: '#',
   },
   {
     _id: '8', title: 'Nova Furniture', slug: 'nova-furniture',
-    shortDesc: 'Modern furniture e-commerce with AR placement capabilities.',
-    category: 'E-commerce', featured: false, order: 8,
+    shortDesc: 'Modern e-commerce store with AR placement capabilities.',
+    category: 'Home & Living Store', featured: false, order: 8,
     thumbnail: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80',
     techStack: ['Next.js', 'Shopify Storefront API', 'Tailwind'], liveUrl: '#',
   },
   {
     _id: '9', title: 'Aura Perfumes', slug: 'aura-perfumes',
     shortDesc: 'Luxury fragrance store with custom scent profiling quiz.',
-    category: 'Shopify', featured: false, order: 9,
+    category: 'Beauty & Personal Care Store', featured: false, order: 9,
     thumbnail: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?w=800&q=80',
     techStack: ['Shopify', 'Liquid', 'JavaScript'], liveUrl: '#',
   },
   {
     _id: '10', title: 'Peak Activewear', slug: 'peak-activewear',
     shortDesc: 'Performance apparel store with dynamic inventory tracking.',
-    category: 'E-commerce', featured: false, order: 10,
+    category: 'Fashion & Apparel Store', featured: false, order: 10,
     thumbnail: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80',
     techStack: ['Shopify Plus', 'React', 'Tailwind'], liveUrl: '#',
   },
@@ -90,6 +87,9 @@ export default function Projects() {
   const [activeFilter, setActiveFilter] = useState('All');
   const [loading, setLoading] = useState(true);
   const headerRef = useRef(null);
+
+  // Dynamically extract unique categories from projects that are present
+  const categoriesList = ['All', ...new Set(projects.map((p) => p.category))].filter(Boolean);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -219,7 +219,7 @@ export default function Projects() {
 
           {/* Filter tabs */}
           <div className={styles.filters}>
-            {CATEGORIES.map((cat) => (
+            {categoriesList.map((cat) => (
               <button
                 key={cat}
                 className={`${styles.filter} ${activeFilter === cat ? styles.filterActive : ''}`}

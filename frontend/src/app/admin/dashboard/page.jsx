@@ -10,12 +10,35 @@ import styles from '../admin.module.css';
 
 const EMPTY_PROJECT = {
   title: '', slug: '', shortDesc: '', description: '',
-  category: 'Shopify', thumbnail: '', screenshots: '', liveUrl: '',
+  category: 'Fashion & Apparel Store', thumbnail: '', screenshots: '', liveUrl: '',
   githubUrl: '', storefrontPassword: '', themeUrl: '', techStack: '', featured: false, order: 0,
   pages: [],
 };
 
-const CATEGORIES = ['Shopify', 'E-commerce', 'Landing Page', 'Web App', 'Other'];
+const CATEGORIES = [
+  'Fashion & Apparel Store',
+  'Beauty & Personal Care Store',
+  'Jewelry & Watches Store',
+  'Home & Living Store',
+  'Electronics & Gadgets Store',
+  'Health & Wellness Store',
+  'Food & Beverage Store',
+  'Pet Supplies Store',
+  'Baby & Kids Store',
+  'Sports & Outdoor Store',
+  'Automotive Store',
+  'Books, Arts & Crafts Store',
+  'Digital Products Store',
+  'Print-on-Demand & Personalized Products Store',
+  'Dropshipping Store',
+  'Wholesale / B2B Store',
+  'Subscription & Membership Store',
+  'Marketplace / Multi-Vendor Store',
+  'Service, Booking & Rental Website',
+  'Luxury / Premium Brand Store',
+  'Single Product Store',
+  'General Multi-Category eCommerce Store'
+];
 
 export default function AdminDashboard() {
   const router = useRouter();
