@@ -146,34 +146,80 @@
   flex: 1;
   text-align: center;
   padding: 9px 0;
-  background: rgba(108, 99, 255, 0.12);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--accent);
-  transition: var(--transition);
-  font-family: var(--font-heading);
-}
-
-.detailBtn:hover {
-  background: rgba(108, 99, 255, 0.22);
-  border-color: var(--accent);
-}
-
-.liveBtn {
-  padding: 9px 18px;
+  background: transparent;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   font-size: 0.82rem;
   font-weight: 600;
   color: var(--text-muted);
-  transition: var(--transition);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background 0.25s, border-color 0.25s, color 0.25s;
+  font-family: var(--font-heading);
+  display: block;
+}
+
+.detailBtn:hover {
+  background: rgba(108, 99, 255, 0.08);
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: scale(1.05);
+}
+
+.liveBtn {
+  padding: 9px 20px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #fff;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background 0.25s, box-shadow 0.25s;
   font-family: var(--font-heading);
   white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(108, 99, 255, 0.2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .liveBtn:hover {
-  color: var(--accent-2);
-  border-color: var(--accent-2);
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: 0 6px 18px rgba(108, 99, 255, 0.4);
+  color: #fff;
+}
+
+/* Live Iframe Preview */
+.iframeWrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.placeholderImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.cardIframe {
+  width: 400% !important;
+  height: 400% !important;
+  border: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scale(0.25);
+  transform-origin: top left;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 2;
+}
+
+.iframeLoaded {
+  opacity: 1;
 }

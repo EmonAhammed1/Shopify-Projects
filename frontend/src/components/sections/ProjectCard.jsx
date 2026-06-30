@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Link from 'next/link';
@@ -10,6 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default function ProjectCard({ project, index, isFlying }) {
   const cardRef = useRef(null);
   const glowRef = useRef(null);
+  const [iframeLoaded, setIframeLoaded] = useState(false);
 
   // Scroll-triggered entrance
   useEffect(() => {
@@ -26,22 +27,12 @@ export default function ProjectCard({ project, index, isFlying }) {
     );
   }, [index, isFlying]);
 
-  // 3D tilt on mouse move
+  // Mouse move handler for glow effect (tilt disabled)
   const handleMouseMove = (e) => {
     const card = cardRef.current;
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    const cx = rect.width / 2;
-    const cy = rect.height / 2;
-    const rotX = ((y - cy) / cy) * -8;
-    const rotY = ((x - cx) / cx) * 8;
-
-    gsap.to(card, {
-      rotateX: rotX, rotateY: rotY,
-      transformPerspective: 800,
-      duration: 0.4, ease: 'power2.out',
-    });
 
     if (glowRef.current) {
       glowRef.current.style.background = `radial-gradient(300px circle at ${x}px ${y}px, rgba(108, 99, 255, 0.12), transparent 70%)`;
@@ -49,12 +40,13 @@ export default function ProjectCard({ project, index, isFlying }) {
   };
 
   const handleMouseLeave = () => {
-    gsap.to(cardRef.current, { rotateX: 0, rotateY: 0, duration: 0.6, ease: 'power3.out' });
     if (glowRef.current) glowRef.current.style.background = 'none';
   };
 
   const { title, shortDesc, thumbnail, techStack = [], category, slug, liveUrl, storefrontPassword, featured } = project;
   const finalLiveUrl = storefrontPassword ? `/api/projects/${slug}/preview` : liveUrl;
+
+  const isRealUrl = liveUrl && /^https?:\/\//i.test(liveUrl) && !liveUrl.includes('localhost') && !liveUrl.includes('127.0.0.1');
 
   return (
     <div
@@ -68,7 +60,25 @@ export default function ProjectCard({ project, index, isFlying }) {
 
       {/* Thumbnail */}
       <div className={styles.thumb}>
-        {thumbnail ? (
+        {isRealUrl ? (
+          <div className={styles.iframeWrapper}>
+            {!iframeLoaded && (
+              <img
+                src={thumbnail || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80'}
+                alt={title}
+                className={styles.placeholderImg}
+              />
+            )}
+            <iframe
+              src={`/api/projects/${slug}/proxy?path=%2F`}
+              className={`${styles.cardIframe} ${iframeLoaded ? styles.iframeLoaded : ''}`}
+              title={title}
+              scrolling="no"
+              loading="lazy"
+              onLoad={() => setIframeLoaded(true)}
+            />
+          </div>
+        ) : thumbnail ? (
           <img src={thumbnail} alt={title} loading="lazy" />
         ) : (
           <div className={styles.thumbPlaceholder} />
@@ -98,11 +108,11 @@ export default function ProjectCard({ project, index, isFlying }) {
 
         <div className={styles.actions}>
           <Link href={`/projects/${slug}`} className={styles.detailBtn}>
-            Case Study
+            View Details
           </Link>
           {liveUrl && (
             <a href={finalLiveUrl} target="_blank" rel="noreferrer" className={styles.liveBtn}>
-              Live ↗
+              View Live Site
             </a>
           )}
         </div>

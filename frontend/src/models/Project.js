@@ -17,8 +17,16 @@ const projectSchema = new mongoose.Schema(
     liveUrl: { type: String, default: '' },
     githubUrl: { type: String, default: '' },
     storefrontPassword: { type: String, default: '' },
+    themeUrl: { type: String, default: '' },
     featured: { type: Boolean, default: false },
     order: { type: Number, default: 0 },
+    pages: {
+      type: [{
+        name: { type: String, required: true },
+        path: { type: String, required: true }
+      }],
+      default: []
+    },
   },
   { timestamps: true }
 );

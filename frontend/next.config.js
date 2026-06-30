@@ -10,7 +10,9 @@ const nextConfig = {
       { protocol: 'https', hostname: 'res.cloudinary.com' },
     ],
   },
-  turbopack: {},
+  turbopack: {
+    root: __dirname,
+  },
 };
 
 module.exports = nextConfig;

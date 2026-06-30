@@ -11,7 +11,8 @@ import styles from '../admin.module.css';
 const EMPTY_PROJECT = {
   title: '', slug: '', shortDesc: '', description: '',
   category: 'Shopify', thumbnail: '', screenshots: '', liveUrl: '',
-  githubUrl: '', storefrontPassword: '', techStack: '', featured: false, order: 0,
+  githubUrl: '', storefrontPassword: '', themeUrl: '', techStack: '', featured: false, order: 0,
+  pages: [],
 };
 
 const CATEGORIES = ['Shopify', 'E-commerce', 'Landing Page', 'Web App', 'Other'];
@@ -77,7 +78,9 @@ export default function AdminDashboard() {
       ...p,
       techStack: p.techStack.join(', '),
       screenshots: p.screenshots ? p.screenshots.join(', ') : '',
-      storefrontPassword: p.storefrontPassword || ''
+      storefrontPassword: p.storefrontPassword || '',
+      themeUrl: p.themeUrl || '',
+      pages: p.pages || []
     });
     setModal(true);
   };
@@ -88,13 +91,28 @@ export default function AdminDashboard() {
     setFormData((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
   };
 
+  const handleTagToggle = (tagVal) => {
+    const currentTags = formData.techStack
+      ? formData.techStack.split(',').map((t) => t.trim()).filter(Boolean)
+      : [];
+    const updatedTags = currentTags.includes(tagVal)
+      ? currentTags.filter((t) => t !== tagVal)
+      : [...currentTags, tagVal];
+    setFormData((prev) => ({ ...prev, techStack: updatedTags.join(', ') }));
+  };
+
+
   const handleSave = async (e) => {
     e.preventDefault();
     setSaving(true);
     try {
+      const allowedTags = ['Client Work', 'Shopify Theme'];
       const payload = {
         ...formData,
-        techStack: formData.techStack.split(',').map((t) => t.trim()).filter(Boolean),
+        techStack: (formData.techStack || '')
+          .split(',')
+          .map((t) => t.trim())
+          .filter((t) => allowedTags.includes(t)),
         screenshots: formData.screenshots ? formData.screenshots.split(',').map((s) => s.trim()).filter(Boolean) : [],
         order: Number(formData.order),
       };
@@ -327,8 +345,27 @@ export default function AdminDashboard() {
                 <input name="screenshots" value={formData.screenshots} onChange={handleChange} className={styles.modalInput} placeholder="https://image1.com, https://image2.com" />
               </div>
               <div className={styles.modalField}>
-                <label>Tech Stack (comma separated)</label>
-                <input name="techStack" value={formData.techStack} onChange={handleChange} className={styles.modalInput} placeholder="Shopify, Liquid, SCSS" />
+                <label>Tag</label>
+                <div style={{ display: 'flex', gap: '24px', marginTop: '8px' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '0.9rem', color: '#a0aec0' }}>
+                    <input
+                      type="checkbox"
+                      checked={formData.techStack ? formData.techStack.split(',').map(t => t.trim()).includes('Client Work') : false}
+                      onChange={() => handleTagToggle('Client Work')}
+                      style={{ cursor: 'pointer', width: '16px', height: '16px', accentColor: 'var(--accent)' }}
+                    />
+                    Client Work
+                  </label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '0.9rem', color: '#a0aec0' }}>
+                    <input
+                      type="checkbox"
+                      checked={formData.techStack ? formData.techStack.split(',').map(t => t.trim()).includes('Shopify Theme') : false}
+                      onChange={() => handleTagToggle('Shopify Theme')}
+                      style={{ cursor: 'pointer', width: '16px', height: '16px', accentColor: 'var(--accent)' }}
+                    />
+                    Shopify Theme
+                  </label>
+                </div>
               </div>
               <div className={styles.modalRow}>
                 <div className={styles.modalField}>
@@ -340,10 +377,18 @@ export default function AdminDashboard() {
                   <input name="githubUrl" value={formData.githubUrl} onChange={handleChange} className={styles.modalInput} placeholder="https://github.com/..." />
                 </div>
               </div>
-              <div className={styles.modalField}>
-                <label>Storefront Password (for Dev Stores)</label>
-                <input name="storefrontPassword" value={formData.storefrontPassword} onChange={handleChange} className={styles.modalInput} placeholder="Enter password to auto-bypass Shopify storefront lock" />
+              <div className={styles.modalRow}>
+                <div className={styles.modalField}>
+                  <label>Storefront Password (for Dev Stores)</label>
+                  <input name="storefrontPassword" value={formData.storefrontPassword} onChange={handleChange} className={styles.modalInput} placeholder="Enter password to auto-bypass Shopify storefront lock" />
+                </div>
+                <div className={styles.modalField}>
+                  <label>Theme URL</label>
+                  <input name="themeUrl" value={formData.themeUrl} onChange={handleChange} className={styles.modalInput} placeholder="https://..." />
+                </div>
               </div>
+
+
               <label className={styles.modalCheckLabel}>
                 <input type="checkbox" name="featured" checked={formData.featured} onChange={handleChange} />
                 Mark as Featured

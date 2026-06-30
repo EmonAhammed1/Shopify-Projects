@@ -15,19 +15,29 @@ const NAV_LINKS = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [visible, setVisible] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const navRef = useRef(null);
+  const prevScrollY = useRef(0);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // scrolled state
+      setScrolled(currentScrollY > 20);
 
-    // Animate in on load
-    gsap.fromTo(
-      navRef.current,
-      { y: -80, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 2 }
-    );
+      // Hide on scroll down, show on scroll up
+      if (currentScrollY > prevScrollY.current && currentScrollY > 120) {
+        setVisible(false);
+      } else {
+        setVisible(true);
+      }
+
+      prevScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -40,8 +50,11 @@ export default function Navbar() {
   };
 
   return (
-    <nav ref={navRef} className={`${styles.nav} ${scrolled ? styles.scrolled : ''}`}>
-      <div className={`container ${styles.inner}`}>
+    <nav
+      ref={navRef}
+      className={`${styles.nav} ${scrolled ? styles.scrolled : ''} ${!visible ? styles.hiddenNav : ''}`}
+    >
+      <div className={styles.inner}>
         <Link href="/" className={styles.logo}>
           &lt;<span>Portfolio</span> /&gt;
         </Link>

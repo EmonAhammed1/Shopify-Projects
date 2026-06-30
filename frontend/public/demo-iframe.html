@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Store Mockup Preview</title>
+  <style>
+    :root {
+      --bg: #050508;
+      --card: #0c0c12;
+      --border: rgba(108, 99, 255, 0.15);
+      --text: #f0f0f5;
+      --text-muted: #8f8f9e;
+      --accent: #6c63ff;
+      --accent-2: #00f5d4;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Mockup Header */
+    header {
+      background-color: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+      color: var(--text);
+    }
+    .logo span {
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+    }
+
+    .nav-links li {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    
+    .nav-links li.active {
+      color: var(--accent-2);
+    }
+
+    /* Page Preview Main */
+    .preview-container {
+      flex: 1;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .preview-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 100px;
+      background: rgba(0, 245, 212, 0.08);
+      border: 1px solid rgba(0, 245, 212, 0.2);
+      color: var(--accent-2);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      line-height: 1.2;
+    }
+    
+    h1 span {
+      background: linear-gradient(135deg, var(--accent), #9b94ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 35px;
+      max-width: 550px;
+    }
+
+    /* Grid Mockup Content */
+    .mock-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .mock-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .mock-img {
+      width: 100%;
+      height: 120px;
+      background: rgba(108, 99, 255, 0.05);
+      border-radius: 6px;
+      border: 1px dashed rgba(108, 99, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    .mock-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .mock-price {
+      color: var(--accent-2);
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .mock-bar {
+      height: 6px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 100px;
+      width: 80%;
+    }
+    .mock-bar.short {
+      width: 50%;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Shopify<span>Demo</span></div>
+    <ul class="nav-links">
+      <li class="active">Home</li>
+      <li>Catalog</li>
+      <li>About</li>
+      <li>Contact</li>
+    </ul>
+  </header>
+
+  <div class="preview-container">
+    <span class="preview-badge" id="page-badge">Demo Mode</span>
+    <h1 id="page-title">Interactive <span>Mockup Preview</span></h1>
+    <p class="subtitle">This is a simulated preview of the page. Live Shopify store synchronization and password bypass are active for deployed projects with database records.</p>
+    
+    <div class="mock-grid">
+      <div class="mock-card">
+        <div class="mock-img">Product Thumbnail</div>
+        <div class="mock-title">Premium Custom Item</div>
+        <div class="mock-bar"></div>
+        <div class="mock-bar short"></div>
+        <div class="mock-price">$79.00</div>
+      </div>
+      <div class="mock-card">
+        <div class="mock-img">Product Thumbnail</div>
+        <div class="mock-title">Conversion Section Item</div>
+        <div class="mock-bar"></div>
+        <div class="mock-bar short"></div>
+        <div class="mock-price">$120.00</div>
+      </div>
+      <div class="mock-card">
+        <div class="mock-img">Product Thumbnail</div>
+        <div class="mock-title">Custom Liquid Section</div>
+        <div class="mock-bar"></div>
+        <div class="mock-bar short"></div>
+        <div class="mock-price">$45.00</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Get parameters
+    const params = new URLSearchParams(window.location.search);
+    const pageName = params.get('page') || 'Home Page';
+    document.getElementById('page-title').innerHTML = `Viewing <span>${pageName}</span>`;
+    document.getElementById('page-badge').textContent = `Demo: ${pageName}`;
+  </script>
+</body>
+</html>

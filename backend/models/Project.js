@@ -52,6 +52,10 @@ const projectSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    themeUrl: {
+      type: String,
+      default: '',
+    },
     featured: {
       type: Boolean,
       default: false,
@@ -59,6 +63,13 @@ const projectSchema = new mongoose.Schema(
     order: {
       type: Number,
       default: 0,
+    },
+    pages: {
+      type: [{
+        name: { type: String, required: true },
+        path: { type: String, required: true }
+      }],
+      default: []
     },
   },
   { timestamps: true }

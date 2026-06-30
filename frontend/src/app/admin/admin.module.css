@@ -480,3 +480,58 @@
   .statsRow { grid-template-columns: 1fr 1fr; }
   .modalRow { grid-template-columns: 1fr; }
 }
+
+.pagesSection {
+  border-top: 1px dashed var(--border);
+  padding-top: 1rem;
+  margin-top: 0.5rem;
+}
+.pagesHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+.pagesHeader label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+.addPageBtn {
+  background: rgba(108, 99, 255, 0.1);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.addPageBtn:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.pageRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 0.8rem;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+.removePageBtn {
+  background: rgba(255, 107, 138, 0.1);
+  border: 1px solid rgba(255, 107, 138, 0.3);
+  color: #ff6b8a;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 0.82rem;
+}
+.removePageBtn:hover {
+  background: #ff6b8a;
+  color: #fff;
+  border-color: #ff6b8a;
+}
