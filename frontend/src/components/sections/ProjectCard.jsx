@@ -11,7 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default function ProjectCard({ project, index, isFlying }) {
   const cardRef = useRef(null);
   const glowRef = useRef(null);
-  const [iframeLoaded, setIframeLoaded] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const router = useRouter();
 
   // Scroll-triggered entrance
@@ -70,22 +70,20 @@ export default function ProjectCard({ project, index, isFlying }) {
 
       {/* Thumbnail */}
       <div className={styles.thumb}>
-        {isRealUrl ? (
-          <div className={styles.iframeWrapper}>
-            {!iframeLoaded && (
+        {thumbnail ? (
+          <>
+            {!imageLoaded && (
               <div className={styles.skeletonLoader} />
             )}
-            <iframe
-              src={`/api/projects/${slug}/proxy?path=%2F`}
-              className={`${styles.cardIframe} ${iframeLoaded ? styles.iframeLoaded : ''}`}
-              title={title}
-              scrolling="no"
+            <img
+              src={thumbnail}
+              alt={title}
               loading="lazy"
-              onLoad={() => setIframeLoaded(true)}
+              decoding="async"
+              onLoad={() => setImageLoaded(true)}
+              style={{ opacity: imageLoaded ? 1 : 0, transition: 'opacity 0.3s ease' }}
             />
-          </div>
-        ) : thumbnail ? (
-          <img src={thumbnail} alt={title} loading="lazy" decoding="async" />
+          </>
         ) : (
           <div className={styles.thumbPlaceholder} />
         )}

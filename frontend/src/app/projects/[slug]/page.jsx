@@ -109,15 +109,7 @@ export default function ProjectPage() {
         {/* Hero banner */}
         <div className={styles.banner}>
           <div className={styles.bannerOverlay} />
-          {project.liveUrl ? (
-            <iframe
-              src={isDemo ? `/demo-iframe.html?page=Home` : `/api/projects/${slug}/proxy?path=%2F`}
-              className={styles.bannerBgIframe}
-              title="Live Background"
-            />
-          ) : (
-            allImages[0] && <img src={allImages[0]} alt={title} className={styles.bannerImg} />
-          )}
+          {allImages[0] && <img src={allImages[0]} alt={title} className={styles.bannerImg} />}
           <div className={`container ${styles.bannerContent}`}>
             <Link href="/#projects" className={styles.back}>
               ← Back to Projects
