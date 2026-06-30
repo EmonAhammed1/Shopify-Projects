@@ -67,6 +67,8 @@ export default function ProjectCard({ project, index, isFlying }) {
                 src={thumbnail || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80'}
                 alt={title}
                 className={styles.placeholderImg}
+                loading="lazy"
+                decoding="async"
               />
             )}
             <iframe
@@ -79,7 +81,7 @@ export default function ProjectCard({ project, index, isFlying }) {
             />
           </div>
         ) : thumbnail ? (
-          <img src={thumbnail} alt={title} loading="lazy" />
+          <img src={thumbnail} alt={title} loading="lazy" decoding="async" />
         ) : (
           <div className={styles.thumbPlaceholder} />
         )}
