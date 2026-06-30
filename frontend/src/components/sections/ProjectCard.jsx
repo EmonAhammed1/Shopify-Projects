@@ -3,6 +3,7 @@ import { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import styles from './ProjectCard.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -11,6 +12,7 @@ export default function ProjectCard({ project, index, isFlying }) {
   const cardRef = useRef(null);
   const glowRef = useRef(null);
   const [iframeLoaded, setIframeLoaded] = useState(false);
+  const router = useRouter();
 
   // Scroll-triggered entrance
   useEffect(() => {
@@ -48,13 +50,21 @@ export default function ProjectCard({ project, index, isFlying }) {
 
   const isRealUrl = liveUrl && /^https?:\/\//i.test(liveUrl) && !liveUrl.includes('localhost') && !liveUrl.includes('127.0.0.1');
 
+  const handleCardClick = (e) => {
+    if (e.target.closest('a') || e.target.closest('button')) {
+      return;
+    }
+    router.push(`/projects/${slug}`);
+  };
+
   return (
     <div
       ref={cardRef}
       className={`${styles.card} ${featured ? styles.featured : ''} ${isFlying ? 'flying-card' : ''}`}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{ opacity: isFlying ? 1 : 0 }}
+      onClick={handleCardClick}
+      style={{ opacity: isFlying ? 1 : 0, cursor: 'pointer' }}
     >
       <div ref={glowRef} className={styles.glow} />
 
@@ -63,13 +73,7 @@ export default function ProjectCard({ project, index, isFlying }) {
         {isRealUrl ? (
           <div className={styles.iframeWrapper}>
             {!iframeLoaded && (
-              <img
-                src={thumbnail || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80'}
-                alt={title}
-                className={styles.placeholderImg}
-                loading="lazy"
-                decoding="async"
-              />
+              <div className={styles.skeletonLoader} />
             )}
             <iframe
               src={`/api/projects/${slug}/proxy?path=%2F`}
