@@ -159,97 +159,106 @@ export default function Projects() {
     if (loading || projects.length === 0) return;
 
     let ctx;
-    let timer;
+    let checkInterval;
 
-    timer = setTimeout(() => {
-      ctx = gsap.context(() => {
-        // Flying Cards Animation from Hero Globe -> Projects Grid
-        const cards = document.querySelectorAll('.flying-card');
-        if (cards.length === 0) return;
+    checkInterval = setInterval(() => {
+      const anchors = document.querySelectorAll('.globe-anchor');
+      const cards = document.querySelectorAll('.flying-card');
+      
+      // Check if loader component is still mounted in DOM
+      const loaderExists = Array.from(document.querySelectorAll('div')).some(el => 
+        el.className && typeof el.className === 'string' && el.className.includes('loader')
+      );
 
-        cards.forEach((card, i) => {
-          // Find corresponding anchor on the globe
-          const anchor = document.getElementById(`globe-anchor-${i}`);
-          
-          // Force the card to clear any previous transforms to get accurate natural rect
-          gsap.set(card, { clearProps: "all" });
-          const cardRect = card.getBoundingClientRect();
-          
-          let deltaX = 0;
-          let deltaY = 0;
-          let initialScale = 1;
+      if (anchors.length > 0 && cards.length > 0 && !loaderExists) {
+        clearInterval(checkInterval);
 
-          if (anchor) {
-            const anchorRect = anchor.getBoundingClientRect();
+        ctx = gsap.context(() => {
+          // Flying Cards Animation from Hero Globe -> Projects Grid
+          cards.forEach((card, i) => {
+            // Find corresponding anchor on the globe
+            const anchor = document.getElementById(`globe-anchor-${i}`);
             
-            // Center of globe anchor
-            const anchorCenterX = anchorRect.left + anchorRect.width / 2;
-            const anchorCenterY = anchorRect.top + anchorRect.height / 2;
+            // Force the card to clear any previous transforms to get accurate natural rect
+            gsap.set(card, { clearProps: "all" });
+            const cardRect = card.getBoundingClientRect();
             
-            // Center of card
-            const cardCenterX = cardRect.left + cardRect.width / 2;
-            const cardCenterY = cardRect.top + cardRect.height / 2;
-            
-            deltaX = anchorCenterX - cardCenterX;
-            deltaY = anchorCenterY - cardCenterY;
-            initialScale = anchorRect.width / cardRect.width;
+            let deltaX = 0;
+            let deltaY = 0;
+            let initialScale = 1;
 
-            // Fade out the anchor on the globe as we scroll
-            gsap.to(anchor, {
-              opacity: 0,
-              scrollTrigger: {
-                trigger: '#home',
-                start: 'top top',
-                end: '20% top', // fade out quickly
-                scrub: 1,
-              }
-            });
-          } else {
-             // Fallback if globe hasn't rendered anchors yet
-             deltaX = -window.innerWidth / 2;
-             deltaY = -window.innerHeight / 2;
-             initialScale = 0.2;
-          }
-          
-          gsap.fromTo(card,
-            {
-              x: deltaX,
-              y: deltaY,
-              rotation: 0,
-              rotationX: 0,
-              rotationY: 0,
-              scale: initialScale,
-              zIndex: 10 - i,
-              boxShadow: 'none',
-              opacity: 0
-            },
-            {
-              x: 0,
-              y: 0,
-              rotation: 0,
-              rotationX: 0,
-              rotationY: 0,
-              scale: 1,
-              zIndex: 1,
-              boxShadow: 'none',
-              opacity: 1,
-              scrollTrigger: {
-                trigger: '#home',
-                start: 'top top',
-                end: 'bottom top',
-                scrub: 1,
-              }
+            if (anchor) {
+              const anchorRect = anchor.getBoundingClientRect();
+              
+              // Center of globe anchor
+              const anchorCenterX = anchorRect.left + anchorRect.width / 2;
+              const anchorCenterY = anchorRect.top + anchorRect.height / 2;
+              
+              // Center of card
+              const cardCenterX = cardRect.left + cardRect.width / 2;
+              const cardCenterY = cardRect.top + cardRect.height / 2;
+              
+              deltaX = anchorCenterX - cardCenterX;
+              deltaY = anchorCenterY - cardCenterY;
+              initialScale = anchorRect.width / cardRect.width;
+
+              // Fade out the anchor on the globe as we scroll
+              gsap.to(anchor, {
+                opacity: 0,
+                scrollTrigger: {
+                  trigger: '#home',
+                  start: 'top top',
+                  end: '20% top', // fade out quickly
+                  scrub: 1,
+                }
+              });
+            } else {
+               // Fallback if globe hasn't rendered anchors yet
+               deltaX = -window.innerWidth / 2;
+               deltaY = -window.innerHeight / 2;
+               initialScale = 0.2;
             }
-          );
-        });
+            
+            gsap.fromTo(card,
+              {
+                x: deltaX,
+                y: deltaY,
+                rotation: 0,
+                rotationX: 0,
+                rotationY: 0,
+                scale: initialScale,
+                zIndex: 10 - i,
+                boxShadow: 'none',
+                opacity: 0
+              },
+              {
+                x: 0,
+                y: 0,
+                rotation: 0,
+                rotationX: 0,
+                rotationY: 0,
+                scale: 1,
+                zIndex: 1,
+                boxShadow: 'none',
+                opacity: 1,
+                scrollTrigger: {
+                  trigger: '#home',
+                  start: 'top top',
+                  end: 'bottom top',
+                  scrub: 1,
+                }
+              }
+            );
+          });
 
-        // Refresh ScrollTrigger to ensure correct trigger positions after setting up
-        ScrollTrigger.refresh();
-      });
-    }, 1500); // Wait longer to ensure 3D canvas is fully loaded and anchors are placed
+          // Refresh ScrollTrigger to ensure correct trigger positions after setting up
+          ScrollTrigger.refresh();
+        });
+      }
+    }, 100);
 
     return () => {
-      clearTimeout(timer);
+      clearInterval(checkInterval);
       if (ctx) ctx.revert();
     };
   }, [loading, projects, activeFilter]);
