@@ -59,10 +59,9 @@ router.post('/register', async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    // Prevent registration if an admin already exists in the database
-    const adminExists = await Admin.countDocuments();
-    if (adminExists > 0) {
-      return res.status(400).json({ message: 'Registration is disabled. Admin already exists.' });
+    const existing = await Admin.findOne({ email });
+    if (existing) {
+      return res.status(400).json({ message: 'Admin already exists' });
     }
 
     const admin = await Admin.create({ username, email, password });
