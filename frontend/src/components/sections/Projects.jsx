@@ -87,17 +87,8 @@ export default function Projects() {
   const [activeFilter, setActiveFilter] = useState('All');
   const [loading, setLoading] = useState(true);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [initialFlightDone, setInitialFlightDone] = useState(false);
   const headerRef = useRef(null);
   const filtersRef = useRef(null);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      if (window.scrollY > window.innerHeight * 0.5) {
-        setInitialFlightDone(true);
-      }
-    }
-  }, []);
 
   // Dynamically extract unique categories from projects that are present
   const categoriesList = ['All', ...new Set(projects.map((p) => p.category))].filter(Boolean);
@@ -173,127 +164,138 @@ export default function Projects() {
 
   // GSAP Scroll-triggered Flying Cards Animation (from Hero Globe to Grid)
   useEffect(() => {
-    if (initialFlightDone) return;
     if (loading || projects.length === 0) return;
 
     let ctx;
     let checkInterval;
 
-    checkInterval = setInterval(() => {
-      const anchors = document.querySelectorAll('.globe-anchor');
+    const setupAnimations = () => {
       const cards = document.querySelectorAll('.flying-card');
       
-      // Check if loader component is still mounted in DOM
-      const loaderExists = document.getElementById('site-intro-loader') !== null;
+      ctx = gsap.context(() => {
+        // Flying Cards Animation from Hero Globe -> Projects Grid
+        cards.forEach((card, i) => {
+          // Find corresponding anchor on the globe
+          const anchor = document.getElementById(`globe-anchor-${i}`);
+          
+          // Force the card to clear any previous transforms to get accurate natural rect
+          gsap.set(card, { clearProps: "all" });
+          const cardRect = card.getBoundingClientRect();
+          
+          let deltaX = 0;
+          let deltaY = 0;
+          let initialScale = 1;
 
-      let anchorsStable = false;
-      if (anchors.length >= 3) {
-        anchorsStable = Array.from(anchors).every(anchor => {
-          const rect = anchor.getBoundingClientRect();
-          // Ensure it has width and is positioned on screen (not hidden or pre-layout)
-          return rect.width > 10 && rect.left > 10 && rect.top > 10;
-        });
-      }
-
-      if (anchorsStable && cards.length >= 3 && !loaderExists) {
-        clearInterval(checkInterval);
-
-        ctx = gsap.context(() => {
-          // Flying Cards Animation from Hero Globe -> Projects Grid
-          cards.forEach((card, i) => {
-            // Find corresponding anchor on the globe
-            const anchor = document.getElementById(`globe-anchor-${i}`);
+          if (anchor) {
+            const anchorRect = anchor.getBoundingClientRect();
             
-            // Force the card to clear any previous transforms to get accurate natural rect
-            gsap.set(card, { clearProps: "all" });
-            const cardRect = card.getBoundingClientRect();
+            // Center of globe anchor
+            const anchorCenterX = anchorRect.left + anchorRect.width / 2;
+            const anchorCenterY = anchorRect.top + anchorRect.height / 2;
             
-            let deltaX = 0;
-            let deltaY = 0;
-            let initialScale = 1;
-
-            if (anchor) {
-              const anchorRect = anchor.getBoundingClientRect();
-              
-              // Center of globe anchor
-              const anchorCenterX = anchorRect.left + anchorRect.width / 2;
-              const anchorCenterY = anchorRect.top + anchorRect.height / 2;
-              
-              // Center of card
-              const cardCenterX = cardRect.left + cardRect.width / 2;
-              const cardCenterY = cardRect.top + cardRect.height / 2;
-              
-              deltaX = anchorCenterX - cardCenterX;
-              deltaY = anchorCenterY - cardCenterY;
-              initialScale = anchorRect.width / cardRect.width;
-
-              // Fade out the anchor on the globe as we scroll
-              gsap.to(anchor, {
-                opacity: 0,
-                scrollTrigger: {
-                  trigger: '#home',
-                  start: 'top top',
-                  end: '20% top', // fade out quickly
-                  scrub: 1,
-                }
-              });
-            } else {
-               // Fallback if globe hasn't rendered anchors yet
-               deltaX = -window.innerWidth / 2;
-               deltaY = -window.innerHeight / 2;
-               initialScale = 0.2;
-            }
+            // Center of card
+            const cardCenterX = cardRect.left + cardRect.width / 2;
+            const cardCenterY = cardRect.top + cardRect.height / 2;
             
-            gsap.fromTo(card,
-              {
-                x: deltaX,
-                y: deltaY,
-                rotation: -90,
-                rotationX: -270,
-                rotationY: 270,
-                scale: 0.02,
-                zIndex: 10 - i,
-                boxShadow: 'none',
-                opacity: 0,
-                transformPerspective: 1000
-              },
-              {
-                x: 0,
-                y: 0,
-                rotation: 0,
-                rotationX: 0,
-                rotationY: 0,
-                scale: 1,
-                zIndex: 1,
-                boxShadow: 'none',
-                opacity: 1,
-                scrollTrigger: {
-                  trigger: '#home',
-                  start: 'top top',
-                  end: 'bottom top',
-                  scrub: 1,
-                  onLeave: () => {
-                    setInitialFlightDone(true);
-                  },
-                  onEnterBack: () => {
-                    setInitialFlightDone(false);
-                  }
-                }
+            deltaX = anchorCenterX - cardCenterX;
+            deltaY = anchorCenterY - cardCenterY;
+            initialScale = anchorRect.width / cardRect.width;
+
+            // Fade out the anchor on the globe as we scroll
+            gsap.to(anchor, {
+              opacity: 0,
+              scrollTrigger: {
+                trigger: '#home',
+                start: 'top top',
+                end: '20% top', // fade out quickly
+                scrub: 1,
               }
-            );
-          });
-
-          // Refresh ScrollTrigger to ensure correct trigger positions after setting up
-          ScrollTrigger.refresh();
+            });
+          } else {
+             // Fallback if globe hasn't rendered anchors yet
+             deltaX = -window.innerWidth / 2;
+             deltaY = -window.innerHeight / 2;
+             initialScale = 0.2;
+          }
+          
+          gsap.fromTo(card,
+            {
+              x: deltaX,
+              y: deltaY,
+              rotation: -90,
+              rotationX: -270,
+              rotationY: 270,
+              scale: 0.02,
+              zIndex: 10 - i,
+              boxShadow: 'none',
+              opacity: 0,
+              transformPerspective: 1000
+            },
+            {
+              x: 0,
+              y: 0,
+              rotation: 0,
+              rotationX: 0,
+              rotationY: 0,
+              scale: 1,
+              zIndex: 1,
+              boxShadow: 'none',
+              opacity: 1,
+              scrollTrigger: {
+                trigger: '#home',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: 1,
+              }
+            }
+          );
         });
-      }
-    }, 100);
+
+        // Refresh ScrollTrigger to ensure correct trigger positions after setting up
+        ScrollTrigger.refresh();
+      });
+    };
+
+    const anchors = document.querySelectorAll('.globe-anchor');
+    const cards = document.querySelectorAll('.flying-card');
+    const loaderExists = document.getElementById('site-intro-loader') !== null;
+
+    let anchorsStable = false;
+    if (anchors.length >= 3) {
+      anchorsStable = Array.from(anchors).every(anchor => {
+        const rect = anchor.getBoundingClientRect();
+        return rect.width > 10 && rect.left > 10 && rect.top > 10;
+      });
+    }
+
+    if (anchorsStable && cards.length >= 3 && !loaderExists) {
+      setupAnimations();
+    } else {
+      checkInterval = setInterval(() => {
+        const curAnchors = document.querySelectorAll('.globe-anchor');
+        const curCards = document.querySelectorAll('.flying-card');
+        const curLoaderExists = document.getElementById('site-intro-loader') !== null;
+
+        let curAnchorsStable = false;
+        if (curAnchors.length >= 3) {
+          curAnchorsStable = Array.from(curAnchors).every(anchor => {
+            const rect = anchor.getBoundingClientRect();
+            return rect.width > 10 && rect.left > 10 && rect.top > 10;
+          });
+        }
+
+        if (curAnchorsStable && curCards.length >= 3 && !curLoaderExists) {
+          clearInterval(checkInterval);
+          setupAnimations();
+        }
+      }, 100);
+    }
 
     return () => {
-      clearInterval(checkInterval);
+      if (checkInterval) clearInterval(checkInterval);
       if (ctx) ctx.revert();
     };
-  }, [loading, projects, activeFilter, initialFlightDone]);
+  }, [loading, projects, activeFilter]);
 
   const filtered = activeFilter === 'All'
     ? projects
@@ -335,7 +337,6 @@ export default function Projects() {
                 onClick={() => {
                   setActiveFilter(cat);
                   setMobileFiltersOpen(false);
-                  setInitialFlightDone(true);
                 }}
               >
                 {cat}
@@ -360,7 +361,7 @@ export default function Projects() {
                 key={project._id} 
                 project={project} 
                 index={i} 
-                isFlying={!initialFlightDone && activeFilter === 'All' && i < 3}
+                isFlying={activeFilter === 'All' && i < 3}
               />
             ))}
           </div>
