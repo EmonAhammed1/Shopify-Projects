@@ -168,7 +168,16 @@ export default function Projects() {
       // Check if loader component is still mounted in DOM
       const loaderExists = document.getElementById('site-intro-loader') !== null;
 
-      if (anchors.length >= 3 && cards.length >= 3 && !loaderExists) {
+      let anchorsStable = false;
+      if (anchors.length >= 3) {
+        anchorsStable = Array.from(anchors).every(anchor => {
+          const rect = anchor.getBoundingClientRect();
+          // Ensure it has width and is positioned on screen (not hidden or pre-layout)
+          return rect.width > 10 && rect.left > 10 && rect.top > 10;
+        });
+      }
+
+      if (anchorsStable && cards.length >= 3 && !loaderExists) {
         clearInterval(checkInterval);
 
         ctx = gsap.context(() => {

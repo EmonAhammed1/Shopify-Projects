@@ -68,7 +68,7 @@ export default function ProjectCard({ project, index, isFlying }) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onClick={handleCardClick}
-      style={{ opacity: isFlying ? 1 : 0, cursor: 'pointer' }}
+      style={{ opacity: 0, cursor: 'pointer' }}
     >
       <div ref={glowRef} className={styles.glow} />
 
