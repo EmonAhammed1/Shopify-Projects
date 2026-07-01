@@ -14,23 +14,109 @@ export default function ProjectCard({ project, index, isFlying }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const router = useRouter();
 
-  // Scroll-triggered entrance
+  // Scroll-triggered entrance & Flying cards animations
   useEffect(() => {
-    if (isFlying) return; // Skip default animation if this card is part of the flying hero stack
+    if (!isFlying) {
+      let ctx = gsap.context(() => {
+        gsap.fromTo(
+          cardRef.current,
+          { opacity: 0, y: 60 },
+          {
+            opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
+            delay: (index % 3) * 0.1,
+            scrollTrigger: { trigger: cardRef.current, start: 'top 88%' },
+          }
+        );
+      });
+      return () => ctx.revert();
+    }
 
-    let ctx = gsap.context(() => {
-      gsap.fromTo(
-        cardRef.current,
-        { opacity: 0, y: 60 },
-        {
-          opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
-          delay: (index % 3) * 0.1,
-          scrollTrigger: { trigger: cardRef.current, start: 'top 88%' },
-        }
-      );
-    });
+    // Flying card animation (re-syncs to globe coordinates)
+    let ctx;
+    let checkInterval = setInterval(() => {
+      const anchor = document.getElementById(`globe-anchor-${index}`);
+      const loaderExists = document.getElementById('site-intro-loader') !== null;
+      
+      let anchorStable = false;
+      if (anchor) {
+        const rect = anchor.getBoundingClientRect();
+        anchorStable = rect.width > 10 && rect.left > 10 && rect.top > 10;
+      }
 
-    return () => ctx.revert();
+      if (anchorStable && !loaderExists && cardRef.current) {
+        clearInterval(checkInterval);
+        
+        ctx = gsap.context(() => {
+          const card = cardRef.current;
+          
+          // Clear any previous animations to get natural layout rect
+          gsap.set(card, { clearProps: "all" });
+          const cardRect = card.getBoundingClientRect();
+          
+          const anchorRect = anchor.getBoundingClientRect();
+          const anchorCenterX = anchorRect.left + anchorRect.width / 2;
+          const anchorCenterY = anchorRect.top + anchorRect.height / 2;
+          
+          const cardCenterX = cardRect.left + cardRect.width / 2;
+          const cardCenterY = cardRect.top + cardRect.height / 2;
+          
+          const deltaX = anchorCenterX - cardCenterX;
+          const deltaY = anchorCenterY - cardCenterY;
+
+          // Fade out the anchor on the globe as we scroll
+          gsap.to(anchor, {
+            opacity: 0,
+            scrollTrigger: {
+              trigger: '#home',
+              start: 'top top',
+              end: '20% top',
+              scrub: 1,
+            }
+          });
+
+          gsap.fromTo(card,
+            {
+              x: deltaX,
+              y: deltaY,
+              rotation: -90,
+              rotationX: -270,
+              rotationY: 270,
+              scale: 0.02,
+              zIndex: 10 - index,
+              boxShadow: 'none',
+              opacity: 0,
+              transformPerspective: 1000
+            },
+            {
+              x: 0,
+              y: 0,
+              rotation: 0,
+              rotationX: 0,
+              rotationY: 0,
+              scale: 1,
+              zIndex: 1,
+              boxShadow: 'none',
+              opacity: 1,
+              immediateRender: false,
+              scrollTrigger: {
+                trigger: '#home',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: 1,
+              }
+            }
+          );
+        });
+
+        // Trigger a ScrollTrigger refresh after the context setup
+        ScrollTrigger.refresh();
+      }
+    }, 50);
+
+    return () => {
+      clearInterval(checkInterval);
+      if (ctx) ctx.revert();
+    };
   }, [index, isFlying]);
 
   // Mouse move handler for glow effect (tilt disabled)
