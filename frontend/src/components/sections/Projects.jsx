@@ -116,44 +116,53 @@ export default function Projects() {
     fetchProjects();
   }, []); // Run only once on mount
 
-  // GSAP Animations and Flying Cards
+  // GSAP Entrance Animations for Header and Filters (runs once when loading finishes)
   useEffect(() => {
-    if (loading) return; // Wait for loading to finish (even if demo data)
+    if (loading) return;
+
+    let ctx = gsap.context(() => {
+      // Header entrance animation
+      gsap.fromTo(
+        headerRef.current,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: headerRef.current, start: 'top 85%' },
+        }
+      );
+
+      // Filters entrance animation
+      if (filtersRef.current) {
+        gsap.fromTo(
+          filtersRef.current,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: 'power3.out',
+            delay: 0.1,
+            scrollTrigger: { trigger: filtersRef.current, start: 'top 85%' },
+          }
+        );
+      }
+    });
+
+    return () => ctx.revert();
+  }, [loading]);
+
+  // GSAP Scroll-triggered Flying Cards Animation (from Hero Globe to Grid)
+  useEffect(() => {
+    if (loading || projects.length === 0) return;
 
     let ctx;
     let timer;
 
     timer = setTimeout(() => {
       ctx = gsap.context(() => {
-        // Header entrance animation
-        gsap.fromTo(
-          headerRef.current,
-          { opacity: 0, y: 40 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: 'power3.out',
-            scrollTrigger: { trigger: headerRef.current, start: 'top 85%' },
-          }
-        );
-
-        // Filters entrance animation
-        if (filtersRef.current) {
-          gsap.fromTo(
-            filtersRef.current,
-            { opacity: 0, y: 30 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.8,
-              ease: 'power3.out',
-              delay: 0.1,
-              scrollTrigger: { trigger: filtersRef.current, start: 'top 85%' },
-            }
-          );
-        }
-
         // Flying Cards Animation from Hero Globe -> Projects Grid
         const cards = document.querySelectorAll('.flying-card');
         if (cards.length === 0) return;
