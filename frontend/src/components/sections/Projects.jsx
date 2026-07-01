@@ -87,8 +87,17 @@ export default function Projects() {
   const [activeFilter, setActiveFilter] = useState('All');
   const [loading, setLoading] = useState(true);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [initialFlightDone, setInitialFlightDone] = useState(false);
   const headerRef = useRef(null);
   const filtersRef = useRef(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      if (window.scrollY > window.innerHeight * 0.5) {
+        setInitialFlightDone(true);
+      }
+    }
+  }, []);
 
   // Dynamically extract unique categories from projects that are present
   const categoriesList = ['All', ...new Set(projects.map((p) => p.category))].filter(Boolean);
@@ -164,6 +173,7 @@ export default function Projects() {
 
   // GSAP Scroll-triggered Flying Cards Animation (from Hero Globe to Grid)
   useEffect(() => {
+    if (initialFlightDone) return;
     if (loading || projects.length === 0) return;
 
     let ctx;
@@ -262,6 +272,9 @@ export default function Projects() {
                   start: 'top top',
                   end: 'bottom top',
                   scrub: 1,
+                  onLeave: () => {
+                    setInitialFlightDone(true);
+                  }
                 }
               }
             );
@@ -277,7 +290,7 @@ export default function Projects() {
       clearInterval(checkInterval);
       if (ctx) ctx.revert();
     };
-  }, [loading, projects, activeFilter]);
+  }, [loading, projects, activeFilter, initialFlightDone]);
 
   const filtered = activeFilter === 'All'
     ? projects
@@ -319,6 +332,7 @@ export default function Projects() {
                 onClick={() => {
                   setActiveFilter(cat);
                   setMobileFiltersOpen(false);
+                  setInitialFlightDone(true);
                 }}
               >
                 {cat}
@@ -343,7 +357,7 @@ export default function Projects() {
                 key={project._id} 
                 project={project} 
                 index={i} 
-                isFlying={activeFilter === 'All' && i < 3}
+                isFlying={!initialFlightDone && activeFilter === 'All' && i < 3}
               />
             ))}
           </div>
