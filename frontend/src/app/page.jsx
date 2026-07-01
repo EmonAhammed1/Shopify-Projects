@@ -7,7 +7,6 @@ const Loader = dynamic(() => import('@/components/ui/Loader'), { ssr: false });
 const CursorGlow = dynamic(() => import('@/components/ui/CursorGlow'), { ssr: false });
 const Projects = dynamic(() => import('@/components/sections/Projects'));
 const About = dynamic(() => import('@/components/sections/About'));
-const Contact = dynamic(() => import('@/components/sections/Contact'));
 const Footer = dynamic(() => import('@/components/ui/Footer'));
 
 export default function Home() {
@@ -30,7 +29,6 @@ export default function Home() {
         <Hero />
         <Projects />
         <About />
-        <Contact />
       </main>
       <Footer />
     </>

@@ -10,7 +10,6 @@ gsap.registerPlugin(ScrollTrigger);
 const NAV_LINKS = [
   { label: 'About', href: '#about' },
   { label: 'Projects', href: '#projects' },
-  { label: 'Contact', href: '#contact' },
 ];
 
 export default function Navbar() {

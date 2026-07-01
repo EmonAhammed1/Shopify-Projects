@@ -58,8 +58,8 @@ export default function Hero() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </button>
-              <button className={styles.btnSecondary} onClick={() => scrollTo('#contact')}>
-                Let's Talk
+              <button className={styles.btnSecondary} onClick={() => scrollTo('#about')}>
+                About Me
               </button>
             </div>
 
