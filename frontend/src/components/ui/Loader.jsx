@@ -30,26 +30,26 @@ export default function Loader({ onComplete }) {
     }, 0);
 
     // Stagger reveal text components
-    tl.fromTo(taglineRef.current,
-      { opacity: 0, y: 15 },
-      { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
-      0.2
-    );
-
     tl.fromTo(titleRef.current,
       { opacity: 0, y: 25 },
       { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' },
-      0.4
+      0.2
+    );
+
+    tl.fromTo(taglineRef.current,
+      { opacity: 0, y: 15 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
+      0.5
     );
 
     tl.fromTo(hintRef.current,
       { opacity: 0 },
       { opacity: 1, duration: 0.4 },
-      0.8
+      0.9
     );
 
     // Fade out elements right before slide-up
-    tl.to([taglineRef.current, titleRef.current, barRef.current, hintRef.current], {
+    tl.to([titleRef.current, taglineRef.current, barRef.current, hintRef.current], {
       opacity: 0,
       y: -20,
       duration: 0.4,
@@ -62,12 +62,12 @@ export default function Loader({ onComplete }) {
     <div ref={loaderRef} id="site-intro-loader" className={styles.loader}>
       <div className={styles.content}>
         <div className={styles.introText}>
-          <p ref={taglineRef} className={styles.tagline} style={{ opacity: 0 }}>
-            DESIGNING HIGH-CONVERTING
-          </p>
           <h1 ref={titleRef} className={styles.mainTitle} style={{ opacity: 0 }}>
-            SHOPIFY <span>EXPERIENCES</span>
+            CRAFTING PREMIUM <span>SHOPIFY</span> STORES
           </h1>
+          <p ref={taglineRef} className={styles.tagline} style={{ opacity: 0 }}>
+            Turning Your Vision Into Digital Success
+          </p>
         </div>
         
         <div className={styles.bar}>

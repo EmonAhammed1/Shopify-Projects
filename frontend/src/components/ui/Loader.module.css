@@ -22,11 +22,11 @@
 
 .tagline {
   font-family: var(--font-mono);
-  font-size: 0.85rem;
-  letter-spacing: 0.25em;
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
   color: var(--text-dim);
-  text-transform: uppercase;
-  margin-bottom: 0.4rem;
+  margin-top: 0.8rem;
+  font-style: italic;
 }
 
 .mainTitle {
