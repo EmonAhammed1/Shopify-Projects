@@ -163,12 +163,12 @@
 
 .speedometerContainer {
   position: relative;
-  width: 84px;
-  height: 84px;
+  width: 76px;
+  height: 76px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .svgCircle {
@@ -204,7 +204,7 @@
 
 .statVal {
   font-family: var(--font-heading);
-  font-size: 1.6rem;
+  font-size: 1.25rem;
   font-weight: 800;
   line-height: 1;
   color: var(--text-primary);

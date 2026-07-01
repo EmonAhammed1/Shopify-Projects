@@ -109,17 +109,19 @@ export default function About() {
             <div className={styles.cardPattern} />
             
             <div className={styles.statsGrid}>
+              {/* Performance */}
               <div className={styles.statItem}>
                 <div className={styles.speedometerContainer}>
                   <svg className={styles.svgCircle} viewBox="0 0 100 100">
                     <circle className={styles.circleBg} cx="50" cy="50" r="42" />
-                    <circle className={styles.circleProgress} style={{ strokeDashoffset: 4.2 }} cx="50" cy="50" r="42" />
+                    <circle className={styles.circleProgress} style={{ stroke: '#96BF48', filter: 'drop-shadow(0 0 6px #96BF48)', strokeDashoffset: 4.2 }} cx="50" cy="50" r="42" />
                   </svg>
-                  <span className={styles.statVal}>99+</span>
+                  <span className={styles.statVal} style={{ color: '#96BF48' }}>99+</span>
                 </div>
-                <span className={styles.statLabel}>PageSpeed</span>
+                <span className={styles.statLabel}>Performance</span>
               </div>
 
+              {/* Accessibility */}
               <div className={styles.statItem}>
                 <div className={styles.speedometerContainer}>
                   <svg className={styles.svgCircle} viewBox="0 0 100 100">
@@ -128,7 +130,31 @@ export default function About() {
                   </svg>
                   <span className={styles.statVal} style={{ color: '#47C1BF' }}>100%</span>
                 </div>
-                <span className={styles.statLabel}>Fluid UI</span>
+                <span className={styles.statLabel}>Accessibility</span>
+              </div>
+
+              {/* Best Practices */}
+              <div className={styles.statItem}>
+                <div className={styles.speedometerContainer}>
+                  <svg className={styles.svgCircle} viewBox="0 0 100 100">
+                    <circle className={styles.circleBg} cx="50" cy="50" r="42" />
+                    <circle className={styles.circleProgress} style={{ stroke: '#7AB55C', filter: 'drop-shadow(0 0 6px #7AB55C)', strokeDashoffset: 0 }} cx="50" cy="50" r="42" />
+                  </svg>
+                  <span className={styles.statVal} style={{ color: '#7AB55C' }}>100%</span>
+                </div>
+                <span className={styles.statLabel}>Best Practices</span>
+              </div>
+
+              {/* SEO */}
+              <div className={styles.statItem}>
+                <div className={styles.speedometerContainer}>
+                  <svg className={styles.svgCircle} viewBox="0 0 100 100">
+                    <circle className={styles.circleBg} cx="50" cy="50" r="42" />
+                    <circle className={styles.circleProgress} style={{ stroke: '#5E8E3E', filter: 'drop-shadow(0 0 6px #5E8E3E)', strokeDashoffset: 0 }} cx="50" cy="50" r="42" />
+                  </svg>
+                  <span className={styles.statVal} style={{ color: '#5E8E3E' }}>100%</span>
+                </div>
+                <span className={styles.statLabel}>SEO</span>
               </div>
             </div>
 
