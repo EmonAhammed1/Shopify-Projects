@@ -17,22 +17,41 @@ export default function Loader({ onComplete }) {
     const exitLoader = () => {
       const exitTl = gsap.timeline({
         onComplete: () => {
+          if (loaderRef.current) {
+            gsap.to(loaderRef.current, {
+              yPercent: -100,
+              duration: 0.8,
+              ease: 'power3.inOut',
+              onComplete,
+            });
+          } else {
+            onComplete();
+          }
+        }
+      });
+
+      const targets = [titleRef.current, taglineRef.current, barRef.current, hintRef.current].filter(Boolean);
+      if (targets.length > 0) {
+        exitTl.to(targets, {
+          opacity: 0,
+          y: -20,
+          duration: 0.4,
+          ease: 'power2.in',
+          stagger: 0.05
+        });
+      } else {
+        // If targets are already null/unmounted, trigger slide up immediately
+        if (loaderRef.current) {
           gsap.to(loaderRef.current, {
             yPercent: -100,
             duration: 0.8,
             ease: 'power3.inOut',
             onComplete,
           });
+        } else {
+          onComplete();
         }
-      });
-
-      exitTl.to([titleRef.current, taglineRef.current, barRef.current, hintRef.current], {
-        opacity: 0,
-        y: -20,
-        duration: 0.4,
-        ease: 'power2.in',
-        stagger: 0.05
-      });
+      }
     };
 
     const handleLoad = () => {
