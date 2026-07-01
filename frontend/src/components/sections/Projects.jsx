@@ -235,8 +235,8 @@ export default function Projects() {
                 rotationY: 0,
                 scale: initialScale,
                 zIndex: 10 - i,
-                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.4)',
-                opacity: 1
+                boxShadow: 'none',
+                opacity: 0
               },
               {
                 x: 0,
