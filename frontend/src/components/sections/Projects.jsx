@@ -86,7 +86,9 @@ export default function Projects() {
   const [projects, setProjects] = useState(DEMO_PROJECTS);
   const [activeFilter, setActiveFilter] = useState('All');
   const [loading, setLoading] = useState(true);
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const headerRef = useRef(null);
+  const filtersRef = useRef(null);
 
   // Dynamically extract unique categories from projects that are present
   const categoriesList = ['All', ...new Set(projects.map((p) => p.category))].filter(Boolean);
@@ -135,6 +137,22 @@ export default function Projects() {
             scrollTrigger: { trigger: headerRef.current, start: 'top 85%' },
           }
         );
+
+        // Filters entrance animation
+        if (filtersRef.current) {
+          gsap.fromTo(
+            filtersRef.current,
+            { opacity: 0, y: 30 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: 'power3.out',
+              delay: 0.1,
+              scrollTrigger: { trigger: filtersRef.current, start: 'top 85%' },
+            }
+          );
+        }
 
         // Flying Cards Animation from Hero Globe -> Projects Grid
         const cards = document.querySelectorAll('.flying-card');
@@ -240,14 +258,34 @@ export default function Projects() {
             Featured <span className="gradient-text">Projects</span>
           </h2>
           <p>A selection of Shopify stores and e-commerce experiences I've built.</p>
+        </div>
 
-          {/* Filter tabs */}
-          <div className={styles.filters}>
+        {/* Filter tabs container */}
+        <div ref={filtersRef} className={styles.filtersWrapper} style={{ opacity: 0 }}>
+          <button 
+            className={styles.mobileFilterBtn} 
+            onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
+          >
+            <span className={styles.mobileFilterBtnLeft}>
+              <svg className={styles.mobileFilterIcon} width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+              </svg>
+              Filter: <span className={styles.activeFilterName}>{activeFilter}</span>
+            </span>
+            <svg className={`${styles.chevronIcon} ${mobileFiltersOpen ? styles.chevronActive : ''}`} width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <div className={`${styles.filters} ${mobileFiltersOpen ? styles.filtersActive : ''}`}>
             {categoriesList.map((cat) => (
               <button
                 key={cat}
                 className={`${styles.filter} ${activeFilter === cat ? styles.filterActive : ''}`}
-                onClick={() => setActiveFilter(cat)}
+                onClick={() => {
+                  setActiveFilter(cat);
+                  setMobileFiltersOpen(false);
+                }}
               >
                 {cat}
               </button>

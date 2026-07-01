@@ -10,6 +10,17 @@
   max-width: 600px;
 }
 
+.filtersWrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 2.5rem;
+  z-index: 10;
+}
+
+.mobileFilterBtn {
+  display: none;
+}
+
 .filters {
   display: flex;
   flex-wrap: wrap;
@@ -79,4 +90,97 @@
 
 @media (max-width: 600px) {
   .grid, .skeletonGrid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .mobileFilterBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    backdrop-filter: blur(8px);
+    width: 100%;
+    justify-content: space-between;
+    font-family: var(--font-heading);
+    margin-bottom: 0.5rem;
+  }
+
+  .mobileFilterBtn:hover {
+    border-color: var(--accent);
+    background: rgba(108, 99, 255, 0.08);
+  }
+
+  .mobileFilterBtnLeft {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .mobileFilterIcon {
+    color: var(--accent);
+  }
+
+  .activeFilterName {
+    color: var(--accent-2);
+    font-weight: 700;
+  }
+
+  .chevronIcon {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .chevronActive {
+    transform: rotate(180deg);
+  }
+
+  /* Dropdown styling for filters on mobile */
+  .filters {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background: rgba(10, 10, 18, 0.95);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 0.6rem;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    z-index: 50;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transform: translateY(-8px);
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    gap: 0.4rem;
+  }
+
+  .filtersActive {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .filter {
+    width: 100%;
+    text-align: left;
+    border-radius: var(--radius-sm);
+    padding: 10px 16px;
+    border: 1px solid transparent;
+    font-size: 0.85rem;
+  }
+
+  .filterActive {
+    background: rgba(108, 99, 255, 0.12);
+    border-color: rgba(108, 99, 255, 0.3);
+    color: var(--accent);
+  }
 }
