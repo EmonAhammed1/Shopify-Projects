@@ -274,6 +274,9 @@ export default function Projects() {
                   scrub: 1,
                   onLeave: () => {
                     setInitialFlightDone(true);
+                  },
+                  onEnterBack: () => {
+                    setInitialFlightDone(false);
                   }
                 }
               }
