@@ -46,6 +46,8 @@ export default function About() {
   return (
     <section ref={sectionRef} className={`section ${styles.about}`} id="about">
       <div className="grid-bg" />
+      <div className={styles.glow1} />
+      <div className={styles.glow2} />
       <div className="container">
         <div className={styles.grid}>
           {/* Text side */}
@@ -71,7 +73,7 @@ export default function About() {
                 { icon: '📈', text: 'Conversion rate optimization' },
               ].map(({ icon, text }) => (
                 <div key={text} className={styles.highlight}>
-                  <span>{icon}</span>
+                  <span className={styles.highlightIcon}>{icon}</span>
                   <span>{text}</span>
                 </div>
               ))}
