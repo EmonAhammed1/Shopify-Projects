@@ -2,22 +2,47 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { 
+  SiShopify, SiReact, SiNodedotjs, SiJavascript, SiSass, 
+  SiGraphql, SiFigma, SiGreensock, SiThreedotjs, SiCloudinary, 
+  SiAlgolia, SiVercel, SiMongodb 
+} from 'react-icons/si';
+import { FaGitAlt, FaCode, FaEnvelope } from 'react-icons/fa';
 import styles from './About.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const SKILLS = [
-  'Shopify', 'Liquid', 'JavaScript', 'React', 'Node.js',
-  'SCSS', 'Shopify Plus', 'Hydrogen', 'GraphQL', 'Klaviyo',
-  'Recharge', 'Figma', 'GSAP', 'Three.js',
+  { name: 'Shopify', icon: SiShopify, color: '#96BF48' },
+  { name: 'Liquid', icon: FaCode, color: '#7AB55C' },
+  { name: 'JavaScript', icon: SiJavascript, color: '#F7DF1E' },
+  { name: 'React', icon: SiReact, color: '#61DAFB' },
+  { name: 'Node.js', icon: SiNodedotjs, color: '#339933' },
+  { name: 'SCSS', icon: SiSass, color: '#CC6699' },
+  { name: 'Shopify Plus', icon: SiShopify, color: '#5E8E3E' },
+  { name: 'Hydrogen', icon: SiShopify, color: '#47C1BF' },
+  { name: 'GraphQL', icon: SiGraphql, color: '#E10098' },
+  { name: 'Klaviyo', icon: FaEnvelope, color: '#FF5A5F' },
+  { name: 'Recharge', icon: FaCode, color: '#00A699' },
+  { name: 'Figma', icon: SiFigma, color: '#F24E1E' },
+  { name: 'GSAP', icon: SiGreensock, color: '#88CE02' },
+  { name: 'Three.js', icon: SiThreedotjs, color: '#FFFFFF' },
 ];
 
-const TOOLS = ['Shopify Partners', 'Cloudinary', 'Algolia', 'MongoDB', 'Vercel', 'Git'];
+const TOOLS = [
+  { name: 'Shopify Partners', icon: SiShopify, color: '#96BF48' },
+  { name: 'Cloudinary', icon: SiCloudinary, color: '#F1485B' },
+  { name: 'Algolia', icon: SiAlgolia, color: '#003DFF' },
+  { name: 'MongoDB', icon: SiMongodb, color: '#47A248' },
+  { name: 'Vercel', icon: SiVercel, color: '#FFFFFF' },
+  { name: 'Git', icon: FaGitAlt, color: '#F05032' },
+];
 
 export default function About() {
   const sectionRef = useRef(null);
   const textRef = useRef(null);
   const skillsRef = useRef(null);
+  const toolsRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -34,8 +59,17 @@ export default function About() {
         skillsRef.current.children,
         { opacity: 0, scale: 0.8 },
         {
-          opacity: 1, scale: 1, duration: 0.4, stagger: 0.05, ease: 'back.out(1.5)',
+          opacity: 1, scale: 1, duration: 0.4, stagger: 0.03, ease: 'back.out(1.5)',
           scrollTrigger: { trigger: skillsRef.current, start: 'top 85%' },
+        }
+      );
+
+      gsap.fromTo(
+        toolsRef.current.children,
+        { opacity: 0, scale: 0.8 },
+        {
+          opacity: 1, scale: 1, duration: 0.4, stagger: 0.03, ease: 'back.out(1.5)',
+          scrollTrigger: { trigger: toolsRef.current, start: 'top 85%' },
         }
       );
     }, sectionRef);
@@ -86,15 +120,29 @@ export default function About() {
               <p className={styles.cardLabel}>Tech Stack</p>
               <div ref={skillsRef} className={styles.tags}>
                 {SKILLS.map((skill) => (
-                  <span key={skill} className="tech-tag">{skill}</span>
+                  <span 
+                    key={skill.name} 
+                    className="tech-tag" 
+                    style={{ '--hover-color': skill.color }}
+                  >
+                    <skill.icon className="tech-tag-icon" />
+                    {skill.name}
+                  </span>
                 ))}
               </div>
             </div>
             <div className={styles.card}>
               <p className={styles.cardLabel}>Tools & Platforms</p>
-              <div className={styles.tags}>
+              <div ref={toolsRef} className={styles.tags}>
                 {TOOLS.map((tool) => (
-                  <span key={tool} className={`tech-tag ${styles.tagAlt}`}>{tool}</span>
+                  <span 
+                    key={tool.name} 
+                    className="tech-tag"
+                    style={{ '--hover-color': tool.color }}
+                  >
+                    <tool.icon className="tech-tag-icon" />
+                    {tool.name}
+                  </span>
                 ))}
               </div>
             </div>

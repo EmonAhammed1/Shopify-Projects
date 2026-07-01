@@ -196,23 +196,39 @@ body::before {
 .tech-tag {
   display: inline-flex;
   align-items: center;
-  padding: 6px 14px;
-  background: rgba(150, 191, 72, 0.04);
-  border: 1px solid rgba(150, 191, 72, 0.15);
-  border-radius: 100px;
-  font-size: 0.76rem;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  font-size: 0.8rem;
   font-weight: 500;
-  color: var(--accent);
-  letter-spacing: 0.03em;
+  color: var(--text-muted);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   font-family: var(--font-body);
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+}
+
+.tech-tag-icon {
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  color: var(--text-muted);
 }
 
 .tech-tag:hover {
-  background: rgba(150, 191, 72, 0.12);
-  border-color: var(--accent);
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 4px 12px rgba(150, 191, 72, 0.15);
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.03);
+  border-color: var(--hover-color);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 
+    0 6px 20px rgba(0, 0, 0, 0.45),
+    0 0 15px var(--hover-color);
+}
+
+.tech-tag:hover .tech-tag-icon {
+  color: var(--hover-color);
+  transform: scale(1.15);
 }
 
 /* ─── Loader ─────────────────────────────────────────────── */
