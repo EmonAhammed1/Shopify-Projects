@@ -11,25 +11,53 @@ export default function Loader({ onComplete }) {
   const hintRef = useRef(null);
 
   useEffect(() => {
-    const tl = gsap.timeline({
-      onComplete: () => {
-        gsap.to(loaderRef.current, {
-          yPercent: -100,
-          duration: 0.8,
-          ease: 'power3.inOut',
-          onComplete,
+    let isLoaded = false;
+    let barAnim = null;
+
+    const exitLoader = () => {
+      const exitTl = gsap.timeline({
+        onComplete: () => {
+          gsap.to(loaderRef.current, {
+            yPercent: -100,
+            duration: 0.8,
+            ease: 'power3.inOut',
+            onComplete,
+          });
+        }
+      });
+
+      exitTl.to([titleRef.current, taglineRef.current, barRef.current, hintRef.current], {
+        opacity: 0,
+        y: -20,
+        duration: 0.4,
+        ease: 'power2.in',
+        stagger: 0.05
+      });
+    };
+
+    const handleLoad = () => {
+      isLoaded = true;
+      if (barAnim && barRef.current) {
+        gsap.to(barRef.current, {
+          width: '100%',
+          duration: 0.5,
+          ease: 'power2.out',
+          overwrite: 'auto',
+          onComplete: exitLoader
         });
-      },
-    });
+      }
+    };
 
-    // Animate loading bar fill
-    tl.to(barRef.current, {
-      width: '100%',
-      duration: 2.2,
-      ease: 'power2.inOut',
-    }, 0);
+    // Check if page is already loaded
+    if (document.readyState === 'complete') {
+      handleLoad();
+    } else {
+      window.addEventListener('load', handleLoad);
+    }
 
-    // Stagger reveal text components
+    // Start text entrance animations
+    const tl = gsap.timeline();
+
     tl.fromTo(titleRef.current,
       { opacity: 0, y: 25 },
       { opacity: 1, y: 0, duration: 0.8, ease: 'power4.out' },
@@ -48,14 +76,26 @@ export default function Loader({ onComplete }) {
       0.9
     );
 
-    // Fade out elements right before slide-up
-    tl.to([titleRef.current, taglineRef.current, barRef.current, hintRef.current], {
-      opacity: 0,
-      y: -20,
-      duration: 0.4,
-      ease: 'power2.in',
-      stagger: 0.05
-    }, '-=0.4');
+    // Animate bar to 90% first, then wait for page load resolution
+    barAnim = gsap.to(barRef.current, {
+      width: '90%',
+      duration: 1.8,
+      ease: 'power1.out',
+      onComplete: () => {
+        if (isLoaded) {
+          gsap.to(barRef.current, {
+            width: '100%',
+            duration: 0.4,
+            ease: 'power2.out',
+            onComplete: exitLoader
+          });
+        }
+      }
+    });
+
+    return () => {
+      window.removeEventListener('load', handleLoad);
+    };
   }, [onComplete]);
 
   return (
