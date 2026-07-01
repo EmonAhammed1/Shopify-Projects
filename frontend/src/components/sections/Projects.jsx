@@ -86,19 +86,8 @@ export default function Projects() {
   const [activeFilter, setActiveFilter] = useState('All');
   const [loading, setLoading] = useState(true);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [isNearTop, setIsNearTop] = useState(true);
   const headerRef = useRef(null);
   const filtersRef = useRef(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const nearTop = window.scrollY < window.innerHeight * 0.9;
-      setIsNearTop(nearTop);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   // Dynamically extract unique categories from projects that are present
   const categoriesList = ['All', ...new Set(projects.map((p) => p.category))].filter(Boolean);
@@ -183,7 +172,6 @@ export default function Projects() {
 
   // GSAP Scroll-triggered Flying Cards Animation (from Hero Globe to Grid)
   useEffect(() => {
-    if (!isNearTop) return;
     if (loading || projects.length === 0) return;
 
     let ctx;
@@ -316,7 +304,7 @@ export default function Projects() {
       if (checkInterval) clearInterval(checkInterval);
       if (ctx) ctx.revert();
     };
-  }, [loading, projects, activeFilter, isNearTop]);
+  }, [loading, projects, activeFilter]);
 
   const filtered = activeFilter === 'All'
     ? projects
@@ -382,7 +370,7 @@ export default function Projects() {
                 key={project._id} 
                 project={project} 
                 index={i} 
-                isFlying={isNearTop && activeFilter === 'All' && i < 3}
+                isFlying={activeFilter === 'All' && i < 3}
               />
             ))}
           </div>
