@@ -18,15 +18,19 @@ export default function ProjectCard({ project, index, isFlying }) {
   useEffect(() => {
     if (isFlying) return; // Skip default animation if this card is part of the flying hero stack
 
-    gsap.fromTo(
-      cardRef.current,
-      { opacity: 0, y: 60 },
-      {
-        opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
-        delay: (index % 3) * 0.1,
-        scrollTrigger: { trigger: cardRef.current, start: 'top 88%' },
-      }
-    );
+    let ctx = gsap.context(() => {
+      gsap.fromTo(
+        cardRef.current,
+        { opacity: 0, y: 60 },
+        {
+          opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
+          delay: (index % 3) * 0.1,
+          scrollTrigger: { trigger: cardRef.current, start: 'top 88%' },
+        }
+      );
+    });
+
+    return () => ctx.revert();
   }, [index, isFlying]);
 
   // Mouse move handler for glow effect (tilt disabled)
@@ -89,9 +93,15 @@ export default function ProjectCard({ project, index, isFlying }) {
         )}
         {featured && <span className={styles.featuredBadge}>Featured</span>}
         <div className={styles.overlay}>
-          <Link href={`/projects/${slug}`} className={styles.overlayBtn}>
-            View Project →
-          </Link>
+          {liveUrl ? (
+            <a href={finalLiveUrl} target="_blank" rel="noreferrer" className={styles.overlayBtn}>
+              View Live Store →
+            </a>
+          ) : (
+            <Link href={`/projects/${slug}`} className={styles.overlayBtn}>
+              View Project →
+            </Link>
+          )}
         </div>
       </div>
 

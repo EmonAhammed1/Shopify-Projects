@@ -118,97 +118,114 @@ export default function Projects() {
   useEffect(() => {
     if (loading) return; // Wait for loading to finish (even if demo data)
 
-    gsap.fromTo(
-      headerRef.current,
-      { opacity: 0, y: 40 },
-      {
-        opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
-        scrollTrigger: { trigger: headerRef.current, start: 'top 85%' },
-      }
-    );
+    let ctx;
+    let timer;
 
-    // Flying Cards Animation from Hero Globe -> Projects Grid
-    setTimeout(() => {
-      const cards = document.querySelectorAll('.flying-card');
-      if (cards.length === 0) return;
-
-      cards.forEach((card, i) => {
-        // Find corresponding anchor on the globe
-        const anchor = document.getElementById(`globe-anchor-${i}`);
-        
-        // Force the card to clear any previous transforms to get accurate natural rect
-        gsap.set(card, { clearProps: "all" });
-        const cardRect = card.getBoundingClientRect();
-        
-        let deltaX = 0;
-        let deltaY = 0;
-        let initialScale = 1;
-
-        if (anchor) {
-          const anchorRect = anchor.getBoundingClientRect();
-          
-          // Center of globe anchor
-          const anchorCenterX = anchorRect.left + anchorRect.width / 2;
-          const anchorCenterY = anchorRect.top + anchorRect.height / 2;
-          
-          // Center of card
-          const cardCenterX = cardRect.left + cardRect.width / 2;
-          const cardCenterY = cardRect.top + cardRect.height / 2;
-          
-          deltaX = anchorCenterX - cardCenterX;
-          deltaY = anchorCenterY - cardCenterY;
-          initialScale = anchorRect.width / cardRect.width;
-
-          // Fade out the anchor on the globe as we scroll
-          gsap.to(anchor, {
-            opacity: 0,
-            scrollTrigger: {
-              trigger: '#home',
-              start: 'top top',
-              end: '20% top', // fade out quickly
-              scrub: 1,
-            }
-          });
-        } else {
-           // Fallback if globe hasn't rendered anchors yet
-           deltaX = -window.innerWidth / 2;
-           deltaY = -window.innerHeight / 2;
-           initialScale = 0.2;
-        }
-        
-        gsap.fromTo(card,
+    timer = setTimeout(() => {
+      ctx = gsap.context(() => {
+        // Header entrance animation
+        gsap.fromTo(
+          headerRef.current,
+          { opacity: 0, y: 40 },
           {
-            x: deltaX,
-            y: deltaY,
-            rotation: 0,
-            rotationX: 0,
-            rotationY: 0,
-            scale: initialScale,
-            zIndex: 10 - i,
-            boxShadow: 'none',
-            opacity: 0
-          },
-          {
-            x: 0,
-            y: 0,
-            rotation: 0,
-            rotationX: 0,
-            rotationY: 0,
-            scale: 1,
-            zIndex: 1,
-            boxShadow: 'none',
             opacity: 1,
-            scrollTrigger: {
-              trigger: '#home',
-              start: 'top top',
-              end: 'bottom top',
-              scrub: 1,
-            }
+            y: 0,
+            duration: 0.8,
+            ease: 'power3.out',
+            scrollTrigger: { trigger: headerRef.current, start: 'top 85%' },
           }
         );
+
+        // Flying Cards Animation from Hero Globe -> Projects Grid
+        const cards = document.querySelectorAll('.flying-card');
+        if (cards.length === 0) return;
+
+        cards.forEach((card, i) => {
+          // Find corresponding anchor on the globe
+          const anchor = document.getElementById(`globe-anchor-${i}`);
+          
+          // Force the card to clear any previous transforms to get accurate natural rect
+          gsap.set(card, { clearProps: "all" });
+          const cardRect = card.getBoundingClientRect();
+          
+          let deltaX = 0;
+          let deltaY = 0;
+          let initialScale = 1;
+
+          if (anchor) {
+            const anchorRect = anchor.getBoundingClientRect();
+            
+            // Center of globe anchor
+            const anchorCenterX = anchorRect.left + anchorRect.width / 2;
+            const anchorCenterY = anchorRect.top + anchorRect.height / 2;
+            
+            // Center of card
+            const cardCenterX = cardRect.left + cardRect.width / 2;
+            const cardCenterY = cardRect.top + cardRect.height / 2;
+            
+            deltaX = anchorCenterX - cardCenterX;
+            deltaY = anchorCenterY - cardCenterY;
+            initialScale = anchorRect.width / cardRect.width;
+
+            // Fade out the anchor on the globe as we scroll
+            gsap.to(anchor, {
+              opacity: 0,
+              scrollTrigger: {
+                trigger: '#home',
+                start: 'top top',
+                end: '20% top', // fade out quickly
+                scrub: 1,
+              }
+            });
+          } else {
+             // Fallback if globe hasn't rendered anchors yet
+             deltaX = -window.innerWidth / 2;
+             deltaY = -window.innerHeight / 2;
+             initialScale = 0.2;
+          }
+          
+          gsap.fromTo(card,
+            {
+              x: deltaX,
+              y: deltaY,
+              rotation: 0,
+              rotationX: 0,
+              rotationY: 0,
+              scale: initialScale,
+              zIndex: 10 - i,
+              boxShadow: 'none',
+              opacity: 0
+            },
+            {
+              x: 0,
+              y: 0,
+              rotation: 0,
+              rotationX: 0,
+              rotationY: 0,
+              scale: 1,
+              zIndex: 1,
+              boxShadow: 'none',
+              opacity: 1,
+              scrollTrigger: {
+                trigger: '#home',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: 1,
+              }
+            }
+          );
+        });
+
+        // Refresh ScrollTrigger to ensure correct trigger positions after setting up
+        ScrollTrigger.refresh();
       });
     }, 1500); // Wait longer to ensure 3D canvas is fully loaded and anchors are placed
-  }, [loading]);
+
+    return () => {
+      clearTimeout(timer);
+      if (ctx) ctx.revert();
+    };
+  }, [loading, projects, activeFilter]);
 
   const filtered = activeFilter === 'All'
     ? projects
