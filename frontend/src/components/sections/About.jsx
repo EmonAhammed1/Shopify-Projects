@@ -40,36 +40,35 @@ const TOOLS = [
 
 export default function About() {
   const sectionRef = useRef(null);
-  const textRef = useRef(null);
+  const introCardRef = useRef(null);
+  const statsCardRef = useRef(null);
+  const techCardRef = useRef(null);
+  const focusCardRef = useRef(null);
   const skillsRef = useRef(null);
   const toolsRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      const cards = [
+        introCardRef.current,
+        statsCardRef.current,
+        techCardRef.current,
+        focusCardRef.current
+      ];
+
       gsap.fromTo(
-        textRef.current.children,
+        cards,
         { opacity: 0, y: 50 },
         {
-          opacity: 1, y: 0, duration: 0.8, stagger: 0.15, ease: 'power3.out',
-          scrollTrigger: { trigger: textRef.current, start: 'top 80%' },
-        }
-      );
-
-      gsap.fromTo(
-        skillsRef.current.children,
-        { opacity: 0, scale: 0.8 },
-        {
-          opacity: 1, scale: 1, duration: 0.4, stagger: 0.03, ease: 'back.out(1.5)',
-          scrollTrigger: { trigger: skillsRef.current, start: 'top 85%' },
-        }
-      );
-
-      gsap.fromTo(
-        toolsRef.current.children,
-        { opacity: 0, scale: 0.8 },
-        {
-          opacity: 1, scale: 1, duration: 0.4, stagger: 0.03, ease: 'back.out(1.5)',
-          scrollTrigger: { trigger: toolsRef.current, start: 'top 85%' },
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.12,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 85%',
+          }
         }
       );
     }, sectionRef);
@@ -83,9 +82,11 @@ export default function About() {
       <div className={styles.glow1} />
       <div className={styles.glow2} />
       <div className="container">
-        <div className={styles.grid}>
-          {/* Text side */}
-          <div ref={textRef} className={styles.text}>
+        <div className={styles.bentoGrid}>
+          {/* Card 1: Intro */}
+          <div ref={introCardRef} className={`${styles.bentoCard} ${styles.introCard}`}>
+            <div className={styles.cyberTag}>// 01. PROFILE</div>
+            <div className={styles.cardPattern} />
             <span className="section-label">About Me</span>
             <h2>
               E-commerce Developer<br />
@@ -100,51 +101,96 @@ export default function About() {
               Every project starts with understanding your customers — then I craft an
               experience that feels effortless, loads fast, and converts browsers into buyers.
             </p>
-            <div className={styles.highlights}>
-              {[
-                { icon: '⚡', text: 'Performance-first development' },
-                { icon: '🎨', text: 'Pixel-perfect UI implementation' },
-                { icon: '📈', text: 'Conversion rate optimization' },
-              ].map(({ icon, text }) => (
-                <div key={text} className={styles.highlight}>
-                  <span className={styles.highlightIcon}>{icon}</span>
-                  <span>{text}</span>
-                </div>
-              ))}
+          </div>
+
+          {/* Card 2: Stats */}
+          <div ref={statsCardRef} className={`${styles.bentoCard} ${styles.statsCard}`}>
+            <div className={styles.cyberTag}>// 02. METRICS</div>
+            <div className={styles.cardPattern} />
+            <div className={styles.statItem}>
+              <span className={styles.statVal}>
+                99+<span className={styles.pulseDot} />
+              </span>
+              <span className={styles.statLabel}>Avg. PageSpeed Score</span>
+            </div>
+            <div className={styles.statDivider} />
+            <div className={styles.statItem}>
+              <span className={styles.statVal}>
+                100%<span className={styles.pulseDot} />
+              </span>
+              <span className={styles.statLabel}>Pixel Perfect & Fluid</span>
+            </div>
+            <div className={styles.statDivider} />
+            <div className={styles.statItem}>
+              <span className={styles.statVal}>Shopify</span>
+              <span className={styles.statLabel}>Theme & Headless Expert</span>
             </div>
           </div>
 
-          {/* Skills side */}
-          <div className={styles.skillsWrap}>
-            <div className={styles.card}>
-              <p className={styles.cardLabel}>Tech Stack</p>
-              <div ref={skillsRef} className={styles.tags}>
-                {SKILLS.map((skill) => (
-                  <span 
-                    key={skill.name} 
-                    className="tech-tag" 
-                    style={{ '--hover-color': skill.color }}
-                  >
-                    <skill.icon className="tech-tag-icon" />
-                    {skill.name}
-                  </span>
-                ))}
+          {/* Card 3: Tech Stack & Tools (Wide) */}
+          <div ref={techCardRef} className={`${styles.bentoCard} ${styles.techCard}`}>
+            <div className={styles.cyberTag}>// 03. CAPABILITIES</div>
+            <div className={styles.cardPattern} />
+            <div className={styles.techStackContainer}>
+              <div className={styles.techSection}>
+                <h3 className={styles.bentoSubLabel}>Tech Stack</h3>
+                <div ref={skillsRef} className={styles.tags}>
+                  {SKILLS.map((skill) => (
+                    <span 
+                      key={skill.name} 
+                      className="tech-tag" 
+                      style={{ '--hover-color': skill.color }}
+                    >
+                      <skill.icon className="tech-tag-icon" />
+                      {skill.name}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              
+              <div className={styles.verticalDivider} />
+              
+              <div className={styles.techSection}>
+                <h3 className={styles.bentoSubLabel}>Tools & Platforms</h3>
+                <div ref={toolsRef} className={styles.tags}>
+                  {TOOLS.map((tool) => (
+                    <span 
+                      key={tool.name} 
+                      className="tech-tag"
+                      style={{ '--hover-color': tool.color }}
+                    >
+                      <tool.icon className="tech-tag-icon" />
+                      {tool.name}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
-            <div className={styles.card}>
-              <p className={styles.cardLabel}>Tools & Platforms</p>
-              <div ref={toolsRef} className={styles.tags}>
-                {TOOLS.map((tool) => (
-                  <span 
-                    key={tool.name} 
-                    className="tech-tag"
-                    style={{ '--hover-color': tool.color }}
-                  >
-                    <tool.icon className="tech-tag-icon" />
-                    {tool.name}
-                  </span>
-                ))}
-              </div>
+          </div>
+
+          {/* Card 4: Focus/Highlights */}
+          <div ref={focusCardRef} className={`${styles.bentoCard} ${styles.focusCard}`}>
+            <div className={styles.cyberTag}>// 04. CORE_SPECIALTIES</div>
+            <div className={styles.cardPattern} />
+            <h3 className={styles.bentoSubLabel}>Core Focus</h3>
+            <div className={styles.highlightsList}>
+              {[
+                { icon: '⚡', title: 'Performance-First', desc: 'Lightning-fast loading speeds.' },
+                { icon: '🎨', title: 'Pixel-Perfect UI', desc: 'Flawless design transitions.' },
+                { icon: '📈', title: 'Conversion Rate', desc: 'Optimized to turn clicks into sales.' },
+              ].map(({ icon, title, desc }) => (
+                <div key={title} className={styles.highlightItem}>
+                  <div className={styles.highlightIcon}>{icon}</div>
+                  <div className={styles.highlightText}>
+                    <span className={styles.highlightTitle}>
+                      <span className={styles.codeBracket}>[</span>
+                      {title}
+                      <span className={styles.codeBracket}>]</span>
+                    </span>
+                    <span className={styles.highlightDesc}>{desc}</span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
