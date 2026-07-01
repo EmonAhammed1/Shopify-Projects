@@ -241,6 +241,7 @@ export default function Projects() {
               zIndex: 1,
               boxShadow: 'none',
               opacity: 1,
+              immediateRender: false,
               scrollTrigger: {
                 trigger: '#home',
                 start: 'top top',
