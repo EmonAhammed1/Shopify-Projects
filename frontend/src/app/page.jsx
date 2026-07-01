@@ -25,13 +25,15 @@ export default function Home() {
         setLoaded(true);
         if (typeof window !== 'undefined') sessionStorage.setItem('siteLoaded', 'true');
       }} />}
-      <Navbar />
-      <main>
-        <Hero />
-        <Projects />
-        <About />
-      </main>
-      <Footer />
+      <div style={{ opacity: loaded ? 1 : 0, transition: 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1)', visibility: loaded ? 'visible' : 'hidden' }}>
+        <Navbar />
+        <main>
+          <Hero />
+          <Projects />
+          <About />
+        </main>
+        <Footer />
+      </div>
     </>
   );
 }
