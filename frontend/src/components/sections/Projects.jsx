@@ -230,13 +230,14 @@ export default function Projects() {
               {
                 x: deltaX,
                 y: deltaY,
-                rotation: 0,
-                rotationX: 0,
-                rotationY: 0,
-                scale: initialScale,
+                rotation: -90,
+                rotationX: -270,
+                rotationY: 270,
+                scale: 0.02,
                 zIndex: 10 - i,
                 boxShadow: 'none',
-                opacity: 0
+                opacity: 0,
+                transformPerspective: 1000
               },
               {
                 x: 0,

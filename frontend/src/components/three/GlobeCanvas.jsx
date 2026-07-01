@@ -1,8 +1,14 @@
 'use client';
-import { useRef, useMemo, Suspense } from 'react';
+import { useRef, useMemo, Suspense, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Html, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 // Demo thumbnails to show on the globe (projects + other e-commerce/Shopify images)
 const GLOBE_IMAGES = [
@@ -90,20 +96,62 @@ function ImageTiles() {
           texture = textures[textureIndex];
         }
 
+        // Calculate center of this tile for outward vector
+        const thetaCenter = r * thetaLength + (thetaLength / 2);
+        const phiCenter = c * phiLength + (phiLength / 2);
+        
+        // Calculate outward direction vector
+        const dirX = Math.sin(thetaCenter) * Math.sin(phiCenter);
+        const dirY = Math.cos(thetaCenter);
+        const dirZ = Math.sin(thetaCenter) * Math.cos(phiCenter);
+        const explodeDirection = new THREE.Vector3(dirX, dirY, dirZ).normalize();
+
         arr.push({
           row: r,
           col: c,
-          texture
+          texture,
+          explodeDirection,
+          spinSpeed: new THREE.Vector3(
+            (Math.random() - 0.5) * 6,
+            (Math.random() - 0.5) * 6,
+            (Math.random() - 0.5) * 6
+          )
         });
       }
     }
     return arr;
-  }, [textures, rows, cols]);
+  }, [textures, rows, cols, thetaLength, phiLength]);
+
+  const tileRefs = useRef([]);
+
+  useFrame(() => {
+    const progress = window.globeScrollProgress?.value || 0;
+
+    tileRefs.current.forEach((mesh, i) => {
+      if (!mesh) return;
+
+      const tile = tiles[i];
+      if (!tile) return;
+
+      // 1. Move tiles outward based on progress
+      const explodeDist = progress * 6.5;
+      mesh.position.set(0, 0, 0).addScaledVector(tile.explodeDirection, explodeDist);
+
+      // 2. Shrink the tiles to 0 as progress goes to 1
+      const scale = Math.max(0, 1 - progress);
+      mesh.scale.set(scale, scale, scale);
+
+      // 3. Add random chaotic rotation to the tiles as they disintegrate
+      mesh.rotation.x = tile.spinSpeed.x * progress;
+      mesh.rotation.y = tile.spinSpeed.y * progress;
+      mesh.rotation.z = tile.spinSpeed.z * progress;
+    });
+  });
 
   return (
     <group>
       {tiles.map((tile, i) => (
-        <mesh key={i}>
+        <mesh key={i} ref={el => tileRefs.current[i] = el}>
           <sphereGeometry 
             args={[
               radius, 
@@ -157,17 +205,23 @@ function ProjectAnchors() {
 
 function Globe({ spinDirection }) {
   const globeRef = useRef();
+  const coreRef = useRef();
 
   useFrame(() => {
+    const progress = window.globeScrollProgress?.value || 0;
     if (globeRef.current) {
       globeRef.current.rotation.y += 0.002 * spinDirection.current;
+    }
+    if (coreRef.current) {
+      const scale = Math.max(0, 1 - progress);
+      coreRef.current.scale.set(scale, scale, scale);
     }
   });
 
   return (
     <group ref={globeRef} position={[0, 0, 0]}>
       {/* Solid inner core - this provides the "white" background for the gaps between images */}
-      <mesh>
+      <mesh ref={coreRef}>
         <sphereGeometry args={[2.48, 64, 64]} />
         <meshBasicMaterial color="#ffffff" />
       </mesh>
@@ -184,6 +238,27 @@ export default function GlobeCanvas() {
   const spinDirection = useRef(1);
   const isDragging = useRef(false);
   const lastX = useRef(0);
+
+  useEffect(() => {
+    // Initialize global scroll progress
+    window.globeScrollProgress = { value: 0 };
+
+    const trigger = ScrollTrigger.create({
+      trigger: '#home',
+      start: 'top top',
+      end: 'bottom top',
+      scrub: true,
+      onUpdate: (self) => {
+        if (window.globeScrollProgress) {
+          window.globeScrollProgress.value = self.progress;
+        }
+      }
+    });
+
+    return () => {
+      trigger.kill();
+    };
+  }, []);
 
   return (
     <div 
