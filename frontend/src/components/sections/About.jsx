@@ -107,23 +107,41 @@ export default function About() {
           <div ref={statsCardRef} className={`${styles.bentoCard} ${styles.statsCard}`}>
             <div className={styles.cyberTag}>// 02. METRICS</div>
             <div className={styles.cardPattern} />
-            <div className={styles.statItem}>
-              <span className={styles.statVal}>
-                99+<span className={styles.pulseDot} />
-              </span>
-              <span className={styles.statLabel}>Avg. PageSpeed Score</span>
+            
+            <div className={styles.statsGrid}>
+              <div className={styles.statItem}>
+                <div className={styles.speedometerContainer}>
+                  <svg className={styles.svgCircle} viewBox="0 0 100 100">
+                    <circle className={styles.circleBg} cx="50" cy="50" r="42" />
+                    <circle className={styles.circleProgress} style={{ strokeDashoffset: 4.2 }} cx="50" cy="50" r="42" />
+                  </svg>
+                  <span className={styles.statVal}>99+</span>
+                </div>
+                <span className={styles.statLabel}>PageSpeed</span>
+              </div>
+
+              <div className={styles.statItem}>
+                <div className={styles.speedometerContainer}>
+                  <svg className={styles.svgCircle} viewBox="0 0 100 100">
+                    <circle className={styles.circleBg} cx="50" cy="50" r="42" />
+                    <circle className={styles.circleProgress} style={{ stroke: '#47C1BF', filter: 'drop-shadow(0 0 6px #47C1BF)', strokeDashoffset: 0 }} cx="50" cy="50" r="42" />
+                  </svg>
+                  <span className={styles.statVal} style={{ color: '#47C1BF' }}>100%</span>
+                </div>
+                <span className={styles.statLabel}>Fluid UI</span>
+              </div>
             </div>
+
             <div className={styles.statDivider} />
-            <div className={styles.statItem}>
-              <span className={styles.statVal}>
-                100%<span className={styles.pulseDot} />
-              </span>
-              <span className={styles.statLabel}>Pixel Perfect & Fluid</span>
-            </div>
-            <div className={styles.statDivider} />
-            <div className={styles.statItem}>
-              <span className={styles.statVal}>Shopify</span>
-              <span className={styles.statLabel}>Theme & Headless Expert</span>
+
+            <div className={styles.expertBadgeItem}>
+              <div className={styles.badgePulseIcon}>
+                <SiShopify className={styles.badgeIcon} />
+              </div>
+              <div className={styles.badgeText}>
+                <span className={styles.badgeTitle}>SHOPIFY EXPERT</span>
+                <span className={styles.badgeDesc}>Official Theme & Headless</span>
+              </div>
             </div>
           </div>
 
