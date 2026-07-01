@@ -37,7 +37,7 @@ export default function Loader({ onComplete }) {
   }, [onComplete]);
 
   return (
-    <div ref={loaderRef} className={styles.loader}>
+    <div ref={loaderRef} id="site-intro-loader" className={styles.loader}>
       <div className={styles.content}>
         <p ref={textRef} className={styles.logo}>
           &lt;Portfolio /&gt;

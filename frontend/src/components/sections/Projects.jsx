@@ -166,9 +166,7 @@ export default function Projects() {
       const cards = document.querySelectorAll('.flying-card');
       
       // Check if loader component is still mounted in DOM
-      const loaderExists = Array.from(document.querySelectorAll('div')).some(el => 
-        el.className && typeof el.className === 'string' && el.className.includes('loader')
-      );
+      const loaderExists = document.getElementById('site-intro-loader') !== null;
 
       if (anchors.length > 0 && cards.length > 0 && !loaderExists) {
         clearInterval(checkInterval);
