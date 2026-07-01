@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Navbar from '@/components/ui/Navbar';
 import Hero from '@/components/sections/Hero';
@@ -10,12 +10,13 @@ const About = dynamic(() => import('@/components/sections/About'));
 const Footer = dynamic(() => import('@/components/ui/Footer'));
 
 export default function Home() {
-  const [loaded, setLoaded] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return sessionStorage.getItem('siteLoaded') === 'true';
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && sessionStorage.getItem('siteLoaded') === 'true') {
+      setLoaded(true);
     }
-    return false;
-  });
+  }, []);
 
   return (
     <>
