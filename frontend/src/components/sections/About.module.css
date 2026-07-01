@@ -69,11 +69,11 @@
 
 .bentoCard:hover::before {
   opacity: 1;
-  animation: laserScan 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation: laserScan 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
 @keyframes laserScan {
-  0% { top: -40%; }
+  0% { top: -120%; }
   100% { top: 120%; }
 }
 
