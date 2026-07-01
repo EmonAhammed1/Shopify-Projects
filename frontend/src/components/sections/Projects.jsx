@@ -168,7 +168,7 @@ export default function Projects() {
       // Check if loader component is still mounted in DOM
       const loaderExists = document.getElementById('site-intro-loader') !== null;
 
-      if (anchors.length > 0 && cards.length > 0 && !loaderExists) {
+      if (anchors.length >= 3 && cards.length >= 3 && !loaderExists) {
         clearInterval(checkInterval);
 
         ctx = gsap.context(() => {
@@ -226,8 +226,8 @@ export default function Projects() {
                 rotationY: 0,
                 scale: initialScale,
                 zIndex: 10 - i,
-                boxShadow: 'none',
-                opacity: 0
+                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.4)',
+                opacity: 1
               },
               {
                 x: 0,
