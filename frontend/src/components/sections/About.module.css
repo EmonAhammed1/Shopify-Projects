@@ -77,25 +77,6 @@
   100% { top: 120%; }
 }
 
-/* Glassy Reflection Sheen */
-.bentoCard::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -150%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.06), transparent);
-  transform: skewX(-25deg);
-  transition: all 0.75s ease-in-out;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.bentoCard:hover::after {
-  left: 150%;
-}
-
 .bentoCard:hover {
   border-color: rgba(150, 191, 72, 0.35);
   transform: translateY(-5px);
