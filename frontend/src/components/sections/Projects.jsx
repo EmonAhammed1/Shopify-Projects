@@ -93,6 +93,14 @@ export default function Projects() {
   // Dynamically extract unique categories from projects that are present
   const categoriesList = ['All', ...new Set(projects.map((p) => p.category))].filter(Boolean);
 
+  // Helper to count projects inside each category
+  const getCategoryCount = (cat) => {
+    if (cat === 'All') {
+      return projects.length;
+    }
+    return projects.filter((p) => p.category === cat).length;
+  };
+
   useEffect(() => {
     const fetchProjects = async () => {
       const cached = sessionStorage.getItem('projectsData');
@@ -296,7 +304,7 @@ export default function Projects() {
               <svg className={styles.mobileFilterIcon} width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
               </svg>
-              Filter: <span className={styles.activeFilterName}>{activeFilter}</span>
+              Filter: <span className={styles.activeFilterName}>{activeFilter} ({getCategoryCount(activeFilter)})</span>
             </span>
             <svg className={`${styles.chevronIcon} ${mobileFiltersOpen ? styles.chevronActive : ''}`} width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -314,6 +322,9 @@ export default function Projects() {
                 }}
               >
                 {cat}
+                <span className={styles.filterCount}>
+                  {getCategoryCount(cat)}
+                </span>
               </button>
             ))}
           </div>
