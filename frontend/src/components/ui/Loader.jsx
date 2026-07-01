@@ -63,10 +63,10 @@ export default function Loader({ onComplete }) {
       <div className={styles.content}>
         <div className={styles.introText}>
           <h1 ref={titleRef} className={styles.mainTitle} style={{ opacity: 0 }}>
-            CRAFTING PREMIUM <span>SHOPIFY</span> STORES
+            MAKE YOUR VISION <span>COME TRUE</span>
           </h1>
           <p ref={taglineRef} className={styles.tagline} style={{ opacity: 0 }}>
-            Turning Your Vision Into Digital Success
+            Designing High-Converting E-commerce Experiences
           </p>
         </div>
         
