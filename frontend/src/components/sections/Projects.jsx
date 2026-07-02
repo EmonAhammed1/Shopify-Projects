@@ -237,6 +237,7 @@ export default function Projects() {
                 project={project} 
                 index={i} 
                 isFlying={activeFilter === 'All' && i < 3}
+                filterKey={activeFilter}
               />
             ))}
           </div>
