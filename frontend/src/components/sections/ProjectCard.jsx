@@ -157,8 +157,8 @@ export default function ProjectCard({ project, index, isFlying, filterKey, scatt
               id: `scatter-${index}`,
               trigger: heroEl,
               start: 'top top',
-              end: '+=280',        // animation completes after just 280px of scrolling
-              scrub: 1.2,          // smooth scroll-based transition
+              end: '+=450',        // increased distance for smoother and more premium feel
+              scrub: 1.5,          // increased lag for softer transition
             },
           }
         );
