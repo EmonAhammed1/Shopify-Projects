@@ -120,9 +120,11 @@ export default function ProjectCard({ project, index, isFlying, filterKey, scatt
         const cardCenterY = cardRect.top + cardRect.height / 2;
 
         // Account for any active scroll offset when calculating natural top position
+        const scrollXVal = typeof window !== 'undefined' ? window.scrollX : 0;
         const scrollYVal = typeof window !== 'undefined' ? window.scrollY : 0;
-        const deltaX = cfg.cx - cardCenterX;
-        const deltaY = (cfg.cy - cardCenterY) + scrollYVal;
+        
+        const deltaX = cfg.cx - cardCenterX - scrollXVal;
+        const deltaY = cfg.cy - cardCenterY - scrollYVal;
 
         // Use fromTo directly so ScrollTrigger knows exact starting coordinates
         // Using multiples of 360 degrees makes the cards look perfectly straight at start (0 scroll),
