@@ -134,7 +134,7 @@ export default function CategoryPage() {
     if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
     }
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [slug]);
 
   // 404 check after loading
@@ -149,6 +149,14 @@ export default function CategoryPage() {
   // Hero entrance animation
   useEffect(() => {
     if (loading) return;
+    
+    // Delayed scroll ensures we override Next.js router scroll restoration
+    const scrollTimer = setTimeout(() => {
+      if (typeof window !== 'undefined') {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      }
+    }, 100);
+
     const ctx = gsap.context(() => {
       gsap.fromTo(
         heroRef.current,
@@ -156,7 +164,11 @@ export default function CategoryPage() {
         { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', delay: 0.1 }
       );
     });
-    return () => ctx.revert();
+
+    return () => {
+      clearTimeout(scrollTimer);
+      ctx.revert();
+    };
   }, [loading]);
 
   // ── Not Found State ──

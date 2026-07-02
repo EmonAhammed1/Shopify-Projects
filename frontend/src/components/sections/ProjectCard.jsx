@@ -59,7 +59,7 @@ export default function ProjectCard({ project, index, isFlying, filterKey, scatt
 
         // Force scroll to 0 immediately to ensure bounding rects are calculated at top-of-page
         if (typeof window !== 'undefined') {
-          window.scrollTo(0, 0);
+          window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
         }
         ScrollTrigger.clearScrollMemory();
 

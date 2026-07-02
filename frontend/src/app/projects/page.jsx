@@ -128,11 +128,23 @@ export default function ProjectsPage() {
       }
     };
     fetchProjects();
+    if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, []);
 
   // Hero entrance animation
   useEffect(() => {
     if (loading) return;
+    
+    // Delayed scroll ensures we override Next.js router scroll restoration
+    const scrollTimer = setTimeout(() => {
+      if (typeof window !== 'undefined') {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      }
+    }, 100);
+
     const ctx = gsap.context(() => {
       gsap.fromTo(
         heroRef.current,
@@ -152,7 +164,11 @@ export default function ProjectsPage() {
         );
       }
     });
-    return () => ctx.revert();
+
+    return () => {
+      clearTimeout(scrollTimer);
+      ctx.revert();
+    };
   }, [loading]);
 
   useEffect(() => {
