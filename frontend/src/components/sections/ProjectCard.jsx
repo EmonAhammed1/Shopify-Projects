@@ -142,24 +142,20 @@ export default function ProjectCard({ project, index, isFlying, filterKey, scatt
             opacity: 1,
             zIndex: 1,
             transformPerspective: 1200,
-            duration: 0.8,       // timed animation prevents cards from getting stuck mid-flip
-            ease: 'power2.out',
+            ease: 'none',
             force3D: true,
             scrollTrigger: {
               id: `scatter-${index}`,
               trigger: heroEl,
-              start: 'top -50',   // starts playing when user scrolls down by 50px
-              toggleActions: 'play none none reverse', // plays forward on scroll down, reverses when returning to the very top
+              start: 'top top',
+              end: '+=280',        // animation completes after just 280px of scrolling
+              scrub: 1.2,          // smooth scroll-based transition
             },
           }
         );
 
-
-
-
-
         ScrollTrigger.refresh();
-      }, 100); // ensure DOM is ready
+      }, 150); // increased delay ensures Next.js scroll restoration is complete
 
       return () => {
         clearTimeout(timer);
