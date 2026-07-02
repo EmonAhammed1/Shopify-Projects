@@ -1,0 +1,499 @@
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .carousel-section-{{ section.id }} {
+    width: 100%;
+    overflow: hidden;
+    padding: {{ section.settings.section_padding }}px 0;
+    background: {{ section.settings.bg_color }};
+  }
+
+  .carousel-section-{{ section.id }} .carousel-heading {
+    text-align: center;
+    font-size: {{ section.settings.heading_size }}px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    padding: 0 20px;
+    color: {{ section.settings.heading_color }};
+  }
+
+  .carousel-track-wrapper-{{ section.id }} {
+    overflow: hidden;
+    width: 100%;
+    cursor: grab;
+    user-select: none;
+  }
+
+  .carousel-track-wrapper-{{ section.id }}:active {
+    cursor: grabbing;
+  }
+
+  .carousel-track-{{ section.id }} {
+    display: flex;
+    gap: {{ section.settings.card_gap }}px;
+    will-change: transform;
+  }
+
+  .carousel-card-{{ section.id }} {
+    flex: 0 0 {{ section.settings.card_width }}px;
+    width: {{ section.settings.card_width }}px;
+    background: #ffffff;
+    border-radius: {{ section.settings.card_radius }}px;
+    overflow: hidden;
+    border: 1px solid #e8e8e8;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .carousel-card-{{ section.id }}:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.13);
+    transform: translateY(-3px);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .carousel-card-{{ section.id }} .card-img-wrap {
+    width: 100%;
+    height: {{ section.settings.image_height }}px;
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .carousel-card-{{ section.id }} .card-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .carousel-card-{{ section.id }} .card-img-wrap svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .carousel-card-{{ section.id }} .card-info {
+    padding: 12px 14px 16px;
+  }
+
+  .carousel-card-{{ section.id }} .card-vendor {
+    font-size: 11px;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+
+  .carousel-card-{{ section.id }} .card-title {
+    font-size: {{ section.settings.title_size }}px;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .carousel-card-{{ section.id }} .card-price {
+    font-size: {{ section.settings.price_size }}px;
+    font-weight: 600;
+    color: {{ section.settings.price_color }};
+  }
+
+  .carousel-card-{{ section.id }} .card-price .compare-price {
+    font-size: 12px;
+    color: #aaa;
+    text-decoration: line-through;
+    margin-left: 6px;
+    font-weight: 400;
+  }
+
+  .carousel-card-{{ section.id }} .sold-out-badge {
+    display: inline-block;
+    font-size: 10px;
+    background: #f0f0f0;
+    color: #888;
+    border-radius: 4px;
+    padding: 2px 7px;
+    margin-bottom: 6px;
+  }
+
+  .carousel-dots-{{ section.id }} {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  .carousel-dots-{{ section.id }} span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #d0d0d0;
+    display: inline-block;
+    transition: background 0.2s, width 0.2s;
+    cursor: pointer;
+  }
+
+  .carousel-dots-{{ section.id }} span.active {
+    background: {{ section.settings.price_color }};
+    width: 20px;
+    border-radius: 4px;
+  }
+{%- endstyle -%}
+
+<div class="carousel-section-{{ section.id }}">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="carousel-heading">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+
+  <div class="carousel-track-wrapper-{{ section.id }}" id="carouselWrapper-{{ section.id }}">
+    <div class="carousel-track-{{ section.id }}" id="carouselTrack-{{ section.id }}">
+      {%- assign carousel_collection = collections[section.settings.collection] -%}
+      {%- assign products_to_show = section.settings.products_to_show -%}
+
+      {%- if carousel_collection != blank -%}
+        {%- for product in carousel_collection.products limit: products_to_show -%}
+          <a class="carousel-card-{{ section.id }}" href="{{ product.url }}">
+            <div class="card-img-wrap">
+              {%- if product.featured_image -%}
+                <img
+                  src="{{ product.featured_image | img_url: '400x400' }}"
+                  alt="{{ product.featured_image.alt | escape }}"
+                  loading="lazy"
+                  width="400"
+                  height="400"
+                >
+              {%- else -%}
+                {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+              {%- endif -%}
+            </div>
+            <div class="card-info">
+              {%- if product.available == false -%}
+                <span class="sold-out-badge">Sold out</span>
+              {%- endif -%}
+              {%- if product.vendor != blank -%}
+                <div class="card-vendor">{{ product.vendor }}</div>
+              {%- endif -%}
+              <div class="card-title">{{ product.title }}</div>
+              <div class="card-price">
+                {{ product.price | money }}
+                {%- if product.compare_at_price > product.price -%}
+                  <span class="compare-price">{{ product.compare_at_price | money }}</span>
+                {%- endif -%}
+              </div>
+            </div>
+          </a>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..6) -%}
+          <a class="carousel-card-{{ section.id }}" href="#">
+            <div class="card-img-wrap">
+              {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            </div>
+            <div class="card-info">
+              <div class="card-title">Sample Product {{ i }}</div>
+              <div class="card-price">$29.99</div>
+            </div>
+          </a>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- if section.settings.show_dots -%}
+    <div class="carousel-dots-{{ section.id }}" id="carouselDots-{{ section.id }}"></div>
+  {%- endif -%}
+</div>
+
+<script>
+(function() {
+  var sectionId = '{{ section.id }}';
+  var speedSetting = {{ section.settings.scroll_speed }};
+  var cardWidth = {{ section.settings.card_width }};
+  var gap = {{ section.settings.card_gap }};
+
+  var wrapper = document.getElementById('carouselWrapper-' + sectionId);
+  var track = document.getElementById('carouselTrack-' + sectionId);
+  var dotsContainer = document.getElementById('carouselDots-' + sectionId);
+
+  if (!track || !wrapper) return;
+
+  var originalCards = Array.from(track.children);
+  var realCount = originalCards.length;
+  if (realCount === 0) return;
+
+  var itemW = cardWidth + gap;
+  var totalOriginalW = realCount * itemW;
+
+  var clonesNeeded = Math.ceil((window.innerWidth * 4) / totalOriginalW) + 3;
+  for (var c = 0; c < clonesNeeded; c++) {
+    originalCards.forEach(function(card) {
+      var clone = card.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      clone.setAttribute('tabindex', '-1');
+      track.appendChild(clone);
+    });
+  }
+
+  var pos = 0;
+  var paused = false;
+  var isDragging = false;
+  var dragStartX = 0;
+  var dragStartPos = 0;
+  var pxPerFrame = speedSetting * 0.4;
+
+  if (dotsContainer) {
+    for (var d = 0; d < realCount; d++) {
+      var dot = document.createElement('span');
+      dot.dataset.idx = d;
+      dotsContainer.appendChild(dot);
+    }
+    dotsContainer.children[0].classList.add('active');
+  }
+
+  function updateDots() {
+    if (!dotsContainer) return;
+    var idx = Math.floor((pos % totalOriginalW) / itemW) % realCount;
+    if (idx < 0) idx += realCount;
+    var allDots = dotsContainer.querySelectorAll('span');
+    allDots.forEach(function(dot) { dot.classList.remove('active'); });
+    if (allDots[idx]) allDots[idx].classList.add('active');
+  }
+
+  function step() {
+    if (!paused && !isDragging) {
+      pos += pxPerFrame;
+      if (pos >= totalOriginalW) {
+        pos -= totalOriginalW;
+      }
+      track.style.transform = 'translateX(-' + pos.toFixed(2) + 'px)';
+      updateDots();
+    }
+    requestAnimationFrame(step);
+  }
+
+  wrapper.addEventListener('mouseenter', function() { paused = true; });
+  wrapper.addEventListener('mouseleave', function() { paused = false; });
+  wrapper.addEventListener('touchstart', function() { paused = true; }, { passive: true });
+  wrapper.addEventListener('touchend', function() { paused = false; });
+
+  wrapper.addEventListener('mousedown', function(e) {
+    isDragging = true;
+    dragStartX = e.clientX;
+    dragStartPos = pos;
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    if (!isDragging) return;
+    var diff = dragStartX - e.clientX;
+    pos = dragStartPos + diff;
+    if (pos < 0) pos += totalOriginalW;
+    if (pos >= totalOriginalW) pos -= totalOriginalW;
+    track.style.transform = 'translateX(-' + pos.toFixed(2) + 'px)';
+    updateDots();
+  });
+
+  document.addEventListener('mouseup', function(e) {
+    if (!isDragging) return;
+    var dragDist = Math.abs(e.clientX - dragStartX);
+    isDragging = false;
+    paused = false;
+    if (dragDist < 5) {
+      var card = e.target.closest('.carousel-card-' + sectionId);
+      if (card && card.href && card.href !== '#') {
+        window.location.href = card.href;
+      }
+    }
+  });
+
+  if (dotsContainer) {
+    dotsContainer.addEventListener('click', function(e) {
+      if (e.target.tagName === 'SPAN') {
+        pos = parseInt(e.target.dataset.idx) * itemW;
+        track.style.transform = 'translateX(-' + pos.toFixed(2) + 'px)';
+        updateDots();
+      }
+    });
+  }
+
+  requestAnimationFrame(step);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Product Carousel",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Featured Products"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 4,
+      "max": 50,
+      "step": 1,
+      "default": 20,
+      "label": "Number of products"
+    },
+    {
+      "type": "header",
+      "content": "Card Size"
+    },
+    {
+      "type": "range",
+      "id": "card_width",
+      "min": 160,
+      "max": 400,
+      "step": 10,
+      "default": 240,
+      "unit": "px",
+      "label": "Card width"
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "min": 120,
+      "max": 400,
+      "step": 10,
+      "default": 220,
+      "unit": "px",
+      "label": "Image height"
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "default": 16,
+      "unit": "px",
+      "label": "Gap between cards"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "default": 10,
+      "unit": "px",
+      "label": "Card border radius"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 11,
+      "max": 20,
+      "step": 1,
+      "default": 14,
+      "unit": "px",
+      "label": "Product title size"
+    },
+    {
+      "type": "range",
+      "id": "price_size",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "default": 15,
+      "unit": "px",
+      "label": "Price size"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "default": 28,
+      "unit": "px",
+      "label": "Section heading size"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section background",
+      "default": "#f8f8f8"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price and accent color",
+      "default": "#e85d04"
+    },
+    {
+      "type": "header",
+      "content": "Scroll Settings"
+    },
+    {
+      "type": "range",
+      "id": "scroll_speed",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 3,
+      "label": "Scroll speed"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 40,
+      "unit": "px",
+      "label": "Section padding top and bottom"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "default": true,
+      "label": "Show dot indicators"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Carousel"
+    }
+  ]
+}
+{% endschema %}

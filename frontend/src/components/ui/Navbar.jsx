@@ -9,7 +9,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 const NAV_LINKS = [
   { label: 'About', href: '#about' },
-  { label: 'Projects', href: '#projects' },
 ];
 
 export default function Navbar() {
@@ -66,6 +65,11 @@ export default function Navbar() {
               </a>
             </li>
           ))}
+          <li>
+            <Link href="/projects" className={styles.link} onClick={() => setMenuOpen(false)}>
+              Projects
+            </Link>
+          </li>
           <li>
             <Link href="/admin" className={styles.adminBtn}>
               Admin

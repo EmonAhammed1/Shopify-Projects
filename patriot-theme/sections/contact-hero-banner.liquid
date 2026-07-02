@@ -1,0 +1,784 @@
+{% comment %}
+  Contact Hero Banner Section
+  Pixel-perfect replica of the "We're Here To Help" hero banner
+  with full customization options for Desktop & Mobile
+{% endcomment %}
+
+<style>
+  .contact-hero-{{ section.id }} {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    /* Desktop settings */
+    min-height: {{ section.settings.desktop_min_height }}px;
+    padding-top: {{ section.settings.desktop_padding_top }}px;
+    padding-bottom: {{ section.settings.desktop_padding_bottom }}px;
+    padding-left: {{ section.settings.desktop_padding_horizontal }}px;
+    padding-right: {{ section.settings.desktop_padding_horizontal }}px;
+    margin-top: {{ section.settings.desktop_margin_top }}px;
+    margin-bottom: {{ section.settings.desktop_margin_bottom }}px;
+
+    background-color: {{ section.settings.background_color }};
+  }
+
+  /* Background image layer */
+  .contact-hero-{{ section.id }}__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+    {% if section.settings.bg_image_opacity < 100 %}
+      opacity: {{ section.settings.bg_image_opacity | divided_by: 100.0 }};
+    {% endif %}
+  }
+
+  /* Dark overlay on top of bg image */
+  .contact-hero-{{ section.id }}__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: {{ section.settings.overlay_color }};
+    opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+  }
+
+  /* Max-width content wrapper */
+  .contact-hero-{{ section.id }}__inner {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: {{ section.settings.content_max_width }}px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Gold top divider line with "CONTACT US" label */
+  .contact-hero-{{ section.id }}__eyebrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: {{ section.settings.desktop_eyebrow_mb }}px;
+  }
+
+  .contact-hero-{{ section.id }}__eyebrow-line {
+    display: block;
+    width: 50px;
+    height: 1px;
+    background-color: {{ section.settings.accent_color }};
+  }
+
+  .contact-hero-{{ section.id }}__eyebrow-icon {
+    color: {{ section.settings.accent_color }};
+    font-size: {{ section.settings.desktop_eyebrow_icon_size }}px;
+    line-height: 1;
+  }
+
+  .contact-hero-{{ section.id }}__eyebrow-text {
+    font-family: inherit;
+    font-size: {{ section.settings.desktop_eyebrow_font_size }}px;
+    font-weight: {{ section.settings.eyebrow_font_weight }};
+    letter-spacing: {{ section.settings.eyebrow_letter_spacing }}em;
+    color: {{ section.settings.accent_color }};
+    text-transform: uppercase;
+  }
+
+  /* Main heading */
+  .contact-hero-{{ section.id }}__heading {
+    font-family: inherit;
+    font-size: {{ section.settings.desktop_heading_font_size }}px;
+    font-weight: {{ section.settings.heading_font_weight }};
+    line-height: {{ section.settings.heading_line_height }};
+    letter-spacing: {{ section.settings.heading_letter_spacing }}em;
+    color: {{ section.settings.heading_color }};
+    text-transform: {{ section.settings.heading_text_transform }};
+    margin: 0 0 {{ section.settings.desktop_heading_mb }}px 0;
+  }
+
+  /* Subtext / description */
+  .contact-hero-{{ section.id }}__subtext {
+    font-family: inherit;
+    font-size: {{ section.settings.desktop_subtext_font_size }}px;
+    font-weight: {{ section.settings.subtext_font_weight }};
+    line-height: {{ section.settings.subtext_line_height }};
+    color: {{ section.settings.subtext_color }};
+    max-width: {{ section.settings.subtext_max_width }}px;
+    margin: 0 auto {{ section.settings.desktop_subtext_mb }}px auto;
+  }
+
+  /* Bottom divider with center star/icon */
+  .contact-hero-{{ section.id }}__bottom-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .contact-hero-{{ section.id }}__bottom-divider-line {
+    display: block;
+    width: 50px;
+    height: 1px;
+    background-color: {{ section.settings.accent_color }};
+  }
+
+  .contact-hero-{{ section.id }}__bottom-icon {
+    color: {{ section.settings.accent_color }};
+    font-size: {{ section.settings.desktop_bottom_icon_size }}px;
+    line-height: 1;
+  }
+
+  /* =====================
+     MOBILE OVERRIDES
+  ===================== */
+  @media screen and (max-width: 749px) {
+    .contact-hero-{{ section.id }} {
+      min-height: {{ section.settings.mobile_min_height }}px;
+      padding-top: {{ section.settings.mobile_padding_top }}px;
+      padding-bottom: {{ section.settings.mobile_padding_bottom }}px;
+      padding-left: {{ section.settings.mobile_padding_horizontal }}px;
+      padding-right: {{ section.settings.mobile_padding_horizontal }}px;
+      margin-top: {{ section.settings.mobile_margin_top }}px;
+      margin-bottom: {{ section.settings.mobile_margin_bottom }}px;
+    }
+
+    .contact-hero-{{ section.id }}__eyebrow {
+      margin-bottom: {{ section.settings.mobile_eyebrow_mb }}px;
+    }
+
+    .contact-hero-{{ section.id }}__eyebrow-text {
+      font-size: {{ section.settings.mobile_eyebrow_font_size }}px;
+    }
+
+    .contact-hero-{{ section.id }}__eyebrow-icon {
+      font-size: {{ section.settings.mobile_eyebrow_icon_size }}px;
+    }
+
+    .contact-hero-{{ section.id }}__heading {
+      font-size: {{ section.settings.mobile_heading_font_size }}px;
+      margin-bottom: {{ section.settings.mobile_heading_mb }}px;
+    }
+
+    .contact-hero-{{ section.id }}__subtext {
+      font-size: {{ section.settings.mobile_subtext_font_size }}px;
+      margin-bottom: {{ section.settings.mobile_subtext_mb }}px;
+    }
+
+    .contact-hero-{{ section.id }}__bottom-icon {
+      font-size: {{ section.settings.mobile_bottom_icon_size }}px;
+    }
+  }
+</style>
+
+<section class="contact-hero-{{ section.id }}">
+
+  {%- if section.settings.background_image != blank -%}
+    <img
+      class="contact-hero-{{ section.id }}__bg"
+      src="{{ section.settings.background_image | image_url: width: 2400 }}"
+      alt="{{ section.settings.background_image.alt | escape }}"
+      loading="lazy"
+      width="2400"
+      height="{{ 2400 | divided_by: section.settings.background_image.aspect_ratio | round }}"
+    >
+  {%- endif -%}
+
+  <div class="contact-hero-{{ section.id }}__overlay"></div>
+
+  <div class="contact-hero-{{ section.id }}__inner">
+
+    {%- if section.settings.show_eyebrow -%}
+      <div class="contact-hero-{{ section.id }}__eyebrow">
+        <span class="contact-hero-{{ section.id }}__eyebrow-line"></span>
+        {%- if section.settings.eyebrow_icon != blank -%}
+          <span class="contact-hero-{{ section.id }}__eyebrow-icon" aria-hidden="true">
+            {{ section.settings.eyebrow_icon }}
+          </span>
+        {%- endif -%}
+        {%- if section.settings.eyebrow_text != blank -%}
+          <span class="contact-hero-{{ section.id }}__eyebrow-text">
+            {{ section.settings.eyebrow_text }}
+          </span>
+        {%- endif -%}
+        {%- if section.settings.eyebrow_icon != blank -%}
+          <span class="contact-hero-{{ section.id }}__eyebrow-icon" aria-hidden="true">
+            {{ section.settings.eyebrow_icon }}
+          </span>
+        {%- endif -%}
+        <span class="contact-hero-{{ section.id }}__eyebrow-line"></span>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.heading != blank -%}
+      <h2 class="contact-hero-{{ section.id }}__heading">
+        {{ section.settings.heading }}
+      </h2>
+    {%- endif -%}
+
+    {%- if section.settings.subtext != blank -%}
+      <p class="contact-hero-{{ section.id }}__subtext">
+        {{ section.settings.subtext }}
+      </p>
+    {%- endif -%}
+
+    {%- if section.settings.show_bottom_divider -%}
+      <div class="contact-hero-{{ section.id }}__bottom-divider">
+        <span class="contact-hero-{{ section.id }}__bottom-divider-line"></span>
+        {%- if section.settings.bottom_icon != blank -%}
+          <span class="contact-hero-{{ section.id }}__bottom-icon" aria-hidden="true">
+            {{ section.settings.bottom_icon }}
+          </span>
+        {%- endif -%}
+        <span class="contact-hero-{{ section.id }}__bottom-divider-line"></span>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact Hero Banner",
+  "tag": "div",
+  "class": "section-contact-hero",
+  "settings": [
+
+    {
+      "type": "header",
+      "content": "🖼️ Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Fallback Background Color",
+      "default": "#0d1b2e"
+    },
+    {
+      "type": "range",
+      "id": "bg_image_opacity",
+      "label": "Background Image Opacity",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "default": 30,
+      "unit": "%"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay Color",
+      "default": "#0a1628"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay Opacity",
+      "min": 0,
+      "max": 95,
+      "step": 5,
+      "default": 55,
+      "unit": "%"
+    },
+
+    {
+      "type": "header",
+      "content": "✏️ Content"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent / Gold Color",
+      "default": "#c9a84c"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_eyebrow",
+      "label": "Show Eyebrow Row",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow Label Text",
+      "default": "Contact Us"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_icon",
+      "label": "Eyebrow Icon (HTML entity or emoji, e.g. ★ ✦ ✶)",
+      "default": "✦"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading Text",
+      "default": "We're Here To Help"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "heading_text_transform",
+      "label": "Heading Text Transform",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "uppercase", "label": "Uppercase" },
+        { "value": "capitalize", "label": "Capitalize" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext / Description",
+      "default": "Have a question, need support, or want to place a custom order?\nOur team is ready to assist you."
+    },
+    {
+      "type": "color",
+      "id": "subtext_color",
+      "label": "Subtext Color",
+      "default": "#b0bec5"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bottom_divider",
+      "label": "Show Bottom Divider",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "bottom_icon",
+      "label": "Bottom Center Icon (HTML entity or emoji, e.g. ★ ✦)",
+      "default": "★"
+    },
+
+    {
+      "type": "header",
+      "content": "🔤 Typography — Eyebrow"
+    },
+    {
+      "type": "select",
+      "id": "eyebrow_font_weight",
+      "label": "Eyebrow Font Weight",
+      "options": [
+        { "value": "300", "label": "Light 300" },
+        { "value": "400", "label": "Normal 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "600", "label": "Semi-Bold 600" },
+        { "value": "700", "label": "Bold 700" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_letter_spacing",
+      "label": "Eyebrow Letter Spacing",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "default": 0.2,
+      "unit": "em"
+    },
+
+    {
+      "type": "header",
+      "content": "🔤 Typography — Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Heading Font Weight",
+      "options": [
+        { "value": "300", "label": "Light 300" },
+        { "value": "400", "label": "Normal 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "600", "label": "Semi-Bold 600" },
+        { "value": "700", "label": "Bold 700" },
+        { "value": "800", "label": "Extra-Bold 800" },
+        { "value": "900", "label": "Black 900" }
+      ],
+      "default": "800"
+    },
+    {
+      "type": "range",
+      "id": "heading_line_height",
+      "label": "Heading Line Height",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.1
+    },
+    {
+      "type": "range",
+      "id": "heading_letter_spacing",
+      "label": "Heading Letter Spacing",
+      "min": 0,
+      "max": 0.3,
+      "step": 0.1,
+      "default": 0,
+      "unit": "em"
+    },
+
+    {
+      "type": "header",
+      "content": "🔤 Typography — Subtext"
+    },
+    {
+      "type": "select",
+      "id": "subtext_font_weight",
+      "label": "Subtext Font Weight",
+      "options": [
+        { "value": "300", "label": "Light 300" },
+        { "value": "400", "label": "Normal 400" },
+        { "value": "500", "label": "Medium 500" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "subtext_line_height",
+      "label": "Subtext Line Height",
+      "min": 1,
+      "max": 2.5,
+      "step": 0.1,
+      "default": 1.7
+    },
+    {
+      "type": "range",
+      "id": "subtext_max_width",
+      "label": "Subtext Max Width",
+      "min": 300,
+      "max": 900,
+      "step": 10,
+      "default": 580,
+      "unit": "px"
+    },
+
+    {
+      "type": "header",
+      "content": "📐 Layout — Max Width"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content Max Width",
+      "min": 600,
+      "max": 1600,
+      "step": 20,
+      "default": 1100,
+      "unit": "px"
+    },
+
+    {
+      "type": "header",
+      "content": "🖥️ Desktop — Spacing & Sizes"
+    },
+    {
+      "type": "range",
+      "id": "desktop_min_height",
+      "label": "Min Height",
+      "min": 100,
+      "max": 700,
+      "step": 10,
+      "default": 180,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 148,
+      "step": 4,
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 148,
+      "step": 4,
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_padding_horizontal",
+      "label": "Padding Left & Right",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_margin_top",
+      "label": "Margin Top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_margin_bottom",
+      "label": "Margin Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_eyebrow_font_size",
+      "label": "Eyebrow Font Size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "default": 13,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_eyebrow_icon_size",
+      "label": "Eyebrow Icon Size",
+      "min": 8,
+      "max": 24,
+      "step": 1,
+      "default": 10,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_eyebrow_mb",
+      "label": "Eyebrow Margin Bottom",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_heading_font_size",
+      "label": "Heading Font Size",
+      "min": 24,
+      "max": 100,
+      "step": 2,
+      "default": 52,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_heading_mb",
+      "label": "Heading Margin Bottom",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_subtext_font_size",
+      "label": "Subtext Font Size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_subtext_mb",
+      "label": "Subtext Margin Bottom",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_bottom_icon_size",
+      "label": "Bottom Icon Size",
+      "min": 8,
+      "max": 32,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+
+    {
+      "type": "header",
+      "content": "📱 Mobile — Spacing & Sizes"
+    },
+    {
+      "type": "range",
+      "id": "mobile_min_height",
+      "label": "Min Height",
+      "min": 80,
+      "max": 500,
+      "step": 10,
+      "default": 140,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_horizontal",
+      "label": "Padding Left & Right",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_margin_top",
+      "label": "Margin Top",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_margin_bottom",
+      "label": "Margin Bottom",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_eyebrow_font_size",
+      "label": "Eyebrow Font Size",
+      "min": 8,
+      "max": 18,
+      "step": 1,
+      "default": 11,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_eyebrow_icon_size",
+      "label": "Eyebrow Icon Size",
+      "min": 6,
+      "max": 18,
+      "step": 1,
+      "default": 8,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_eyebrow_mb",
+      "label": "Eyebrow Margin Bottom",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "default": 10,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_heading_font_size",
+      "label": "Heading Font Size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "default": 32,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_heading_mb",
+      "label": "Heading Margin Bottom",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_subtext_font_size",
+      "label": "Subtext Font Size",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_subtext_mb",
+      "label": "Subtext Margin Bottom",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_bottom_icon_size",
+      "label": "Bottom Icon Size",
+      "min": 6,
+      "max": 24,
+      "step": 1,
+      "default": 12,
+      "unit": "px"
+    }
+
+  ],
+  "presets": [
+    {
+      "name": "Contact Hero Banner",
+      "category": "Hero"
+    }
+  ]
+}
+{% endschema %}

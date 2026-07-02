@@ -111,7 +111,7 @@ export default function ProjectPage() {
           <div className={styles.bannerOverlay} />
           {allImages[0] && <img src={allImages[0]} alt={title} className={styles.bannerImg} />}
           <div className={`container ${styles.bannerContent}`}>
-            <Link href="/#projects" className={styles.back}>
+            <Link href="/projects" className={styles.back}>
               ← Back to Projects
             </Link>
             <h1 className={styles.title}>{title}</h1>

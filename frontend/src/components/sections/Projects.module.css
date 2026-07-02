@@ -10,6 +10,32 @@
   max-width: 600px;
 }
 
+.viewAllBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 0.5rem;
+  padding: 10px 22px;
+  background: rgba(150, 191, 72, 0.06);
+  border: 1px solid rgba(150, 191, 72, 0.35);
+  border-radius: var(--radius-sm);
+  color: var(--accent);
+  font-size: 0.88rem;
+  font-weight: 600;
+  font-family: var(--font-heading);
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: fit-content;
+  cursor: pointer;
+}
+
+.viewAllBtn:hover {
+  background: rgba(150, 191, 72, 0.14);
+  border-color: var(--accent);
+  transform: translateX(4px);
+  box-shadow: 0 4px 16px rgba(150, 191, 72, 0.25);
+}
+
 .filtersWrapper {
   position: relative;
   width: 100%;

@@ -1,0 +1,1178 @@
+{% comment %}
+  How We Create — Process Steps Section
+  Improved design with scroll-triggered animations, glassmorphism card effect,
+  floating number badge, gradient connector, icon glow on hover.
+  Full customization: colors, fonts, spacing, desktop & mobile separate controls.
+{% endcomment %}
+
+<style>
+  /* ── Keyframes ── */
+  @keyframes hwc-fadeup {
+    from { opacity: 0; transform: translateY(32px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes hwc-scalein {
+    from { opacity: 0; transform: scale(0.6); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  @keyframes hwc-linegrow {
+    from { width: 0; opacity: 0; }
+    to   { width: 100%; opacity: 1; }
+  }
+  @keyframes hwc-pulse-ring {
+    0%   { box-shadow: 0 0 0 0 {{ section.settings.circle_bg_color }}55; }
+    70%  { box-shadow: 0 0 0 10px {{ section.settings.circle_bg_color }}00; }
+    100% { box-shadow: 0 0 0 0 {{ section.settings.circle_bg_color }}00; }
+  }
+
+  /* ── Section wrapper ── */
+  .hwc-{{ section.id }} {
+    background-color: {{ section.settings.bg_color }};
+    margin-top: {{ section.settings.desktop_margin_top }}px;
+    margin-bottom: {{ section.settings.desktop_margin_bottom }}px;
+    padding-top: {{ section.settings.desktop_padding_top }}px;
+    padding-bottom: {{ section.settings.desktop_padding_bottom }}px;
+    padding-left: {{ section.settings.desktop_padding_horizontal }}px;
+    padding-right: {{ section.settings.desktop_padding_horizontal }}px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* subtle noise texture overlay */
+  .hwc-{{ section.id }}::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hwc-{{ section.id }}__inner {
+    max-width: {{ section.settings.content_max_width }}px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Eyebrow ── */
+  .hwc-{{ section.id }}__eyebrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: {{ section.settings.desktop_eyebrow_mb }}px;
+    opacity: 0;
+    animation: hwc-fadeup 0.6s ease forwards;
+    animation-delay: 0.1s;
+  }
+  .hwc-{{ section.id }}__eyebrow-line {
+    display: block;
+    width: 44px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, {{ section.settings.accent_color }}, transparent);
+  }
+  .hwc-{{ section.id }}__eyebrow-icon {
+    color: {{ section.settings.accent_color }};
+    font-size: {{ section.settings.desktop_eyebrow_icon_size }}px;
+    line-height: 1;
+  }
+  .hwc-{{ section.id }}__eyebrow-text {
+    font-family: inherit;
+    font-size: {{ section.settings.desktop_eyebrow_font_size }}px;
+    font-weight: {{ section.settings.eyebrow_font_weight }};
+    letter-spacing: {{ section.settings.eyebrow_letter_spacing }}em;
+    color: {{ section.settings.accent_color }};
+    text-transform: uppercase;
+  }
+
+  /* ── Heading ── */
+  .hwc-{{ section.id }}__heading {
+    font-family: inherit;
+    font-size: {{ section.settings.desktop_heading_font_size }}px;
+    font-weight: {{ section.settings.heading_font_weight }};
+    line-height: {{ section.settings.heading_line_height }};
+    letter-spacing: {{ section.settings.heading_letter_spacing }}em;
+    color: {{ section.settings.heading_color }};
+    text-transform: {{ section.settings.heading_text_transform }};
+    margin: 0 0 {{ section.settings.desktop_heading_mb }}px 0;
+    opacity: 0;
+    animation: hwc-fadeup 0.6s ease forwards;
+    animation-delay: 0.25s;
+  }
+
+  /* ── Steps wrapper ── */
+  .hwc-{{ section.id }}__steps {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    position: relative;
+    gap: 0;
+  }
+
+  /* ── Animated gradient connector track ── */
+  .hwc-{{ section.id }}__step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: {{ section.settings.circle_size | divided_by: 2 }}px;
+    left: calc(50% + {{ section.settings.circle_size | divided_by: 2 }}px + 10px);
+    right: calc(-50% + {{ section.settings.circle_size | divided_by: 2 }}px + 10px);
+    height: 2px;
+    background: repeating-linear-gradient(
+      90deg,
+      {{ section.settings.connector_color }} 0px,
+      {{ section.settings.connector_color }} 6px,
+      transparent 6px,
+      transparent 14px
+    );
+    opacity: 0;
+    animation: hwc-fadeup 0.5s ease forwards;
+    animation-delay: 0.6s;
+  }
+
+  /* ── Single step ── */
+  .hwc-{{ section.id }}__step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding: 0 12px;
+    max-width: 320px;
+    opacity: 0;
+    animation: hwc-fadeup 0.65s cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+  .hwc-{{ section.id }}__step:nth-child(1) { animation-delay: 0.3s; }
+  .hwc-{{ section.id }}__step:nth-child(2) { animation-delay: 0.5s; }
+  .hwc-{{ section.id }}__step:nth-child(3) { animation-delay: 0.7s; }
+  .hwc-{{ section.id }}__step:nth-child(4) { animation-delay: 0.9s; }
+  .hwc-{{ section.id }}__step:nth-child(5) { animation-delay: 1.1s; }
+  .hwc-{{ section.id }}__step:nth-child(6) { animation-delay: 1.3s; }
+
+  /* ── Card box ── */
+  .hwc-{{ section.id }}__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(255,255,255,0.8);
+    border-radius: 16px;
+    padding: 28px 20px 24px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    transition: transform 0.35s cubic-bezier(0.22,1,0.36,1),
+                box-shadow 0.35s cubic-bezier(0.22,1,0.36,1);
+    position: relative;
+    overflow: hidden;
+  }
+  .hwc-{{ section.id }}__card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, {{ section.settings.accent_color }}88, {{ section.settings.accent_color }}, {{ section.settings.accent_color }}88);
+    border-radius: 16px 16px 0 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .hwc-{{ section.id }}__card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .hwc-{{ section.id }}__card:hover::before {
+    opacity: 1;
+  }
+
+  /* ── Number badge (floats above card) ── */
+  .hwc-{{ section.id }}__circle-wrap {
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 2;
+  }
+  .hwc-{{ section.id }}__card-top-space {
+    height: 0;
+    width: 100%;
+  }
+  .hwc-{{ section.id }}__circle {
+    width: {{ section.settings.circle_size }}px;
+    height: {{ section.settings.circle_size }}px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, {{ section.settings.circle_bg_color }}, {{ section.settings.circle_bg_color }}cc);
+    color: {{ section.settings.circle_text_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+    font-size: {{ section.settings.desktop_circle_font_size }}px;
+    font-weight: {{ section.settings.circle_font_weight }};
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 4px 14px {{ section.settings.circle_bg_color }}55;
+    border: 3px solid rgba(255,255,255,0.9);
+    animation: hwc-scalein 0.5s cubic-bezier(0.22,1,0.36,1) forwards, hwc-pulse-ring 2.5s ease-out 1.2s infinite;
+    transition: transform 0.3s ease;
+  }
+  .hwc-{{ section.id }}__step:hover .hwc-{{ section.id }}__circle {
+    transform: scale(1.1) rotate(-5deg);
+  }
+
+  /* spacing inside card after badge overlap */
+
+
+  /* ── Icon wrapper ── */
+  .hwc-{{ section.id }}__icon-wrap {
+    width: {{ section.settings.desktop_icon_img_size | plus: 16 }}px;
+    height: {{ section.settings.desktop_icon_img_size | plus: 16 }}px;
+    border-radius: 50%;
+    background: {{ section.settings.accent_color }}18;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: {{ section.settings.desktop_icon_mb }}px;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+  }
+  .hwc-{{ section.id }}__step:hover .hwc-{{ section.id }}__icon-wrap {
+    background: {{ section.settings.accent_color }}28;
+    box-shadow: 0 0 20px {{ section.settings.accent_color }}33;
+  }
+  .hwc-{{ section.id }}__icon {
+    color: {{ section.settings.icon_color }};
+    font-size: {{ section.settings.desktop_icon_size }}px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+  }
+  .hwc-{{ section.id }}__step:hover .hwc-{{ section.id }}__icon {
+    transform: scale(1.15);
+  }
+  .hwc-{{ section.id }}__icon img {
+    width: {{ section.settings.desktop_icon_img_size }}px;
+    height: {{ section.settings.desktop_icon_img_size }}px;
+    object-fit: contain;
+  }
+
+  /* ── Accent divider under icon ── */
+  .hwc-{{ section.id }}__divider {
+    width: 32px;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, transparent, {{ section.settings.accent_color }}, transparent);
+    margin: 0 auto 12px;
+    opacity: 0.6;
+    transition: width 0.3s ease, opacity 0.3s ease;
+  }
+  .hwc-{{ section.id }}__step:hover .hwc-{{ section.id }}__divider {
+    width: 48px;
+    opacity: 1;
+  }
+
+  /* ── Step title ── */
+  .hwc-{{ section.id }}__step-title {
+    font-family: inherit;
+    font-size: {{ section.settings.desktop_step_title_font_size }}px;
+    font-weight: {{ section.settings.step_title_font_weight }};
+    letter-spacing: {{ section.settings.step_title_letter_spacing }}em;
+    color: {{ section.settings.step_title_color }};
+    text-transform: {{ section.settings.step_title_text_transform }};
+    margin: 0 0 {{ section.settings.desktop_step_title_mb }}px 0;
+  }
+
+  /* ── Step description ── */
+  .hwc-{{ section.id }}__step-desc {
+    font-family: inherit;
+    font-size: {{ section.settings.desktop_step_desc_font_size }}px;
+    font-weight: {{ section.settings.step_desc_font_weight }};
+    line-height: {{ section.settings.step_desc_line_height }};
+    color: {{ section.settings.step_desc_color }};
+    margin: 0;
+    max-width: 220px;
+  }
+
+  /* =====================
+     MOBILE
+  ===================== */
+  @media screen and (max-width: 749px) {
+    .hwc-{{ section.id }} {
+      margin-top: {{ section.settings.mobile_margin_top }}px;
+      margin-bottom: {{ section.settings.mobile_margin_bottom }}px;
+      padding-top: {{ section.settings.mobile_padding_top }}px;
+      padding-bottom: {{ section.settings.mobile_padding_bottom }}px;
+      padding-left: {{ section.settings.mobile_padding_horizontal }}px;
+      padding-right: {{ section.settings.mobile_padding_horizontal }}px;
+    }
+    .hwc-{{ section.id }}__eyebrow {
+      margin-bottom: {{ section.settings.mobile_eyebrow_mb }}px;
+    }
+    .hwc-{{ section.id }}__eyebrow-text {
+      font-size: {{ section.settings.mobile_eyebrow_font_size }}px;
+    }
+    .hwc-{{ section.id }}__eyebrow-icon {
+      font-size: {{ section.settings.mobile_eyebrow_icon_size }}px;
+    }
+    .hwc-{{ section.id }}__heading {
+      font-size: {{ section.settings.mobile_heading_font_size }}px;
+      margin-bottom: {{ section.settings.mobile_heading_mb }}px;
+    }
+    .hwc-{{ section.id }}__steps {
+      flex-direction: column;
+      align-items: center;
+      gap: {{ section.settings.mobile_step_gap }}px;
+    }
+    .hwc-{{ section.id }}__step {
+      max-width: 100%;
+      width: 100%;
+      padding: 0;
+    }
+    .hwc-{{ section.id }}__step:not(:last-child)::after {
+      display: none;
+    }
+    .hwc-{{ section.id }}__circle {
+      font-size: {{ section.settings.mobile_circle_font_size }}px;
+    }
+    .hwc-{{ section.id }}__icon {
+      font-size: {{ section.settings.mobile_icon_size }}px;
+    }
+    .hwc-{{ section.id }}__icon-wrap {
+      width: {{ section.settings.mobile_icon_img_size | plus: 16 }}px;
+      height: {{ section.settings.mobile_icon_img_size | plus: 16 }}px;
+      margin-bottom: {{ section.settings.mobile_icon_mb }}px;
+    }
+    .hwc-{{ section.id }}__icon img {
+      width: {{ section.settings.mobile_icon_img_size }}px;
+      height: {{ section.settings.mobile_icon_img_size }}px;
+    }
+    .hwc-{{ section.id }}__step-title {
+      font-size: {{ section.settings.mobile_step_title_font_size }}px;
+      margin-bottom: {{ section.settings.mobile_step_title_mb }}px;
+    }
+    .hwc-{{ section.id }}__step-desc {
+      font-size: {{ section.settings.mobile_step_desc_font_size }}px;
+      max-width: 100%;
+    }
+  }
+
+  /* respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .hwc-{{ section.id }}__eyebrow,
+    .hwc-{{ section.id }}__heading,
+    .hwc-{{ section.id }}__step,
+    .hwc-{{ section.id }}__step:not(:last-child)::after,
+    .hwc-{{ section.id }}__circle {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+</style>
+
+<section class="hwc-{{ section.id }}">
+  <div class="hwc-{{ section.id }}__inner">
+
+    {%- if section.settings.show_eyebrow -%}
+      <div class="hwc-{{ section.id }}__eyebrow">
+        <span class="hwc-{{ section.id }}__eyebrow-line"></span>
+        {%- if section.settings.eyebrow_icon != blank -%}
+          <span class="hwc-{{ section.id }}__eyebrow-icon" aria-hidden="true">{{ section.settings.eyebrow_icon }}</span>
+        {%- endif -%}
+        {%- if section.settings.eyebrow_text != blank -%}
+          <span class="hwc-{{ section.id }}__eyebrow-text">{{ section.settings.eyebrow_text }}</span>
+        {%- endif -%}
+        {%- if section.settings.eyebrow_icon != blank -%}
+          <span class="hwc-{{ section.id }}__eyebrow-icon" aria-hidden="true">{{ section.settings.eyebrow_icon }}</span>
+        {%- endif -%}
+        <span class="hwc-{{ section.id }}__eyebrow-line"></span>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.heading != blank -%}
+      <h2 class="hwc-{{ section.id }}__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    <div class="hwc-{{ section.id }}__steps">
+      {%- for block in section.blocks -%}
+        <div class="hwc-{{ section.id }}__step" {{ block.shopify_attributes }}>
+
+          {%- comment %} Floating number badge above card {%- endcomment %}
+          <div class="hwc-{{ section.id }}__circle-wrap">
+            <div class="hwc-{{ section.id }}__circle">{{ forloop.index }}</div>
+          </div>
+
+          {%- comment %} Glass card {%- endcomment %}
+          <div class="hwc-{{ section.id }}__card">
+            <div class="hwc-{{ section.id }}__card-top-space"></div>
+
+            <div class="hwc-{{ section.id }}__icon-wrap">
+              <div class="hwc-{{ section.id }}__icon">
+                {%- if block.settings.icon_image != blank -%}
+                  <img
+                    src="{{ block.settings.icon_image | image_url: width: 120 }}"
+                    alt="{{ block.settings.icon_image.alt | escape }}"
+                    width="{{ section.settings.desktop_icon_img_size }}"
+                    height="{{ section.settings.desktop_icon_img_size }}"
+                    loading="lazy"
+                  >
+                {%- elsif block.settings.icon_text != blank -%}
+                  <span aria-hidden="true">{{ block.settings.icon_text }}</span>
+                {%- endif -%}
+              </div>
+            </div>
+
+            <div class="hwc-{{ section.id }}__divider"></div>
+
+            {%- if block.settings.title != blank -%}
+              <h3 class="hwc-{{ section.id }}__step-title">{{ block.settings.title }}</h3>
+            {%- endif -%}
+
+            {%- if block.settings.description != blank -%}
+              <p class="hwc-{{ section.id }}__step-desc">{{ block.settings.description }}</p>
+            {%- endif -%}
+          </div>
+
+        </div>
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "How We Create",
+  "tag": "div",
+  "class": "section-how-we-create",
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Process Step",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon Image (optional)"
+        },
+        {
+          "type": "text",
+          "id": "icon_text",
+          "label": "Icon (emoji or HTML entity, used if no image)",
+          "default": "✏️"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Step Title",
+          "default": "Step Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Step Description",
+          "default": "Short description of what happens in this step."
+        }
+      ]
+    }
+  ],
+  "settings": [
+
+    {
+      "type": "header",
+      "content": "🎨 Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background",
+      "default": "#f5f0e8"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent / Gold Color",
+      "default": "#b5914a"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#1c1c1c"
+    },
+    {
+      "type": "color",
+      "id": "circle_bg_color",
+      "label": "Number Circle Background",
+      "default": "#3d5a3e"
+    },
+    {
+      "type": "color",
+      "id": "circle_text_color",
+      "label": "Number Circle Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "connector_color",
+      "label": "Connector Line Color",
+      "default": "#b5914a"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon Color (for emoji/text icons)",
+      "default": "#3d5a3e"
+    },
+    {
+      "type": "color",
+      "id": "step_title_color",
+      "label": "Step Title Color",
+      "default": "#1c1c1c"
+    },
+    {
+      "type": "color",
+      "id": "step_desc_color",
+      "label": "Step Description Color",
+      "default": "#5a5a5a"
+    },
+
+    {
+      "type": "header",
+      "content": "✏️ Section Content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_eyebrow",
+      "label": "Show Eyebrow Row",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow Label",
+      "default": "Our Process"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_icon",
+      "label": "Eyebrow Icon (emoji or HTML entity)",
+      "default": "★"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "How We Create"
+    },
+    {
+      "type": "select",
+      "id": "heading_text_transform",
+      "label": "Heading Text Transform",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "uppercase", "label": "Uppercase" },
+        { "value": "capitalize", "label": "Capitalize" }
+      ],
+      "default": "uppercase"
+    },
+
+    {
+      "type": "header",
+      "content": "🔤 Typography — Eyebrow"
+    },
+    {
+      "type": "select",
+      "id": "eyebrow_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "300", "label": "Light 300" },
+        { "value": "400", "label": "Normal 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "600", "label": "Semi-Bold 600" },
+        { "value": "700", "label": "Bold 700" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_letter_spacing",
+      "label": "Letter Spacing",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "default": 0.2,
+      "unit": "em"
+    },
+
+    {
+      "type": "header",
+      "content": "🔤 Typography — Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "400", "label": "Normal 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "600", "label": "Semi-Bold 600" },
+        { "value": "700", "label": "Bold 700" },
+        { "value": "800", "label": "Extra-Bold 800" },
+        { "value": "900", "label": "Black 900" }
+      ],
+      "default": "800"
+    },
+    {
+      "type": "range",
+      "id": "heading_line_height",
+      "label": "Line Height",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.1
+    },
+    {
+      "type": "range",
+      "id": "heading_letter_spacing",
+      "label": "Letter Spacing",
+      "min": 0,
+      "max": 0.3,
+      "step": 0.1,
+      "default": 0,
+      "unit": "em"
+    },
+
+    {
+      "type": "header",
+      "content": "🔤 Typography — Step Title"
+    },
+    {
+      "type": "select",
+      "id": "step_title_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "400", "label": "Normal 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "600", "label": "Semi-Bold 600" },
+        { "value": "700", "label": "Bold 700" },
+        { "value": "800", "label": "Extra-Bold 800" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "select",
+      "id": "step_title_text_transform",
+      "label": "Text Transform",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "uppercase", "label": "Uppercase" },
+        { "value": "capitalize", "label": "Capitalize" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "range",
+      "id": "step_title_letter_spacing",
+      "label": "Letter Spacing",
+      "min": 0,
+      "max": 0.5,
+      "step": 0.1,
+      "default": 0.1,
+      "unit": "em"
+    },
+
+    {
+      "type": "header",
+      "content": "🔤 Typography — Step Description"
+    },
+    {
+      "type": "select",
+      "id": "step_desc_font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "300", "label": "Light 300" },
+        { "value": "400", "label": "Normal 400" },
+        { "value": "500", "label": "Medium 500" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "step_desc_line_height",
+      "label": "Line Height",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "default": 1.6
+    },
+
+    {
+      "type": "header",
+      "content": "⚙️ Circle & Connector"
+    },
+    {
+      "type": "range",
+      "id": "circle_size",
+      "label": "Circle Size",
+      "min": 28,
+      "max": 80,
+      "step": 2,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "circle_font_weight",
+      "label": "Number Font Weight",
+      "options": [
+        { "value": "400", "label": "Normal 400" },
+        { "value": "600", "label": "Semi-Bold 600" },
+        { "value": "700", "label": "Bold 700" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "connector_offset_top",
+      "label": "Connector Vertical Offset",
+      "min": 10,
+      "max": 60,
+      "step": 2,
+      "default": 20,
+      "unit": "px"
+    },
+
+    {
+      "type": "header",
+      "content": "📐 Layout — Max Width"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content Max Width",
+      "min": 600,
+      "max": 1600,
+      "step": 20,
+      "default": 1100,
+      "unit": "px"
+    },
+
+    {
+      "type": "header",
+      "content": "🖥️ Desktop — Spacing & Font Sizes"
+    },
+    {
+      "type": "range",
+      "id": "desktop_margin_top",
+      "label": "Margin Top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_margin_bottom",
+      "label": "Margin Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 148,
+      "step": 4,
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 148,
+      "step": 4,
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_padding_horizontal",
+      "label": "Padding Left & Right",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_eyebrow_mb",
+      "label": "Eyebrow Margin Bottom",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_eyebrow_font_size",
+      "label": "Eyebrow Font Size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_eyebrow_icon_size",
+      "label": "Eyebrow Icon Size",
+      "min": 8,
+      "max": 24,
+      "step": 1,
+      "default": 10,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_heading_font_size",
+      "label": "Heading Font Size",
+      "min": 24,
+      "max": 80,
+      "step": 2,
+      "default": 48,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_heading_mb",
+      "label": "Heading Margin Bottom",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "default": 48,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_circle_font_size",
+      "label": "Circle Number Font Size",
+      "min": 10,
+      "max": 36,
+      "step": 1,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_circle_mb",
+      "label": "Circle Margin Bottom",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_icon_size",
+      "label": "Icon Font Size (emoji/text)",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "default": 36,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_icon_img_size",
+      "label": "Icon Image Size",
+      "min": 24,
+      "max": 120,
+      "step": 4,
+      "default": 48,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_icon_mb",
+      "label": "Icon Margin Bottom",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_step_title_font_size",
+      "label": "Step Title Font Size",
+      "min": 12,
+      "max": 36,
+      "step": 1,
+      "default": 15,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_step_title_mb",
+      "label": "Step Title Margin Bottom",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "default": 10,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desktop_step_desc_font_size",
+      "label": "Step Description Font Size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+
+    {
+      "type": "header",
+      "content": "📱 Mobile — Spacing & Font Sizes"
+    },
+    {
+      "type": "range",
+      "id": "mobile_margin_top",
+      "label": "Margin Top",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_margin_bottom",
+      "label": "Margin Bottom",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_horizontal",
+      "label": "Padding Left & Right",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_step_gap",
+      "label": "Gap Between Steps",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "default": 32,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_eyebrow_mb",
+      "label": "Eyebrow Margin Bottom",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "default": 10,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_eyebrow_font_size",
+      "label": "Eyebrow Font Size",
+      "min": 8,
+      "max": 18,
+      "step": 1,
+      "default": 11,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_eyebrow_icon_size",
+      "label": "Eyebrow Icon Size",
+      "min": 6,
+      "max": 18,
+      "step": 1,
+      "default": 9,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_heading_font_size",
+      "label": "Heading Font Size",
+      "min": 20,
+      "max": 52,
+      "step": 2,
+      "default": 32,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_heading_mb",
+      "label": "Heading Margin Bottom",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "default": 32,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_circle_font_size",
+      "label": "Circle Number Font Size",
+      "min": 10,
+      "max": 28,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_circle_mb",
+      "label": "Circle Margin Bottom",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_icon_size",
+      "label": "Icon Font Size (emoji/text)",
+      "min": 16,
+      "max": 60,
+      "step": 2,
+      "default": 28,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_icon_img_size",
+      "label": "Icon Image Size",
+      "min": 20,
+      "max": 80,
+      "step": 4,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_icon_mb",
+      "label": "Icon Margin Bottom",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "default": 10,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_step_title_font_size",
+      "label": "Step Title Font Size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_step_title_mb",
+      "label": "Step Title Margin Bottom",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "default": 8,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_step_desc_font_size",
+      "label": "Step Description Font Size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "default": 13,
+      "unit": "px"
+    }
+
+  ],
+  "presets": [
+    {
+      "name": "How We Create",
+      "category": "Process",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "icon_text": "✏️",
+            "title": "Design",
+            "description": "Our designs are inspired by American heritage, freedom, and timeless symbolism."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "icon_text": "🥃",
+            "title": "Craft",
+            "description": "We carefully print and inspect every glass for premium presentation and quality."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "icon_text": "📦",
+            "title": "Deliver",
+            "description": "Each order is securely packaged and shipped with care."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,1163 @@
+{% comment %}
+  Benefits Tabs Section — Shopify Liquid
+  FIXED: Tab switching now works per-tab (image/video/benefits change dynamically)
+  FIXED: media_width CSS variable properly drives grid layout
+  FIXED: max_width schema setting fully functional
+  FIXED: All schema settings correctly applied
+  FIXED: Background image now works correctly via direct Liquid CSS injection
+{% endcomment %}
+
+{%- assign sid = 'benefits-tabs-' | append: section.id -%}
+
+<style>
+/* ═══════════════════════════════════════════════════════
+   CSS VARIABLES — driven by schema settings
+═══════════════════════════════════════════════════════ */
+#{{ sid }} {
+  /* Layout */
+  --bt-max-width:        {{ section.settings.max_width }}px;
+  --bt-pt:               {{ section.settings.padding_top }}px;
+  --bt-pb:               {{ section.settings.padding_bottom }}px;
+  --bt-px:               {{ section.settings.padding_horizontal }}px;
+  --bt-gap:              {{ section.settings.content_gap }}px;
+  --bt-media-width:      {{ section.settings.media_width }}%;
+
+  /* Media */
+  --bt-media-height:     {{ section.settings.media_height }}px;
+  --bt-media-radius:     {{ section.settings.media_radius }}px;
+
+  /* Colors */
+  --bt-bg:               {{ section.settings.bg_color }};
+  --bt-heading-color:    {{ section.settings.heading_color }};
+  --bt-subtext-color:    {{ section.settings.subtext_color }};
+  --bt-tab-color:        {{ section.settings.tab_text_color }};
+  --bt-tab-active-color: {{ section.settings.tab_active_text_color }};
+  --bt-tab-active-bg:    {{ section.settings.tab_active_bg }};
+  --bt-tab-border:       {{ section.settings.tab_border_color }};
+  --bt-tab-active-border:{{ section.settings.tab_active_border_color }};
+  --bt-benefit-bg:       {{ section.settings.benefit_bg }};
+  --bt-benefit-border:   {{ section.settings.benefit_border_color }};
+  --bt-benefit-radius:   {{ section.settings.benefit_radius }}px;
+  --bt-benefit-color:    {{ section.settings.benefit_text_color }};
+  --bt-icon-color:       {{ section.settings.icon_color }};
+  --bt-tag-color:        {{ section.settings.tag_text_color }};
+  --bt-tag-label-color:  {{ section.settings.tag_label_color }};
+  --bt-tag-underline:    {{ section.settings.tag_underline_color }};
+
+  /* Typography */
+  --bt-heading-size:     {{ section.settings.heading_font_size }}px;
+  --bt-heading-weight:   {{ section.settings.heading_font_weight }};
+  --bt-subtext-size:     {{ section.settings.subtext_font_size }}px;
+  --bt-tab-size:         {{ section.settings.tab_font_size }}px;
+  --bt-tab-weight:       {{ section.settings.tab_font_weight }};
+  --bt-benefit-size:     {{ section.settings.benefit_font_size }}px;
+  --bt-benefit-weight:   {{ section.settings.benefit_font_weight }};
+  --bt-tag-size:         {{ section.settings.tag_font_size }}px;
+  --bt-icon-size:        {{ section.settings.icon_size }}px;
+}
+
+/* Mobile overrides */
+@media (max-width: 749px) {
+  #{{ sid }} {
+    --bt-pt:              {{ section.settings.mobile_padding_top }}px;
+    --bt-pb:              {{ section.settings.mobile_padding_bottom }}px;
+    --bt-px:              {{ section.settings.mobile_padding_horizontal }}px;
+    --bt-media-height:    {{ section.settings.mobile_media_height }}px;
+    --bt-heading-size:    {{ section.settings.mobile_heading_font_size }}px;
+    --bt-subtext-size:    {{ section.settings.mobile_subtext_font_size }}px;
+    --bt-tab-size:        {{ section.settings.mobile_tab_font_size }}px;
+    --bt-benefit-size:    {{ section.settings.mobile_benefit_font_size }}px;
+    --bt-icon-size:       {{ section.settings.mobile_icon_size }}px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   BASE SECTION
+═══════════════════════════════════════════════════════ */
+#{{ sid }} {
+  background-color: var(--bt-bg);
+  padding-top: var(--bt-pt);
+  padding-bottom: var(--bt-pb);
+  font-family: var(--font-body-family, inherit);
+  position: relative;
+}
+
+/* ═══════════════════════════════════════════════════════
+   BACKGROUND IMAGE — injected only when image is set
+═══════════════════════════════════════════════════════ */
+{%- if section.settings.bg_image != blank -%}
+  {%- assign bt_overlay_opacity = section.settings.bg_image_overlay_opacity | divided_by: 100.0 -%}
+#{{ sid }} {
+  background-image: url({{ section.settings.bg_image | image_url: width: 1800 }});
+  background-size: {{ section.settings.bg_image_size }};
+  background-position: {{ section.settings.bg_image_position }};
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+#{{ sid }}::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: {{ section.settings.bg_color }};
+  opacity: {{ bt_overlay_opacity }};
+  pointer-events: none;
+  z-index: 0;
+}
+{%- endif -%}
+
+/* ═══════════════════════════════════════════════════════
+   INNER WRAPPER — always above overlay
+═══════════════════════════════════════════════════════ */
+#{{ sid }} .bt-inner {
+  max-width: var(--bt-max-width);
+  margin: 0 auto;
+  padding-left: var(--bt-px);
+  padding-right: var(--bt-px);
+  position: relative;
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════════════════
+   HEADER
+═══════════════════════════════════════════════════════ */
+#{{ sid }} .bt-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+#{{ sid }} .bt-heading {
+  font-family: var(--font-heading-family, inherit);
+  font-size: var(--bt-heading-size);
+  font-weight: var(--bt-heading-weight);
+  color: var(--bt-heading-color);
+  margin: 0 0 6px;
+  line-height: 1.2;
+}
+
+#{{ sid }} .bt-subtext {
+  font-size: var(--bt-subtext-size);
+  color: var(--bt-subtext-color);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════════════════════
+   TABS NAV
+═══════════════════════════════════════════════════════ */
+#{{ sid }} .bt-tabs-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+  justify-content: {{ section.settings.tabs_alignment }};
+}
+
+#{{ sid }} .bt-tab-btn {
+  font-family: var(--font-body-family, inherit);
+  font-size: var(--bt-tab-size);
+  font-weight: var(--bt-tab-weight);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--bt-tab-color);
+  background: transparent;
+  border: 1.5px solid var(--bt-tab-border);
+  border-radius: {{ section.settings.tab_radius }}px;
+  padding: {{ section.settings.tab_padding_v }}px {{ section.settings.tab_padding_h }}px;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  white-space: nowrap;
+}
+
+#{{ sid }} .bt-tab-btn:hover {
+  border-color: var(--bt-tab-active-border);
+  color: var(--bt-tab-active-color);
+}
+
+#{{ sid }} .bt-tab-btn.is-active {
+  color: var(--bt-tab-active-color);
+  background: var(--bt-tab-active-bg);
+  border-color: var(--bt-tab-active-border);
+}
+
+/* ═══════════════════════════════════════════════════════
+   TAB PANELS
+═══════════════════════════════════════════════════════ */
+#{{ sid }} .bt-panel {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  height: 0;
+  overflow: hidden;
+}
+
+#{{ sid }} .bt-panel.is-active {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  height: auto;
+  overflow: visible;
+  animation: btFadeIn 0.3s ease forwards;
+}
+
+@keyframes btFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════
+   CONTENT GRID
+═══════════════════════════════════════════════════════ */
+#{{ sid }} .bt-content {
+  display: grid;
+  grid-template-columns: var(--bt-media-width) 1fr;
+  gap: var(--bt-gap);
+  align-items: start;
+}
+
+@media (max-width: 749px) {
+  #{{ sid }} .bt-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   MEDIA BLOCK
+═══════════════════════════════════════════════════════ */
+#{{ sid }} .bt-media {
+  position: relative;
+  width: 100%;
+  height: var(--bt-media-height);
+  border-radius: var(--bt-media-radius);
+  overflow: hidden;
+  background: #e0d8d8;
+  flex-shrink: 0;
+}
+
+#{{ sid }} .bt-media img,
+#{{ sid }} .bt-media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+#{{ sid }} .bt-media video {
+  background: #000;
+}
+
+/* Mute toggle button */
+#{{ sid }} .bt-mute-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.45);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  padding: 0;
+  transition: background 0.2s;
+  z-index: 2;
+}
+
+#{{ sid }} .bt-mute-btn:hover {
+  background: rgba(0,0,0,0.7);
+}
+
+#{{ sid }} .bt-mute-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+/* ═══════════════════════════════════════════════════════
+   BENEFITS LIST
+═══════════════════════════════════════════════════════ */
+#{{ sid }} .bt-benefits {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#{{ sid }} .bt-benefit-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--bt-benefit-bg);
+  border: 1px solid var(--bt-benefit-border);
+  border-radius: var(--bt-benefit-radius);
+  padding: 14px 18px;
+}
+
+#{{ sid }} .bt-benefit-icon {
+  flex-shrink: 0;
+  width: var(--bt-icon-size);
+  height: var(--bt-icon-size);
+  color: var(--bt-icon-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#{{ sid }} .bt-benefit-icon img,
+#{{ sid }} .bt-benefit-icon svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+#{{ sid }} .bt-benefit-text {
+  font-size: var(--bt-benefit-size);
+  font-weight: var(--bt-benefit-weight);
+  color: var(--bt-benefit-color);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════
+   TARGETS / TAGS ROW
+═══════════════════════════════════════════════════════ */
+#{{ sid }} .bt-targets {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 20px;
+  margin-top: 20px;
+}
+
+#{{ sid }} .bt-targets-label {
+  font-size: var(--bt-tag-size);
+  font-weight: 700;
+  color: var(--bt-tag-label-color);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-right: 4px;
+  white-space: nowrap;
+}
+
+#{{ sid }} .bt-tag {
+  font-size: var(--bt-tag-size);
+  color: var(--bt-tag-color);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--bt-tag-underline);
+  text-underline-offset: 3px;
+  cursor: default;
+  white-space: nowrap;
+  padding: 4px 0;
+}
+
+#{{ sid }} .bt-tag--link {
+  cursor: pointer;
+  transition: color 0.18s ease;
+  text-decoration-color: var(--bt-tag-underline);
+}
+
+#{{ sid }} .bt-tag--link:hover {
+  color: var(--bt-tag-underline);
+  text-decoration-color: var(--bt-tag-underline);
+}
+
+/* ═══════════════════════════════════════════════════════
+   MOBILE TWEAKS
+═══════════════════════════════════════════════════════ */
+@media (max-width: 749px) {
+  #{{ sid }} .bt-tabs-nav {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+    justify-content: flex-start;
+  }
+  #{{ sid }} .bt-tabs-nav::-webkit-scrollbar { display: none; }
+
+  #{{ sid }} .bt-benefit-row {
+    padding: 12px 14px;
+  }
+
+  #{{ sid }} .bt-targets {
+    gap: 8px 16px;
+  }
+}
+</style>
+
+<section id="{{ sid }}" class="benefits-tabs-section">
+  <div class="bt-inner">
+
+    {%- comment %} ── Header ──────────────────────────────── {%- endcomment %}
+    {%- if section.settings.heading != blank or section.settings.subtext != blank -%}
+      <div class="bt-header">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="bt-heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subtext != blank -%}
+          <p class="bt-subtext">{{ section.settings.subtext }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment %} ── Tabs Nav ────────────────────────────── {%- endcomment %}
+    {%- assign tab_nav_idx = 0 -%}
+    <nav class="bt-tabs-nav" role="tablist" aria-label="{{ section.settings.heading | escape }}">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'tab' -%}
+          <button
+            class="bt-tab-btn{% if tab_nav_idx == 0 %} is-active{% endif %}"
+            role="tab"
+            aria-selected="{% if tab_nav_idx == 0 %}true{% else %}false{% endif %}"
+            aria-controls="{{ sid }}-panel-{{ tab_nav_idx }}"
+            data-tab="{{ tab_nav_idx }}"
+            {{ block.shopify_attributes }}
+          >{{ block.settings.tab_label }}</button>
+          {%- assign tab_nav_idx = tab_nav_idx | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </nav>
+
+    {%- comment %} ── Tab Panels ── {%- endcomment %}
+    {%- assign tab_index = 0 -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'tab' -%}
+
+        <div
+          class="bt-panel{% if tab_index == 0 %} is-active{% endif %}"
+          id="{{ sid }}-panel-{{ tab_index }}"
+          role="tabpanel"
+          aria-labelledby="{{ sid }}-tab-{{ tab_index }}"
+          {{ block.shopify_attributes }}
+        >
+          <div class="bt-content">
+
+            {%- comment %} Media — unique per tab {%- endcomment %}
+            <div class="bt-media" id="{{ sid }}-media-{{ tab_index }}">
+              {%- if block.settings.video != blank -%}
+                <video
+                  id="{{ sid }}-video-{{ tab_index }}"
+                  src="{{ block.settings.video }}"
+                  autoplay
+                  loop
+                  muted
+                  playsinline
+                  preload="metadata"
+                ></video>
+                <button
+                  class="bt-mute-btn"
+                  aria-label="Toggle mute"
+                  data-video="{{ sid }}-video-{{ tab_index }}"
+                >
+                  <svg class="icon-muted" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3.63 3.63a.996.996 0 000 1.41L7.29 8.7 7 9H4c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1h3l3.29 3.29c.63.63 1.71.18 1.71-.71v-4.17l4.18 4.18c-.49.37-1.02.68-1.6.91-.36.15-.58.53-.58.92 0 .72.73 1.18 1.39.91.8-.33 1.55-.77 2.22-1.31l1.34 1.34a.996.996 0 101.41-1.41L5.05 3.63c-.39-.39-1.02-.39-1.42 0zM19 12c0 .82-.15 1.61-.41 2.34l1.53 1.53c.56-1.17.88-2.48.88-3.87 0-3.83-2.4-7.11-5.78-8.4-.59-.23-1.22.23-1.22.86v.19c0 .38.25.71.61.85C17.18 6.54 19 9.06 19 12zm-8.71-6.29l-.17.17L12 7.76V6.41c0-.89-1.08-1.34-1.71-.71zM16.5 12A4.5 4.5 0 0014 7.97v1.79l2.48 2.48c.01-.08.02-.16.02-.24z"/>
+                  </svg>
+                  <svg class="icon-unmuted" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:none">
+                    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                  </svg>
+                </button>
+
+              {%- elsif block.settings.image != blank -%}
+                <img
+                  src="{{ block.settings.image | image_url: width: 800 }}"
+                  alt="{{ block.settings.image.alt | escape | default: block.settings.tab_label }}"
+                  width="800"
+                  height="600"
+                  loading="{% if tab_index == 0 %}eager{% else %}lazy{% endif %}"
+                >
+              {%- else -%}
+                <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#ede8e8;color:#aaa;font-size:14px;">
+                  No media added
+                </div>
+              {%- endif -%}
+            </div>
+
+            {%- comment %} Benefits list — unique per tab {%- endcomment %}
+            <div class="bt-benefits">
+              {%- for i in (1..8) -%}
+                {%- liquid
+                  assign benefit_key  = 'benefit_' | append: i
+                  assign icon_key     = 'icon_' | append: i
+                  assign benefit_text = block.settings[benefit_key]
+                  assign icon_image   = block.settings[icon_key]
+                -%}
+                {%- if benefit_text != blank -%}
+                  <div class="bt-benefit-row">
+                    <div class="bt-benefit-icon">
+                      {%- if icon_image != blank -%}
+                        <img
+                          src="{{ icon_image | image_url: width: 60 }}"
+                          alt=""
+                          width="60"
+                          height="60"
+                          loading="lazy"
+                        >
+                      {%- else -%}
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="12" cy="12" r="10"/>
+                          <polyline points="9 12 11 14 15 10"/>
+                        </svg>
+                      {%- endif -%}
+                    </div>
+                    <p class="bt-benefit-text">{{ benefit_text }}</p>
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+
+          </div>
+
+          {%- comment %} ── Target tags ── {%- endcomment %}
+          {%- liquid
+            assign has_tags = false
+            for i in (1..6)
+              assign tag_text_key = 'tag_' | append: i | append: '_text'
+              assign tag_text_val = block.settings[tag_text_key]
+              if tag_text_val != blank
+                assign has_tags = true
+                break
+              endif
+            endfor
+          -%}
+          {%- if has_tags -%}
+            <div class="bt-targets">
+              {%- if section.settings.targets_label != blank -%}
+                <span class="bt-targets-label">{{ section.settings.targets_label }}</span>
+              {%- endif -%}
+              {%- for i in (1..6) -%}
+                {%- liquid
+                  assign tag_text_key = 'tag_' | append: i | append: '_text'
+                  assign tag_url_key  = 'tag_' | append: i | append: '_url'
+                  assign tag_text_val = block.settings[tag_text_key]
+                  assign tag_url_val  = block.settings[tag_url_key]
+                -%}
+                {%- if tag_text_val != blank -%}
+                  {%- if tag_url_val != blank -%}
+                    <a href="{{ tag_url_val }}" class="bt-tag bt-tag--link">{{ tag_text_val }}</a>
+                  {%- else -%}
+                    <span class="bt-tag">{{ tag_text_val }}</span>
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+        </div>
+
+        {%- assign tab_index = tab_index | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+  </div>
+</section>
+
+<script>
+(function () {
+  'use strict';
+
+  var sid = {{ sid | json }};
+  var sec = document.getElementById(sid);
+  if (!sec) return;
+
+  var tabBtns = Array.prototype.slice.call(sec.querySelectorAll('.bt-tab-btn'));
+  var panels  = Array.prototype.slice.call(sec.querySelectorAll('.bt-panel'));
+
+  function activateTab(idx) {
+    tabBtns.forEach(function (btn) {
+      var active = parseInt(btn.dataset.tab, 10) === idx;
+      btn.classList.toggle('is-active', active);
+      btn.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+
+    sec.querySelectorAll('video').forEach(function (v) {
+      try { v.pause(); } catch (e) {}
+    });
+
+    panels.forEach(function (panel) {
+      var panelIdx = parseInt(panel.id.replace(sid + '-panel-', ''), 10);
+      var isActive = panelIdx === idx;
+      if (isActive) {
+        panel.classList.add('is-active');
+        var vid = panel.querySelector('video');
+        if (vid) { vid.play().catch(function () {}); }
+      } else {
+        panel.classList.remove('is-active');
+      }
+    });
+  }
+
+  tabBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      activateTab(parseInt(btn.dataset.tab, 10));
+    });
+  });
+
+  sec.querySelectorAll('.bt-mute-btn').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var vid = document.getElementById(btn.dataset.video);
+      if (!vid) return;
+      vid.muted = !vid.muted;
+      btn.querySelector('.icon-muted').style.display   = vid.muted ? '' : 'none';
+      btn.querySelector('.icon-unmuted').style.display = vid.muted ? 'none' : '';
+    });
+  });
+
+  activateTab(0);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Benefits Tabs",
+  "tag": "section",
+  "class": "bam-section",
+  "settings": [
+
+    { "type": "header", "content": "📝 Text Content" },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Benefits"
+    },
+    {
+      "type": "text",
+      "id": "subtext",
+      "label": "Subtext / Description",
+      "default": "Select a category:"
+    },
+    {
+      "type": "text",
+      "id": "targets_label",
+      "label": "Targets Label",
+      "default": "TARGETS:"
+    },
+
+    { "type": "header", "content": "🖼️ Background Image" },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image",
+      "info": "Optional. Leave blank to use solid background color only."
+    },
+    {
+      "type": "range",
+      "id": "bg_image_overlay_opacity",
+      "label": "Background Color Overlay Opacity (%)",
+      "info": "0 = image fully visible, 100 = image fully hidden behind color.",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 40
+    },
+    {
+      "type": "select",
+      "id": "bg_image_size",
+      "label": "Background Image Size",
+      "options": [
+        { "value": "cover",   "label": "Cover (fill section)" },
+        { "value": "contain", "label": "Contain (fit inside)" },
+        { "value": "auto",    "label": "Auto (natural size)" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "bg_image_position",
+      "label": "Background Image Position",
+      "options": [
+        { "value": "center center", "label": "Center" },
+        { "value": "top center",    "label": "Top Center" },
+        { "value": "bottom center", "label": "Bottom Center" },
+        { "value": "center left",   "label": "Center Left" },
+        { "value": "center right",  "label": "Center Right" },
+        { "value": "top left",      "label": "Top Left" },
+        { "value": "top right",     "label": "Top Right" },
+        { "value": "bottom left",   "label": "Bottom Left" },
+        { "value": "bottom right",  "label": "Bottom Right" }
+      ],
+      "default": "center center"
+    },
+
+    { "type": "header", "content": "🎨 Colors" },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background Color",
+      "info": "Also used as overlay tint when a Background Image is set.",
+      "default": "#FDF5F5"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "subtext_color",
+      "label": "Subtext Color",
+      "default": "#555555"
+    },
+    {
+      "type": "color",
+      "id": "tab_text_color",
+      "label": "Tab — Default Text Color",
+      "default": "#555555"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_text_color",
+      "label": "Tab — Active Text Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_bg",
+      "label": "Tab — Active Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "tab_border_color",
+      "label": "Tab — Default Border",
+      "default": "#dddddd"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_border_color",
+      "label": "Tab — Active Border",
+      "default": "#c0646e"
+    },
+    {
+      "type": "color",
+      "id": "benefit_bg",
+      "label": "Benefit Row Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "benefit_border_color",
+      "label": "Benefit Row Border",
+      "default": "#eeeeee"
+    },
+    {
+      "type": "color",
+      "id": "benefit_text_color",
+      "label": "Benefit Text Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Default Icon Color (SVG fallback)",
+      "default": "#c0646e"
+    },
+    {
+      "type": "color",
+      "id": "tag_label_color",
+      "label": "Targets Label Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "tag_text_color",
+      "label": "Tag Text Color",
+      "default": "#444444"
+    },
+    {
+      "type": "color",
+      "id": "tag_underline_color",
+      "label": "Tag Underline Color",
+      "default": "#c0646e"
+    },
+
+    { "type": "header", "content": "✍️ Desktop Typography" },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "label": "Heading Font Size (px)",
+      "min": 18, "max": 72, "step": 2,
+      "default": 32
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Heading Font Weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "600", "label": "Semi-Bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "subtext_font_size",
+      "label": "Subtext Font Size (px)",
+      "min": 12, "max": 24, "step": 1,
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "tab_font_size",
+      "label": "Tab Font Size (px)",
+      "min": 10, "max": 20, "step": 1,
+      "default": 13
+    },
+    {
+      "type": "select",
+      "id": "tab_font_weight",
+      "label": "Tab Font Weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "600", "label": "Semi-Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "range",
+      "id": "benefit_font_size",
+      "label": "Benefit Text Font Size (px)",
+      "min": 12, "max": 22, "step": 1,
+      "default": 15
+    },
+    {
+      "type": "select",
+      "id": "benefit_font_weight",
+      "label": "Benefit Font Weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-Bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "tag_font_size",
+      "label": "Target Tag Font Size (px)",
+      "min": 10, "max": 18, "step": 1,
+      "default": 13
+    },
+
+    { "type": "header", "content": "📱 Mobile Typography" },
+    {
+      "type": "range",
+      "id": "mobile_heading_font_size",
+      "label": "Mobile — Heading Size (px)",
+      "min": 18, "max": 48, "step": 2,
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "mobile_subtext_font_size",
+      "label": "Mobile — Subtext Size (px)",
+      "min": 12, "max": 20, "step": 1,
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "mobile_tab_font_size",
+      "label": "Mobile — Tab Size (px)",
+      "min": 10, "max": 16, "step": 1,
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "mobile_benefit_font_size",
+      "label": "Mobile — Benefit Text Size (px)",
+      "min": 12, "max": 18, "step": 1,
+      "default": 14
+    },
+
+    { "type": "header", "content": "⚙️ Desktop Layout & Spacing" },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Section Max Width (px)",
+      "min": 600, "max": 1600, "step": 20,
+      "default": 1100
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top (px)",
+      "min": 0, "max": 160, "step": 4,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom (px)",
+      "min": 0, "max": 160, "step": 4,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "label": "Padding Left/Right (px)",
+      "min": 0, "max": 80, "step": 4,
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "content_gap",
+      "label": "Gap Between Media & Benefits (px)",
+      "min": 8, "max": 80, "step": 4,
+      "default": 28
+    },
+
+    { "type": "header", "content": "📱 Mobile Layout & Spacing" },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "label": "Mobile — Padding Top (px)",
+      "min": 0, "max": 100, "step": 4,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "label": "Mobile — Padding Bottom (px)",
+      "min": 0, "max": 100, "step": 4,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_horizontal",
+      "label": "Mobile — Padding Left/Right (px)",
+      "min": 0, "max": 40, "step": 4,
+      "default": 16
+    },
+
+    { "type": "header", "content": "🖼️ Media (Image / Video)" },
+    {
+      "type": "range",
+      "id": "media_width",
+      "label": "Desktop — Media Column Width (%)",
+      "min": 20, "max": 60, "step": 2,
+      "default": 38
+    },
+    {
+      "type": "range",
+      "id": "media_height",
+      "label": "Desktop — Media Height (px)",
+      "min": 200, "max": 800, "step": 10,
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "mobile_media_height",
+      "label": "Mobile — Media Height (px)",
+      "min": 160, "max": 500, "step": 10,
+      "default": 260
+    },
+    {
+      "type": "range",
+      "id": "media_radius",
+      "label": "Media Corner Radius (px)",
+      "min": 0, "max": 32, "step": 2,
+      "default": 8
+    },
+
+    { "type": "header", "content": "🔲 Tab Style" },
+    {
+      "type": "select",
+      "id": "tabs_alignment",
+      "label": "Tabs Alignment",
+      "options": [
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center",     "label": "Center" },
+        { "value": "flex-end",   "label": "Right" }
+      ],
+      "default": "flex-start"
+    },
+    {
+      "type": "range",
+      "id": "tab_radius",
+      "label": "Tab Corner Radius (px)",
+      "min": 0, "max": 50, "step": 2,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "tab_padding_v",
+      "label": "Tab Vertical Padding (px)",
+      "min": 4, "max": 24, "step": 2,
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "tab_padding_h",
+      "label": "Tab Horizontal Padding (px)",
+      "min": 8, "max": 48, "step": 2,
+      "default": 22
+    },
+
+    { "type": "header", "content": "✅ Benefit Row Style" },
+    {
+      "type": "range",
+      "id": "benefit_radius",
+      "label": "Benefit Row Corner Radius (px)",
+      "min": 0, "max": 24, "step": 2,
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Desktop — Icon Size (px)",
+      "min": 16, "max": 64, "step": 2,
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "mobile_icon_size",
+      "label": "Mobile — Icon Size (px)",
+      "min": 16, "max": 48, "step": 2,
+      "default": 24
+    }
+
+  ],
+
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab / Category",
+      "limit": 8,
+      "settings": [
+
+        { "type": "header", "content": "🏷️ Tab" },
+        {
+          "type": "text",
+          "id": "tab_label",
+          "label": "Tab Label",
+          "default": "Category Name"
+        },
+
+        { "type": "header", "content": "🎬 Media — Video (takes priority over image)" },
+        {
+          "type": "text",
+          "id": "video",
+          "label": "Video URL (.mp4 / Shopify CDN)",
+          "info": "Paste a direct .mp4 URL. Upload the video file to Files in Shopify admin, then copy the CDN URL."
+        },
+
+        { "type": "header", "content": "🖼️ Media — Image (used if no video)" },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+
+        { "type": "header", "content": "✅ Benefits (up to 8)" },
+        { "type": "image_picker", "id": "icon_1", "label": "Benefit 1 — Icon Image" },
+        { "type": "text", "id": "benefit_1", "label": "Benefit 1 — Text", "default": "Minimal downtime." },
+        { "type": "image_picker", "id": "icon_2", "label": "Benefit 2 — Icon Image" },
+        { "type": "text", "id": "benefit_2", "label": "Benefit 2 — Text", "default": "Smoother, plumper skin." },
+        { "type": "image_picker", "id": "icon_3", "label": "Benefit 3 — Icon Image" },
+        { "type": "text", "id": "benefit_3", "label": "Benefit 3 — Text", "default": "Anti-ageing / Reduces wrinkles & fine lines." },
+        { "type": "image_picker", "id": "icon_4", "label": "Benefit 4 — Icon Image" },
+        { "type": "text", "id": "benefit_4", "label": "Benefit 4 — Text", "default": "Long-term results." },
+        { "type": "image_picker", "id": "icon_5", "label": "Benefit 5 — Icon Image" },
+        { "type": "text", "id": "benefit_5", "label": "Benefit 5 — Text" },
+        { "type": "image_picker", "id": "icon_6", "label": "Benefit 6 — Icon Image" },
+        { "type": "text", "id": "benefit_6", "label": "Benefit 6 — Text" },
+        { "type": "image_picker", "id": "icon_7", "label": "Benefit 7 — Icon Image" },
+        { "type": "text", "id": "benefit_7", "label": "Benefit 7 — Text" },
+        { "type": "image_picker", "id": "icon_8", "label": "Benefit 8 — Icon Image" },
+        { "type": "text", "id": "benefit_8", "label": "Benefit 8 — Text" },
+
+        { "type": "header", "content": "🏷️ Target Tags (with optional links)" },
+        {
+          "type": "paragraph",
+          "content": "Each tag can link to a product, collection, or page. Leave URL blank for plain text."
+        },
+        { "type": "text", "id": "tag_1_text", "label": "Tag 1 — Label", "default": "ANTI-AGEING" },
+        { "type": "url",  "id": "tag_1_url",  "label": "Tag 1 — Link URL" },
+        { "type": "text", "id": "tag_2_text", "label": "Tag 2 — Label", "default": "ACNE & BLEMISHES" },
+        { "type": "url",  "id": "tag_2_url",  "label": "Tag 2 — Link URL" },
+        { "type": "text", "id": "tag_3_text", "label": "Tag 3 — Label", "default": "SUN DAMAGE" },
+        { "type": "url",  "id": "tag_3_url",  "label": "Tag 3 — Link URL" },
+        { "type": "text", "id": "tag_4_text", "label": "Tag 4 — Label" },
+        { "type": "url",  "id": "tag_4_url",  "label": "Tag 4 — Link URL" },
+        { "type": "text", "id": "tag_5_text", "label": "Tag 5 — Label" },
+        { "type": "url",  "id": "tag_5_url",  "label": "Tag 5 — Link URL" },
+        { "type": "text", "id": "tag_6_text", "label": "Tag 6 — Label" },
+        { "type": "url",  "id": "tag_6_url",  "label": "Tag 6 — Link URL" }
+
+      ]
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "Benefits Tabs",
+      "blocks": [
+        {
+          "type": "tab",
+          "settings": {
+            "tab_label": "MICRONEEDLING PENS",
+            "benefit_1": "Minimal downtime.",
+            "benefit_2": "Smoother, plumper skin.",
+            "benefit_3": "Anti-ageing/ Reduces wrinkles & fine lines.",
+            "benefit_4": "Long-term results.",
+            "benefit_5": "ARTG-listed*",
+            "tag_1_text": "ANTI-AGEING",
+            "tag_2_text": "ACNE & BLEMISHES",
+            "tag_3_text": "SUN DAMAGE",
+            "tag_4_text": "HAIR LOSS/ GROWTH"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "tab_label": "LED LIGHT THERAPY",
+            "benefit_1": "Reduces inflammation.",
+            "benefit_2": "Boosts collagen production.",
+            "benefit_3": "Improves skin tone & texture.",
+            "benefit_4": "Safe for all skin types.",
+            "tag_1_text": "ANTI-AGEING",
+            "tag_2_text": "ACNE & BLEMISHES",
+            "tag_3_text": "SKIN REJUVENATION"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "tab_label": "NANO NEEDLING",
+            "benefit_1": "Painless & non-invasive.",
+            "benefit_2": "Enhanced product absorption.",
+            "benefit_3": "Brightening & rejuvenating.",
+            "benefit_4": "Suitable for sensitive skin.",
+            "tag_1_text": "ANTI-AGEING",
+            "tag_2_text": "HYPERPIGMENTATION",
+            "tag_3_text": "DULL SKIN"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "tab_label": "HAIR GROWTH",
+            "benefit_1": "Stimulates hair follicles.",
+            "benefit_2": "Reduces hair loss.",
+            "benefit_3": "Thickens existing strands.",
+            "benefit_4": "Natural, drug-free solution.",
+            "tag_1_text": "HAIR LOSS/ GROWTH",
+            "tag_2_text": "SCALP HEALTH"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

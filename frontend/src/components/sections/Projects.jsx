@@ -185,6 +185,9 @@ export default function Projects() {
             Featured <span className="gradient-text">Projects</span>
           </h2>
           <p>A selection of Shopify stores and e-commerce experiences I've built.</p>
+          <a href="/projects" className={styles.viewAllBtn}>
+            View All Projects →
+          </a>
         </div>
 
         {/* Filter tabs container */}

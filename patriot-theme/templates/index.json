@@ -1,0 +1,1323 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "cfca4268-6358-426c-98ab-d292aeef11e5": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_B3fpyC": {
+          "type": "slide",
+          "disabled": true,
+          "settings": {
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "title_highlight_color": "#6d388b",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "shopify://collections",
+            "button_style_secondary": true,
+            "atc_button_label": "",
+            "atc_product": "",
+            "atc_skip_cart": false,
+            "box_align": "middle-left",
+            "show_text_box": false,
+            "text_alignment": "left",
+            "color_scheme": "custom",
+            "transparent_container_color": "white",
+            "text_alignment_mobile": "center",
+            "custom_colors_background": "#ffffff",
+            "custom_gradient_background": "",
+            "custom_colors_text": "#2e2a39",
+            "custom_colors_solid_button_background": "#000000",
+            "custom_colors_solid_button_text": "#ffffff",
+            "custom_colors_outline_button": "#dd1d1d"
+          }
+        },
+        "slide_KQYxLy": {
+          "type": "slide",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/updated_banner-2.png",
+            "mobile_image": "shopify://shop_images/mobile-banner.png",
+            "image_overlay_opacity": 0,
+            "heading": "Raise a Glass to Freedom",
+            "title_highlight_color": "#6d388b",
+            "heading_size": "h1",
+            "subheading": "Exclusive patriotic drinkware inspired by America’s spirit, pride, and history.",
+            "button_label": "Shop Now",
+            "link": "shopify://products/250th-anniversary-liberty-bell-pint-glass-birth-of-a-nation-1776-2026",
+            "button_style_secondary": false,
+            "atc_button_label": "",
+            "atc_product": "",
+            "atc_skip_cart": false,
+            "box_align": "middle-left",
+            "show_text_box": true,
+            "text_alignment": "left",
+            "color_scheme": "custom",
+            "transparent_container_color": "white",
+            "text_alignment_mobile": "center",
+            "custom_colors_background": "#dcbfa4",
+            "custom_gradient_background": "",
+            "custom_colors_text": "#000000",
+            "custom_colors_solid_button_background": "#000000",
+            "custom_colors_solid_button_text": "#ffffff",
+            "custom_colors_outline_button": "#5c7672"
+          }
+        },
+        "template--21507361505575__cfca4268-6358-426c-98ab-d292aeef11e5-slide-2": {
+          "type": "slide",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/banner_update_new_-3_2d69a52c-30af-495c-91c3-04bf4f2e2a15.png",
+            "mobile_image": "shopify://shop_images/banner_-_3_mobile.png",
+            "image_overlay_opacity": 0,
+            "heading": "Crafted for Patriots",
+            "title_highlight_color": "#6d388b",
+            "heading_size": "h1",
+            "subheading": "Luxury patriotic drinkware crafted for collectors, celebrations, and proud Americans.",
+            "button_label": "Shop Now",
+            "link": "shopify://products/250th-anniversary-whiskey-glass-we-the-people-american-flag-design",
+            "button_style_secondary": false,
+            "atc_button_label": "",
+            "atc_product": "",
+            "atc_skip_cart": false,
+            "box_align": "middle-left",
+            "show_text_box": true,
+            "text_alignment": "left",
+            "color_scheme": "custom",
+            "transparent_container_color": "white",
+            "text_alignment_mobile": "center",
+            "custom_colors_background": "#f5f5f5",
+            "custom_gradient_background": "",
+            "custom_colors_text": "#000000",
+            "custom_colors_solid_button_background": "#000000",
+            "custom_colors_solid_button_text": "#ffffff",
+            "custom_colors_outline_button": "#5c7672"
+          }
+        },
+        "slide_MMqbHM": {
+          "type": "slide",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/banner_selected.png",
+            "mobile_image": "shopify://shop_images/banner_-2_phone.png",
+            "image_overlay_opacity": 0,
+            "heading": "250 Years. One Legacy.",
+            "title_highlight_color": "#6d388b",
+            "heading_size": "h1",
+            "subheading": "Patriotic premium glassware collection for true American pride.",
+            "button_label": "Shop Now",
+            "link": "shopify://products/patriotic-eagle-whiskey-glass-land-of-the-free-home-of-the-brave-10oz-rocks-glass",
+            "button_style_secondary": false,
+            "atc_button_label": "",
+            "atc_product": "",
+            "atc_skip_cart": false,
+            "box_align": "middle-left",
+            "show_text_box": true,
+            "text_alignment": "left",
+            "color_scheme": "custom",
+            "transparent_container_color": "white",
+            "text_alignment_mobile": "center",
+            "custom_colors_background": "#efefef",
+            "custom_gradient_background": "",
+            "custom_colors_text": "#000000",
+            "custom_colors_solid_button_background": "#000000",
+            "custom_colors_solid_button_text": "#ffffff",
+            "custom_colors_outline_button": "#5c7672"
+          }
+        }
+      },
+      "block_order": [
+        "slide_B3fpyC",
+        "slide_KQYxLy",
+        "template--21507361505575__cfca4268-6358-426c-98ab-d292aeef11e5-slide-2",
+        "slide_MMqbHM"
+      ],
+      "disabled": true,
+      "custom_css": [
+        "@media screen and (max-width: 749px) {.banner--mobile-bottom .slideshow__text.banner__box {height: 100%; display: none; }}"
+      ],
+      "settings": {
+        "visibility": "always-display",
+        "layout": "full_bleed",
+        "slide_height": "large",
+        "slider_visual": "dots",
+        "desktop_pagination_position": "under",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "show_text_below": true,
+        "mobile_pagination_position": "under",
+        "accessibility_info": "Slideshow about our brand"
+      }
+    },
+    "custom_hero_clickable_JKjMkn": {
+      "type": "custom-hero-clickable",
+      "name": "Clickable Hero Banner",
+      "settings": {
+        "banner_width": "full",
+        "banner_height": "large",
+        "image_desktop": "shopify://shop_images/desktop_banner.png",
+        "image_mobile": "shopify://shop_images/test_mobile_-13.png",
+        "link_url": "shopify://collections/all",
+        "heading": "",
+        "subheading": "",
+        "button_label": "",
+        "text_alignment": "center",
+        "overlay_opacity": 0,
+        "text_color": "#ffffff"
+      }
+    },
+    "custom_image_gallery_gallery1": {
+      "type": "custom-image-gallery",
+      "blocks": {
+        "block_1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/4141.png",
+            "caption": "",
+            "link": ""
+          }
+        },
+        "block_4": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/updated_mockup.png",
+            "caption": "",
+            "link": ""
+          }
+        },
+        "block_2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/4140.png",
+            "caption": "",
+            "link": ""
+          }
+        },
+        "block_3": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/land_of_the_tree.png",
+            "caption": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "block_1",
+        "block_4",
+        "block_2",
+        "block_3"
+      ],
+      "disabled": true,
+      "settings": {
+        "heading": "",
+        "subheading": "",
+        "link_url": "",
+        "button_label": "",
+        "text_alignment": "center",
+        "overlay_opacity": 0,
+        "text_color": "#ffffff"
+      }
+    },
+    "collection_list_Mj8tNd": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_Xq8C4P": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "featured-collection",
+            "custom_title": ""
+          }
+        },
+        "featured_collection_XD3rMn": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "whiskey-glasses",
+            "custom_title": ""
+          }
+        },
+        "featured_collection_CEAepR": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "shot-glassess",
+            "custom_title": ""
+          }
+        },
+        "featured_collection_ygecHN": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "best-seller",
+            "custom_title": ""
+          }
+        },
+        "featured_collection_KcR3qb": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "rock-glasses",
+            "custom_title": ""
+          }
+        },
+        "featured_collection_zezQYW": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "pint-glasses",
+            "custom_title": ""
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_Xq8C4P",
+        "featured_collection_XD3rMn",
+        "featured_collection_CEAepR",
+        "featured_collection_ygecHN",
+        "featured_collection_KcR3qb",
+        "featured_collection_zezQYW"
+      ],
+      "name": "t:sections.collection-list.presets.name",
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "title": "Our Premium Collections",
+        "title_highlight_color": "#6d388b",
+        "heading_size": "h1",
+        "color_scheme": "background-1",
+        "image_ratio": "adapt",
+        "show_view_all": true,
+        "custon_styling": true,
+        "card_style": "standard",
+        "cards_color_scheme": "background-1",
+        "card_text_alignment": "left",
+        "cards_corner_radius": 10,
+        "card_title_limited_lines": "1",
+        "card_title_position": "over-bottom",
+        "cards_title_overlay_color": "#000000",
+        "cards_title_overlay_opacity": 40,
+        "cards_title_over_color": "#ffffff",
+        "cards_desktop_title_size": 24,
+        "cards_mobile_title_size": 20,
+        "cards_show_arrow": true,
+        "cards_cta_label": "",
+        "cards_cta_style": "secondary",
+        "cards_cta_full_width": false,
+        "cards_cta_color": "#6d388b",
+        "cards_desktop_cta_size": 16,
+        "cards_mobile_cta_size": 14,
+        "cards_cta_height": 220,
+        "cards_cta_padding": 200,
+        "cards_cta_top_margin": 100,
+        "type": "slide",
+        "autoplay": true,
+        "autoplay_speed": 5,
+        "arrows_color_scheme": "inverse",
+        "transparent_arrows": true,
+        "dots_color_scheme": "inverse",
+        "desktop_page_width": "normal",
+        "columns_desktop": 4,
+        "desktop_spacing": 40,
+        "slider_desktop": true,
+        "per_move_desktop": 1,
+        "desktop_side_padding": 0,
+        "desktop_padding_calc": true,
+        "desktop_adaptive_height": false,
+        "desktop_dots_position": "under",
+        "desktop_arrows_position": "sides",
+        "mobile_full_page": false,
+        "columns_mobile_int": 1,
+        "mobile_spacing": 15,
+        "slider_mobile": true,
+        "enable_mobile_preview": false,
+        "mobile_adaptive_height": false,
+        "mobile_dots_position": "under",
+        "mobile_arrows_position": "under",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_colors_background": "#ffffff",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#2e2a39"
+      }
+    },
+    "featured_collection_Ri3inX": {
+      "type": "featured-collection",
+      "disabled": true,
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "title": "Featured collection",
+        "title_highlight_color": "#6d388b",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "color_scheme": "background-1",
+        "collection": "featured-collection",
+        "products_to_show": 12,
+        "stretch_cards": true,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "cards_color_scheme": "background-1",
+        "image_ratio": "adapt",
+        "show_secondary_image": false,
+        "badges": "regular",
+        "show_vendor": false,
+        "show_rating": false,
+        "enable_quick_add": false,
+        "swatches_option_name": "",
+        "swatches_position": "top",
+        "swatches_desktop_size": 36,
+        "swatches_mobile_size": 24,
+        "type": "slide",
+        "autoplay": false,
+        "autoplay_speed": 5,
+        "arrows_color_scheme": "inverse",
+        "transparent_arrows": true,
+        "dots_color_scheme": "inverse",
+        "desktop_full_page": false,
+        "columns_desktop": 4,
+        "slider_desktop": true,
+        "per_move_desktop": 1,
+        "desktop_spacing": 40,
+        "desktop_side_padding": 0,
+        "desktop_padding_calc": true,
+        "desktop_adaptive_height": true,
+        "desktop_dots_position": "under",
+        "desktop_arrows_position": "sides",
+        "columns_mobile": "1",
+        "slider_mobile": true,
+        "enable_mobile_preview": false,
+        "mobile_adaptive_height": false,
+        "mobile_dots_position": "under",
+        "mobile_arrows_position": "under",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_colors_background": "#787878",
+        "custom_gradient_background": "",
+        "custom_image_background": "shopify://shop_images/ChatGPT_Image_May_20_2026_11_49_37_AM.png",
+        "custom_colors_text": "#2e2a39",
+        "custom_colors_solid_button_background": "#dd1d1d",
+        "custom_colors_solid_button_text": "#ffffff"
+      }
+    },
+    "custom_bundle_product_n8bGxV": {
+      "type": "custom-bundle-product",
+      "blocks": {
+        "bundle_tab_EK6HM6": {
+          "type": "bundle_tab",
+          "settings": {
+            "tab_title": "Shot Glass with 4 Mockups",
+            "product_1": "1776-2026-patriotic-silhouette-shot-glass-250-years-of-freedom",
+            "product_2": "250th-anniversary-liberty-shot-glass-birth-of-a-nation-1776-2026",
+            "product_3": "shot-glass-250th-anniversary-usa-commemorative-1776-2026",
+            "product_4": "patriotic-eagle-shot-glass-land-of-the-free-home-of-the-brave-1-5oz"
+          }
+        },
+        "bundle_tab_ibbDQy": {
+          "type": "bundle_tab",
+          "settings": {
+            "tab_title": "Pint Glass with 4 Mockups",
+            "product_1": "250th-anniversary-commemorative-pint-glass-we-the-people-1776-2026",
+            "product_2": "1776-2026-commemorative-pint-glass-american-flag-silhouette-design",
+            "product_3": "250th-anniversary-liberty-bell-pint-glass-birth-of-a-nation-1776-2026",
+            "product_4": "land-of-the-free-eagle-pint-glass-16oz-patriotic-american-flag-beer-glass-1776-2026"
+          }
+        },
+        "bundle_tab_Dm7nBM": {
+          "type": "bundle_tab",
+          "settings": {
+            "tab_title": "Rocks Glass with 4 Mockups",
+            "product_1": "250th-anniversary-liberty-bell-rocks-glass-birth-of-a-nation-1776-2026-patriotic-whiskey-glass",
+            "product_2": "american-flag-crossed-flags-10oz-rocks-glass-commemorative-whiskey-tumbler",
+            "product_3": "commemorative-250th-anniversary-rocks-glass-patriotic-silhouette-whiskey-tumbler-1776-2026",
+            "product_4": "patriotic-eagle-whiskey-glass-land-of-the-free-home-of-the-brave-10oz-rocks-glass"
+          }
+        },
+        "bundle_tab_b6Rzib": {
+          "type": "bundle_tab",
+          "settings": {
+            "tab_title": "Whiskey Glass with 4 Mockups",
+            "product_1": "250th-anniversary-whiskey-glass-we-the-people-american-flag-design",
+            "product_2": "250th-birth-of-a-nation-whiskey-glass-anniversary-liberty-bell-flags",
+            "product_3": "patriotic-eagle-whiskey-glass-land-of-the-free-home-of-the-brave-10oz-rocks-glass",
+            "product_4": "liberty-anniversary-whiskey-glass-250-years-of-freedom-1776-2026"
+          }
+        },
+        "bundle_tab_EQAgXm": {
+          "type": "bundle_tab",
+          "settings": {
+            "tab_title": "Eagle Mockups with 4 Glasses",
+            "product_1": "land-of-the-free-eagle-pint-glass-16oz-patriotic-american-flag-beer-glass-1776-2026",
+            "product_2": "patriotic-whiskey-glass-land-of-the-free-home-of-the-brave-american-flag-eagle",
+            "product_3": "patriotic-eagle-shot-glass-land-of-the-free-home-of-the-brave-1-5oz",
+            "product_4": "patriotic-eagle-whiskey-glass-land-of-the-free-home-of-the-brave-10oz-rocks-glass"
+          }
+        },
+        "bundle_tab_j98LNC": {
+          "type": "bundle_tab",
+          "settings": {
+            "tab_title": "Bell Ring Mockups with 4 Glasses",
+            "product_1": "250th-anniversary-liberty-bell-pint-glass-birth-of-a-nation-1776-2026",
+            "product_2": "250th-anniversary-liberty-bell-rocks-glass-birth-of-a-nation-1776-2026-patriotic-whiskey-glass",
+            "product_3": "250th-anniversary-liberty-shot-glass-birth-of-a-nation-1776-2026",
+            "product_4": "250th-birth-of-a-nation-whiskey-glass-anniversary-liberty-bell-flags"
+          }
+        },
+        "bundle_tab_8PjxUB": {
+          "type": "bundle_tab",
+          "settings": {
+            "tab_title": "Silhouettes Mockups with 4 Glasses",
+            "product_1": "liberty-anniversary-whiskey-glass-250-years-of-freedom-1776-2026",
+            "product_2": "1776-2026-commemorative-pint-glass-american-flag-silhouette-design",
+            "product_3": "1776-2026-patriotic-silhouette-shot-glass-250-years-of-freedom",
+            "product_4": "commemorative-250th-anniversary-rocks-glass-patriotic-silhouette-whiskey-tumbler-1776-2026"
+          }
+        },
+        "bundle_tab_yxLc7g": {
+          "type": "bundle_tab",
+          "settings": {
+            "tab_title": "Crossed Flag Mockups with 4 Glasses",
+            "product_1": "250th-anniversary-whiskey-glass-we-the-people-american-flag-design",
+            "product_2": "shot-glass-250th-anniversary-usa-commemorative-1776-2026",
+            "product_3": "250th-anniversary-commemorative-pint-glass-we-the-people-1776-2026",
+            "product_4": "american-flag-crossed-flags-10oz-rocks-glass-commemorative-whiskey-tumbler"
+          }
+        }
+      },
+      "block_order": [
+        "bundle_tab_EK6HM6",
+        "bundle_tab_ibbDQy",
+        "bundle_tab_Dm7nBM",
+        "bundle_tab_b6Rzib",
+        "bundle_tab_EQAgXm",
+        "bundle_tab_j98LNC",
+        "bundle_tab_8PjxUB",
+        "bundle_tab_yxLc7g"
+      ],
+      "name": "Custom Product Bundle",
+      "settings": {
+        "bundle_discount": 0,
+        "bg_color": "rgba(0,0,0,0)",
+        "bg_image": "shopify://shop_images/background.png",
+        "bg_overlay_color": "#000000",
+        "bg_overlay_opacity": 0,
+        "title_heading": "Shop Our Premium Sets",
+        "color_title": "#222222",
+        "sub_heading": "Choose a prebuilt bundle of sets below",
+        "color_sub_title": "#666666",
+        "tab_bg_color": "rgba(0,0,0,0)",
+        "tab_text_color": "#111111",
+        "tab_active_bg_color": "#111111",
+        "tab_active_text_color": "#ffffff",
+        "tab_border_color": "#e0e0e0",
+        "box_bg_color": "#fafafa",
+        "box_border_color": "#f0f0f0",
+        "box_blur": false,
+        "btn_text": "ADD BUNDLE TO CART",
+        "btn_bg_color": "#111111",
+        "btn_text_color": "#ffffff",
+        "btn_hover_bg_color": "#333333",
+        "btn_hover_text_color": "#ffffff",
+        "padding_top": "50",
+        "padding_bottom": "50"
+      }
+    },
+    "aesthetic_carousel": {
+      "type": "aesthetic-carousel",
+      "blocks": {
+        "slide_1": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/land_of_the_tree.png",
+            "link": "",
+            "card_bg": "#d18a59",
+            "text_color": "#ffffff"
+          }
+        },
+        "slide_2": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/4141.png",
+            "link": "",
+            "card_bg": "#f07643",
+            "text_color": "#ffffff"
+          }
+        },
+        "slide_3": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/updated_mockup.png",
+            "link": "",
+            "card_bg": "#e8954f",
+            "text_color": "#ffffff"
+          }
+        },
+        "slide_4": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/4140.png",
+            "link": "",
+            "card_bg": "#d3642b",
+            "text_color": "#ffffff"
+          }
+        },
+        "slide_5": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/land_of_the_tree.png",
+            "link": "",
+            "card_bg": "#ea763e",
+            "text_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "slide_1",
+        "slide_2",
+        "slide_3",
+        "slide_4",
+        "slide_5"
+      ],
+      "settings": {
+        "full_width": true,
+        "heading": "Visual Heritage",
+        "subheading": "Swipe or click to explore our polaroid collections",
+        "max_width": 1400,
+        "background_color": "#e2e2e2",
+        "background_gradient": "",
+        "background_image": "shopify://shop_images/Banner_jpg.jpg",
+        "background_image_size": "cover",
+        "background_image_position": "center center",
+        "background_image_opacity": 100,
+        "text_color": "#121212",
+        "title_size_desktop": 36,
+        "title_size_mobile": 26,
+        "height_desktop": 480,
+        "card_width_desktop": 320,
+        "card_height_desktop": 420,
+        "height_mobile": 360,
+        "card_width_mobile": 240,
+        "card_height_mobile": 320,
+        "card_border_radius": 24,
+        "autoplay": false,
+        "autoplay_interval": 4,
+        "padding_top_desktop": 40,
+        "padding_bottom_desktop": 40,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20
+      }
+    },
+    "icons_with_content_hXgizf": {
+      "type": "icons-with-content",
+      "blocks": {
+        "icon_LkjiNd": {
+          "type": "icon",
+          "settings": {
+            "icon": "check_circle",
+            "filled_icon": false,
+            "image": "shopify://shop_images/shield.png",
+            "title": "Made with Care",
+            "text": "<p>Each order is carefully crafted, packed, and checked to ensure it arrives beautifully and safely.</p>"
+          }
+        },
+        "icon_iEQxTG": {
+          "type": "icon",
+          "settings": {
+            "icon": "check_circle",
+            "filled_icon": false,
+            "image": "shopify://shop_images/shield.png",
+            "title": "Fast & Reliable Service",
+            "text": "<p>Quick production, responsive support, and smooth delivery — because your experience matters as much as the product.</p>"
+          }
+        },
+        "icon_aB4Jma": {
+          "type": "icon",
+          "settings": {
+            "icon": "check_circle",
+            "filled_icon": false,
+            "image": "shopify://shop_images/shield.png",
+            "title": "Crafted for Meaningful Moments",
+            "text": "<p>Every glass is designed to turn everyday drinks into lasting memories — whether it’s a gift, celebration, or personal keepsake.</p>"
+          }
+        },
+        "icon_JGCmkb": {
+          "type": "icon",
+          "settings": {
+            "icon": "check_circle",
+            "filled_icon": false,
+            "image": "shopify://shop_images/shield.png",
+            "title": "Premium Quality Materials",
+            "text": "<p>We use durable, crystal-clear glassware built for both elegance and everyday use, ensuring long-lasting quality.</p>"
+          }
+        },
+        "heading_C6bJKj": {
+          "type": "heading",
+          "settings": {
+            "title": "Why Choose Us",
+            "title_highlight_color": "#6d388b",
+            "heading_size": "h1"
+          }
+        },
+        "text_FdpJPX": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We create premium custom glassware that blends quality craftsmanship, meaningful design, and personal expression. Every piece is carefully made to help you celebrate special moments, create memorable gifts, and enjoy everyday experiences with style and elegance.<br/><br/></p>",
+            "text_style": "body"
+          }
+        },
+        "button_3yGhhk": {
+          "type": "button",
+          "settings": {
+            "button_label": "Shop Now",
+            "button_link": "shopify://collections/all",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "icon_LkjiNd",
+        "icon_iEQxTG",
+        "icon_aB4Jma",
+        "icon_JGCmkb",
+        "heading_C6bJKj",
+        "text_FdpJPX",
+        "button_3yGhhk"
+      ],
+      "name": "Icons with content",
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "color_scheme": "custom",
+        "icon_size": "m",
+        "icon_position": "next-to-title",
+        "icon_color": "accent-1",
+        "icon_heading_size": "h3",
+        "icon_text_alignment": "left",
+        "icons_desktop_layout": "1-column",
+        "icons_mobile_layout": "1-column",
+        "desktop_content_alignment": "left",
+        "layout": "text_first",
+        "mobile_layout": "text_first",
+        "hide_content_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_colors_background": "rgba(0,0,0,0)",
+        "custom_gradient_background": "",
+        "custom_image_background": "shopify://shop_images/dp_daub_bright.png",
+        "custom_colors_text": "#2e2a39",
+        "custom_colors_solid_button_background": "#000000",
+        "custom_colors_solid_button_text": "#ffffff",
+        "custom_colors_outline_button": "#5b796e"
+      }
+    },
+    "6aa09428-a417-429d-9159-a4e8afd49590": {
+      "type": "icon-bar",
+      "blocks": {
+        "template--21507361505575__6aa09428-a417-429d-9159-a4e8afd49590-column-1": {
+          "type": "column",
+          "settings": {
+            "icon": "check_circle",
+            "filled_icon": false,
+            "title": "Icon",
+            "text": "<p>Pair text with an icon to focus on your chosen product, collection, or blog post<p>"
+          }
+        },
+        "template--21507361505575__6aa09428-a417-429d-9159-a4e8afd49590-column-2": {
+          "type": "column",
+          "settings": {
+            "icon": "check_circle",
+            "filled_icon": false,
+            "title": "Icon",
+            "text": "<p>Pair text with an icon to focus on your chosen product, collection, or blog post<p>"
+          }
+        },
+        "template--21507361505575__6aa09428-a417-429d-9159-a4e8afd49590-column-3": {
+          "type": "column",
+          "settings": {
+            "icon": "check_circle",
+            "filled_icon": false,
+            "title": "Icon",
+            "text": "<p>Pair text with an icon to focus on your chosen product, collection, or blog post<p>"
+          }
+        },
+        "template--21507361505575__6aa09428-a417-429d-9159-a4e8afd49590-column-4": {
+          "type": "column",
+          "settings": {
+            "icon": "check_circle",
+            "filled_icon": false,
+            "title": "Icon",
+            "text": "<p>Pair text with an icon to focus on your chosen product, collection, or blog post<p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--21507361505575__6aa09428-a417-429d-9159-a4e8afd49590-column-1",
+        "template--21507361505575__6aa09428-a417-429d-9159-a4e8afd49590-column-2",
+        "template--21507361505575__6aa09428-a417-429d-9159-a4e8afd49590-column-3",
+        "template--21507361505575__6aa09428-a417-429d-9159-a4e8afd49590-column-4"
+      ],
+      "disabled": true,
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "title": "Icon bar",
+        "title_highlight_color": "#6d388b",
+        "heading_size": "h1",
+        "text": "",
+        "color_scheme": "background-1",
+        "icon_layout": "vertical",
+        "icon_size": "medium",
+        "icon_color": "accent-1",
+        "cards_color_scheme": "background-1",
+        "type": "slide",
+        "autoplay": false,
+        "autoplay_speed": 5,
+        "arrows_color_scheme": "inverse",
+        "transparent_arrows": true,
+        "dots_color_scheme": "inverse",
+        "desktop_full_page": false,
+        "columns_desktop": 4,
+        "slider_desktop": false,
+        "per_move_desktop": 1,
+        "desktop_spacing": 40,
+        "desktop_side_padding": 0,
+        "desktop_padding_calc": true,
+        "desktop_adaptive_height": false,
+        "desktop_dots_position": "under",
+        "desktop_arrows_position": "sides",
+        "columns_mobile": "1",
+        "slider_mobile": true,
+        "enable_mobile_preview": false,
+        "mobile_adaptive_height": false,
+        "mobile_dots_position": "under",
+        "mobile_arrows_position": "under",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_colors_background": "#ffffff",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#2e2a39",
+        "custom_cards_colors_background": "#f3f3f3",
+        "custom_cards_gradient_background": "",
+        "custom_cards_colors_text": "#2e2a39"
+      }
+    },
+    "featured_collection_iRw6pk": {
+      "type": "featured-collection",
+      "disabled": true,
+      "name": "t:sections.featured-collection.presets.name",
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "title": "Best Seller",
+        "title_highlight_color": "#6d388b",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "color_scheme": "background-2",
+        "collection": "best-seller",
+        "products_to_show": 4,
+        "stretch_cards": true,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "cards_color_scheme": "background-1",
+        "image_ratio": "adapt",
+        "show_secondary_image": false,
+        "badges": "regular",
+        "show_vendor": false,
+        "show_rating": false,
+        "enable_quick_add": false,
+        "swatches_option_name": "",
+        "swatches_position": "top",
+        "swatches_desktop_size": 36,
+        "swatches_mobile_size": 24,
+        "type": "slide",
+        "autoplay": false,
+        "autoplay_speed": 5,
+        "arrows_color_scheme": "inverse",
+        "transparent_arrows": true,
+        "dots_color_scheme": "inverse",
+        "desktop_full_page": false,
+        "columns_desktop": 4,
+        "slider_desktop": false,
+        "per_move_desktop": 1,
+        "desktop_spacing": 40,
+        "desktop_side_padding": 0,
+        "desktop_padding_calc": true,
+        "desktop_adaptive_height": false,
+        "desktop_dots_position": "under",
+        "desktop_arrows_position": "sides",
+        "columns_mobile": "1",
+        "slider_mobile": true,
+        "enable_mobile_preview": false,
+        "mobile_adaptive_height": false,
+        "mobile_dots_position": "under",
+        "mobile_arrows_position": "under",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_colors_background": "#ffffff",
+        "custom_gradient_background": "",
+        "custom_image_background": "shopify://shop_images/background.png",
+        "custom_colors_text": "#2e2a39",
+        "custom_colors_solid_button_background": "#d0b99e",
+        "custom_colors_solid_button_text": "#ffffff"
+      }
+    },
+    "custom_columns_8EUE7J": {
+      "type": "custom-columns",
+      "blocks": {
+        "heading_MhYfFt": {
+          "type": "heading",
+          "settings": {
+            "column": "col_1",
+            "visibility": "always-display",
+            "heading": "Own Your Custom Glass in 4 Simple Steps",
+            "title_highlight_color": "#6d388b",
+            "heading_size": "h1",
+            "alignment": "center",
+            "mobile_alignment": "mobile-center",
+            "margin_top": 20,
+            "margin_bottom": 20
+          }
+        },
+        "richtext_J8pXVE": {
+          "type": "richtext",
+          "settings": {
+            "column": "col_1",
+            "visibility": "always-display",
+            "text": "<p>Choose your favorite glass style and personalize it with.our professionally crafted preset designs — simple, stylish, and made for every special moment.</p>",
+            "text_style": "body",
+            "alignment": "center",
+            "mobile_alignment": "mobile-center",
+            "margin_top": 20,
+            "margin_bottom": 20
+          }
+        },
+        "icon_with_text_txHiJX": {
+          "type": "icon_with_text",
+          "settings": {
+            "column": "col_2",
+            "visibility": "always-display",
+            "icon": "check_circle",
+            "filled_icon": false,
+            "image": "shopify://shop_images/loyalty-program.png",
+            "icon_size": "m",
+            "icon_position": "next-to-title",
+            "icon_color": "accent-1",
+            "icon_heading_size": "h3",
+            "icon_text_alignment": "left",
+            "title": "Choose Your Glass",
+            "text": "<p>Pick the perfect glass style from our collection, including whiskey, pint, rocks, and shot glasses.</p>",
+            "margin_top": 20,
+            "margin_bottom": 30
+          }
+        },
+        "icon_with_text_kPzQc3": {
+          "type": "icon_with_text",
+          "settings": {
+            "column": "col_2",
+            "visibility": "always-display",
+            "icon": "check_circle",
+            "filled_icon": false,
+            "image": "shopify://shop_images/target.png",
+            "icon_size": "m",
+            "icon_position": "next-to-title",
+            "icon_color": "accent-1",
+            "icon_heading_size": "h3",
+            "icon_text_alignment": "left",
+            "title": "Select a Preset Design",
+            "text": "<p>Browse our ready-made engraved designs and choose the one that matches your personality, occasion, or gift idea.</p>",
+            "margin_top": 20,
+            "margin_bottom": 20
+          }
+        },
+        "image_Ukif9V": {
+          "type": "image",
+          "settings": {
+            "column": "col_3",
+            "visibility": "always-display",
+            "image": "shopify://shop_images/6551835201310361815_2048.jpg",
+            "width": 100,
+            "alignment": "center",
+            "mobile_alignment": "center",
+            "border_radius": 0,
+            "margin_top": 20,
+            "margin_bottom": 20
+          }
+        },
+        "icon_with_text_EPFHB9": {
+          "type": "icon_with_text",
+          "settings": {
+            "column": "col_4",
+            "visibility": "always-display",
+            "icon": "check_circle",
+            "filled_icon": false,
+            "image": "shopify://shop_images/recycle.png",
+            "icon_size": "m",
+            "icon_position": "next-to-title",
+            "icon_color": "accent-1",
+            "icon_heading_size": "h3",
+            "icon_text_alignment": "left",
+            "title": "We Craft Your Order",
+            "text": "<p>Our team carefully engraves and prepares each glass with premium attention to detail and quality</p>",
+            "margin_top": 20,
+            "margin_bottom": 30
+          }
+        },
+        "icon_with_text_AftcQn": {
+          "type": "icon_with_text",
+          "settings": {
+            "column": "col_4",
+            "visibility": "always-display",
+            "icon": "check_circle",
+            "filled_icon": false,
+            "image": "shopify://shop_images/fast-delivery.png",
+            "icon_size": "m",
+            "icon_position": "next-to-title",
+            "icon_color": "accent-1",
+            "icon_heading_size": "h3",
+            "icon_text_alignment": "left",
+            "title": "Delivered Ready to Enjoy",
+            "text": "<p>Receive your beautifully packaged glassware, perfect for gifting, celebrations, or everyday use.</p>",
+            "margin_top": 20,
+            "margin_bottom": 20
+          }
+        }
+      },
+      "block_order": [
+        "heading_MhYfFt",
+        "richtext_J8pXVE",
+        "icon_with_text_txHiJX",
+        "icon_with_text_kPzQc3",
+        "image_Ukif9V",
+        "icon_with_text_EPFHB9",
+        "icon_with_text_AftcQn"
+      ],
+      "name": "Custom columns",
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "color_scheme": "background-1",
+        "columns_count": 4,
+        "column_gap_desktop": 40,
+        "row_gap_desktop": 40,
+        "desktop_vertical_alignment": "center",
+        "column_gap_mobile": 20,
+        "row_gap_mobile": 30,
+        "mobile_vertical_alignment": "flex-start",
+        "col_1_desktop_width": 12,
+        "col_1_mobile_width": 4,
+        "col_1_visibility": "always-display",
+        "col_2_desktop_width": 4,
+        "col_2_mobile_width": 4,
+        "col_2_visibility": "always-display",
+        "col_3_desktop_width": 4,
+        "col_3_mobile_width": 4,
+        "col_3_visibility": "always-display",
+        "col_4_desktop_width": 4,
+        "col_4_mobile_width": 4,
+        "col_4_visibility": "always-display",
+        "col_5_desktop_width": 3,
+        "col_5_mobile_width": 4,
+        "col_5_visibility": "always-display",
+        "col_6_desktop_width": 3,
+        "col_6_mobile_width": 4,
+        "col_6_visibility": "always-display",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_colors_background": "#ffffff",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#2e2a39",
+        "custom_colors_solid_button_background": "#dd1d1d",
+        "custom_colors_solid_button_text": "#ffffff",
+        "custom_colors_outline_button": "#dd1d1d"
+      }
+    },
+    "custom_tab_qQHwGD": {
+      "type": "custom-tab",
+      "blocks": {
+        "tab_iC8ntp": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Veterans",
+            "video": "",
+            "image": "shopify://shop_images/1152550263604478850_2048.jpg",
+            "benefit_1": "Meaningful commemorative gift.",
+            "benefit_2": "Honors military pride & legacy.",
+            "benefit_3": "Premium engraved craftsmanship.",
+            "benefit_4": "Built to become a keepsake.",
+            "benefit_5": "Perfect for retirement celebration",
+            "benefit_6": "",
+            "benefit_7": "",
+            "benefit_8": "",
+            "tag_1_text": "Shop Now",
+            "tag_1_url": "shopify://products/barconic®-8-oz-japanese-diamond-cut-rocks-glass",
+            "tag_2_text": "",
+            "tag_2_url": "",
+            "tag_3_text": "",
+            "tag_3_url": "",
+            "tag_4_text": "",
+            "tag_4_url": "",
+            "tag_5_text": "",
+            "tag_5_url": "",
+            "tag_6_text": "",
+            "tag_6_url": ""
+          }
+        },
+        "tab_QqnLfh": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Category Name",
+            "video": "",
+            "image": "shopify://shop_images/1589268496861715617_2048.jpg",
+            "benefit_1": "Minimal downtime.",
+            "benefit_2": "Smoother, plumper skin.",
+            "benefit_3": "Anti-ageing / Reduces wrinkles & fine lines.",
+            "benefit_4": "Long-term results.",
+            "benefit_5": "",
+            "benefit_6": "",
+            "benefit_7": "",
+            "benefit_8": "",
+            "tag_1_text": "ANTI-AGEING",
+            "tag_1_url": "",
+            "tag_2_text": "ACNE & BLEMISHES",
+            "tag_2_url": "",
+            "tag_3_text": "SUN DAMAGE",
+            "tag_3_url": "",
+            "tag_4_text": "",
+            "tag_4_url": "",
+            "tag_5_text": "",
+            "tag_5_url": "",
+            "tag_6_text": "",
+            "tag_6_url": ""
+          }
+        },
+        "tab_cErzHF": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Father’s Day",
+            "video": "",
+            "image": "shopify://shop_images/9690063578379649365_2048.jpg",
+            "benefit_1": "Thoughtful gift for dads & grandfathers.",
+            "benefit_2": "Premium whiskey glass designs.",
+            "benefit_3": "Great for home bars & celebrations.",
+            "benefit_4": "Great for home bars & celebrations.",
+            "benefit_5": "Memorable keepsake for years.",
+            "benefit_6": "",
+            "benefit_7": "",
+            "benefit_8": "",
+            "tag_1_text": "Collect",
+            "tag_1_url": "shopify://products/land-of-the-free-eagle-pint-glass-16oz-patriotic-american-flag-beer-glass-1776-2026",
+            "tag_2_text": "",
+            "tag_2_url": "",
+            "tag_3_text": "",
+            "tag_3_url": "",
+            "tag_4_text": "",
+            "tag_4_url": "",
+            "tag_5_text": "",
+            "tag_5_url": "",
+            "tag_6_text": "",
+            "tag_6_url": ""
+          }
+        },
+        "tab_h3jLTw": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Whiskey Lovers",
+            "video": "",
+            "image": "shopify://shop_images/9165676728155400954_2048.jpg",
+            "benefit_1": "Conversation-starting collectible.",
+            "benefit_2": "Perfect addition to any bar setup.",
+            "benefit_3": "Elegant engraving detail.",
+            "benefit_4": "Heavy premium glass feel.",
+            "benefit_5": "Designed for bourbon & whiskey enthusiasts.",
+            "benefit_6": "",
+            "benefit_7": "",
+            "benefit_8": "",
+            "tag_1_text": "Shop Now",
+            "tag_1_url": "shopify://products/patriotic-eagle-whiskey-glass-land-of-the-free-home-of-the-brave-10oz-rocks-glass",
+            "tag_2_text": "",
+            "tag_2_url": "",
+            "tag_3_text": "",
+            "tag_3_url": "",
+            "tag_4_text": "",
+            "tag_4_url": "",
+            "tag_5_text": "",
+            "tag_5_url": "",
+            "tag_6_text": "",
+            "tag_6_url": ""
+          }
+        },
+        "tab_MtcdRH": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Collectors",
+            "video": "",
+            "image": "shopify://shop_images/1152550263604478850_2048.jpg",
+            "benefit_1": "Limited-edition patriotic artwork.",
+            "benefit_2": "Anniversary-inspired designs.",
+            "benefit_3": "Unique collectible pieces.",
+            "benefit_4": "Exclusive seasonal collections.",
+            "benefit_5": "Crafted for display & everyday use.",
+            "benefit_6": "Unique collectible pieces.",
+            "benefit_7": "",
+            "benefit_8": "",
+            "tag_1_text": "Collect now",
+            "tag_1_url": "shopify://collections",
+            "tag_2_text": "",
+            "tag_2_url": "",
+            "tag_3_text": "",
+            "tag_3_url": "",
+            "tag_4_text": "",
+            "tag_4_url": "",
+            "tag_5_text": "",
+            "tag_5_url": "",
+            "tag_6_text": "",
+            "tag_6_url": ""
+          }
+        },
+        "tab_eRwwi9": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Independence Day",
+            "video": "",
+            "image": "shopify://shop_images/6679022004818675860_2048.jpg",
+            "benefit_1": "Celebrate America’s 250th anniversary.",
+            "benefit_2": "Patriotic themed glassware collection.",
+            "benefit_3": "Perfect for July 4th gatherings.",
+            "benefit_4": "Ideal party & hosting gift.",
+            "benefit_5": "Creates memorable celebration moments.",
+            "benefit_6": "",
+            "benefit_7": "",
+            "benefit_8": "",
+            "tag_1_text": "Explore",
+            "tag_1_url": "shopify://collections/best-seller",
+            "tag_2_text": "",
+            "tag_2_url": "",
+            "tag_3_text": "",
+            "tag_3_url": "",
+            "tag_4_text": "",
+            "tag_4_url": "",
+            "tag_5_text": "",
+            "tag_5_url": "",
+            "tag_6_text": "",
+            "tag_6_url": ""
+          }
+        },
+        "tab_MnBTCM": {
+          "type": "tab",
+          "settings": {
+            "tab_label": "Anniversary Gifts",
+            "video": "",
+            "image": "shopify://shop_images/9165676728155400954_2048.jpg",
+            "benefit_1": "Designed to last for generations.",
+            "benefit_2": "Suitable for couples & families.",
+            "benefit_3": "Premium engraving craftsmanship.",
+            "benefit_4": "Memorable personalized gifting option.",
+            "benefit_5": "Elegant keepsake presentation.",
+            "benefit_6": "",
+            "benefit_7": "",
+            "benefit_8": "",
+            "tag_1_text": "Go With",
+            "tag_1_url": "shopify://products/rocks-glass-10oz",
+            "tag_2_text": "",
+            "tag_2_url": "",
+            "tag_3_text": "",
+            "tag_3_url": "",
+            "tag_4_text": "",
+            "tag_4_url": "",
+            "tag_5_text": "",
+            "tag_5_url": "",
+            "tag_6_text": "",
+            "tag_6_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "tab_iC8ntp",
+        "tab_QqnLfh",
+        "tab_cErzHF",
+        "tab_h3jLTw",
+        "tab_MtcdRH",
+        "tab_eRwwi9",
+        "tab_MnBTCM"
+      ],
+      "name": "Benefits Tabs",
+      "settings": {
+        "heading": "Perfect For Every Patriotic Occasion",
+        "subtext": "Thoughtful commemorative glassware designed for collectors, veterans, whiskey lovers, and meaningful celebrations.",
+        "targets_label": "TARGETS:",
+        "bg_image_overlay_opacity": 0,
+        "bg_image_size": "cover",
+        "bg_image_position": "center center",
+        "bg_color": "#efefef",
+        "heading_color": "#1a1a1a",
+        "subtext_color": "#555555",
+        "tab_text_color": "#555555",
+        "tab_active_text_color": "#1a1a1a",
+        "tab_active_bg": "#ffffff",
+        "tab_border_color": "#dddddd",
+        "tab_active_border_color": "#5b796e",
+        "benefit_bg": "#efefef",
+        "benefit_border_color": "#eeeeee",
+        "benefit_text_color": "#1a1a1a",
+        "icon_color": "#5b796e",
+        "tag_label_color": "#1a1a1a",
+        "tag_text_color": "#444444",
+        "tag_underline_color": "#c0646e",
+        "heading_font_size": 42,
+        "heading_font_weight": "700",
+        "subtext_font_size": 15,
+        "tab_font_size": 13,
+        "tab_font_weight": "600",
+        "benefit_font_size": 15,
+        "benefit_font_weight": "400",
+        "tag_font_size": 13,
+        "mobile_heading_font_size": 26,
+        "mobile_subtext_font_size": 14,
+        "mobile_tab_font_size": 11,
+        "mobile_benefit_font_size": 14,
+        "max_width": 1540,
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_horizontal": 24,
+        "content_gap": 28,
+        "mobile_padding_top": 40,
+        "mobile_padding_bottom": 40,
+        "mobile_padding_horizontal": 16,
+        "media_width": 38,
+        "media_height": 400,
+        "mobile_media_height": 260,
+        "media_radius": 8,
+        "tabs_alignment": "flex-start",
+        "tab_radius": 40,
+        "tab_padding_v": 8,
+        "tab_padding_h": 22,
+        "benefit_radius": 8,
+        "icon_size": 28,
+        "mobile_icon_size": 24
+      }
+    }
+  },
+  "order": [
+    "cfca4268-6358-426c-98ab-d292aeef11e5",
+    "custom_hero_clickable_JKjMkn",
+    "custom_image_gallery_gallery1",
+    "collection_list_Mj8tNd",
+    "featured_collection_Ri3inX",
+    "custom_bundle_product_n8bGxV",
+    "aesthetic_carousel",
+    "icons_with_content_hXgizf",
+    "6aa09428-a417-429d-9159-a4e8afd49590",
+    "featured_collection_iRw6pk",
+    "custom_columns_8EUE7J",
+    "custom_tab_qQHwGD"
+  ]
+}

@@ -1,0 +1,630 @@
+<div data-section-id="{{ section.id }}" data-section-type="premium-bundle-section" class="premium-bundle-section-{{ section.id }}" data-discount="{{ section.settings.bundle_discount }}">
+  
+  {%- style -%}
+    .premium-bundle-section-{{ section.id }} {
+      position: relative;
+      {% if section.settings.bg_image != blank %}
+        background-image: url('{{ section.settings.bg_image | img_url: "master" }}');
+        background-attachment: fixed;
+        background-size: cover;
+        background-position: center;
+      {% else %}
+        background-color: {{ section.settings.bg_color | default: 'transparent' }};
+      {% endif %}
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+    
+    {% if section.settings.bg_image != blank %}
+    .premium-bundle-section-{{ section.id }}::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: {{ section.settings.bg_overlay_color }};
+      opacity: {{ section.settings.bg_overlay_opacity | divided_by: 100.0 }};
+      z-index: 0;
+    }
+    {% endif %}
+
+    .premium-bundle-container-{{ section.id }} {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Tabs */
+    .bundle-tabs-nav {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin: 40px auto;
+      max-width: 1200px;
+      text-align: center;
+    }
+    @media (max-width: 991px) {
+      .bundle-tabs-nav { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 575px) {
+      .bundle-tabs-nav { grid-template-columns: 1fr; }
+      .premium-bundle-container-{{ section.id }} { padding: 0 20px; }
+    }
+    .bundle-tab-btn {
+      width: 100%;
+      padding: 12px 10px;
+      font-size: 14px;
+      font-family: inherit;
+      color: {{ section.settings.tab_text_color }};
+      background: {{ section.settings.tab_bg_color }};
+      border: 1px solid {{ section.settings.tab_border_color | default: '#e0e0e0' }};
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-radius: 6px;
+    }
+    .bundle-tab-btn:hover, .bundle-tab-btn.active {
+      background: {{ section.settings.tab_active_bg_color }};
+      color: {{ section.settings.tab_active_text_color }};
+      border-color: {{ section.settings.tab_active_bg_color }};
+    }
+    .bundle-content-pane {
+      display: none;
+      animation: fadeUp 0.5s ease;
+      text-align: center;
+    }
+    .bundle-content-pane.active {
+      display: block;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Equation Layout */
+    .bundle-equation {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin: 0 auto 35px auto;
+      max-width: 900px;
+    }
+    .bundle-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 120px;
+    }
+    .bundle-item img {
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #eee;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease;
+      background: #fff;
+    }
+    .bundle-item:hover img {
+      transform: scale(1.05);
+    }
+    .bundle-item-title {
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1.4;
+      color: {{ section.settings.color_title | default: '#333' }};
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .bundle-plus {
+      font-size: 28px;
+      font-weight: 300;
+      color: {{ section.settings.color_title | default: '#ccc' }};
+      opacity: 0.6;
+    }
+    @media (max-width: 767px) {
+      .bundle-equation { gap: 10px; }
+      .bundle-item { width: 100px; }
+      .bundle-item img { width: 80px; height: 80px; }
+      .bundle-plus { font-size: 20px; }
+    }
+    
+    /* Actions */
+    .bundle-footer-action {
+      text-align: center;
+      padding: 30px;
+      background: {{ section.settings.box_bg_color | default: '#fafafa' }};
+      border: 1px solid {{ section.settings.box_border_color | default: '#f0f0f0' }};
+      border-radius: 8px;
+      max-width: 600px;
+      margin: 0 auto;
+      {% if section.settings.box_blur %}
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.85);
+      {% endif %}
+    }
+    .bundle-qty-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+      gap: 15px;
+    }
+    .bundle-qty-label {
+      font-size: 15px;
+      font-weight: 600;
+      color: {{ section.settings.color_title | default: '#111' }};
+    }
+    .bundle-qty-input {
+      width: 70px;
+      text-align: center;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+      background: #fff;
+      color: #111;
+    }
+    .bundle-total-price {
+      font-size: 24px;
+      font-weight: 600;
+      color: {{ section.settings.color_title | default: '#111' }};
+      margin-bottom: 20px;
+    }
+    .btn-bundle-add {
+      padding: 16px 40px;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: inherit;
+      color: {{ section.settings.btn_text_color }};
+      background: {{ section.settings.btn_bg_color }};
+      border: 1px solid {{ section.settings.btn_bg_color }};
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-radius: 6px;
+      width: 100%;
+      max-width: 350px;
+    }
+    .btn-bundle-add:hover {
+      background: {{ section.settings.btn_hover_bg_color }};
+      color: {{ section.settings.btn_hover_text_color }};
+      border-color: {{ section.settings.btn_hover_bg_color }};
+    }
+    .bundle-error-msg {
+      color: #d9534f;
+      margin-top: 15px;
+      font-size: 14px;
+      display: none;
+    }
+  {%- endstyle -%}
+
+  <div class="premium-bundle-container-{{ section.id }}">
+    <!-- Header: Match theme h1 styling -->
+    <div class="text-center" style="text-align: center; width: 100%;">
+      {% if section.settings.title_heading != blank %}
+        <h2 class="h1 title_heading mb-0" style="color: {{ section.settings.color_title }}">{{ section.settings.title_heading }}</h2>
+      {% endif %}
+      {% if section.settings.sub_heading != blank %}
+        <span class="sub_heading" style="color: {{ section.settings.color_sub_title }}; display: block; margin-top: 15px; font-size: 1.1em;">{{ section.settings.sub_heading }}</span>
+      {% endif %}
+    </div>
+
+    {% if section.blocks.size > 0 %}
+      <div class="bundle-tabs-nav">
+        {% for block in section.blocks %}
+          <button class="bundle-tab-btn {% if forloop.first %}active{% endif %}" onclick="switchPremiumTab('{{ block.id }}', this)">
+            {{ block.settings.tab_title }}
+          </button>
+        {% endfor %}
+      </div>
+
+      <div class="bundle-tabs-content">
+        {% for block in section.blocks %}
+          <div class="bundle-content-pane {% if forloop.first %}active{% endif %}" id="bundle-pane-{{ block.id }}">
+            
+            {% assign p1 = block.settings.product_1 %}
+            {% assign p2 = block.settings.product_2 %}
+            {% assign p3 = block.settings.product_3 %}
+            {% assign p4 = block.settings.product_4 %}
+            
+            {% assign total_price = 0 %}
+            {% assign item_count = 0 %}
+
+            <!-- Equation Display -->
+            <div class="bundle-equation">
+              {% if p1 != blank %}
+                {% assign total_price = total_price | plus: p1.price %}
+                {% assign item_count = item_count | plus: 1 %}
+                <div class="bundle-item">
+                  <img src="{{ p1.featured_image | img_url: '400x' }}" alt="{{ p1.title }}">
+                  <div class="bundle-item-title des-font">{{ p1.title }}</div>
+                </div>
+              {% endif %}
+              
+              {% if p2 != blank %}
+                {% if item_count > 0 %}<div class="bundle-plus">+</div>{% endif %}
+                {% assign total_price = total_price | plus: p2.price %}
+                {% assign item_count = item_count | plus: 1 %}
+                <div class="bundle-item">
+                  <img src="{{ p2.featured_image | img_url: '400x' }}" alt="{{ p2.title }}">
+                  <div class="bundle-item-title des-font">{{ p2.title }}</div>
+                </div>
+              {% endif %}
+
+              {% if p3 != blank %}
+                {% if item_count > 0 %}<div class="bundle-plus">+</div>{% endif %}
+                {% assign total_price = total_price | plus: p3.price %}
+                {% assign item_count = item_count | plus: 1 %}
+                <div class="bundle-item">
+                  <img src="{{ p3.featured_image | img_url: '400x' }}" alt="{{ p3.title }}">
+                  <div class="bundle-item-title des-font">{{ p3.title }}</div>
+                </div>
+              {% endif %}
+
+              {% if p4 != blank %}
+                {% if item_count > 0 %}<div class="bundle-plus">+</div>{% endif %}
+                {% assign total_price = total_price | plus: p4.price %}
+                {% assign item_count = item_count | plus: 1 %}
+                <div class="bundle-item">
+                  <img src="{{ p4.featured_image | img_url: '400x' }}" alt="{{ p4.title }}">
+                  <div class="bundle-item-title des-font">{{ p4.title }}</div>
+                </div>
+              {% endif %}
+            </div>
+
+            <!-- Footer Action -->
+            <div class="bundle-footer-action">
+              <div class="bundle-qty-wrapper">
+                <span class="bundle-qty-label">Quantity (Sets):</span>
+                <input type="number" id="qty-{{ block.id }}" class="bundle-qty-input" value="1" min="1" onchange="updateBundlePrice('{{ block.id }}', {{ total_price }})">
+              </div>
+              
+              <div class="bundle-total-price price-product" id="price-display-{{ block.id }}" data-base-price="{{ total_price }}">
+                {% if section.settings.bundle_discount > 0 %}
+                  {% assign discount_mult = 100 | minus: section.settings.bundle_discount | divided_by: 100.0 %}
+                  {% assign discounted_price = total_price | times: discount_mult %}
+                  <s class="price-old" style="color:#999; font-size:18px; margin-right:10px;" id="price-old-{{ block.id }}">{{ total_price | money }}</s>
+                  <span class="price" id="price-new-{{ block.id }}">{{ discounted_price | money }}</span>
+                {% else %}
+                  <span class="price" id="price-new-{{ block.id }}">{{ total_price | money }}</span>
+                {% endif %}
+              </div>
+              
+              <button 
+                class="btn-bundle-add" 
+                data-v1="{{ p1.variants.first.id }}" 
+                data-v2="{{ p2.variants.first.id }}" 
+                data-v3="{{ p3.variants.first.id }}" 
+                data-v4="{{ p4.variants.first.id }}"
+                data-block-id="{{ block.id }}"
+                onclick="addBundleItemsToCart(this)">
+                {{ section.settings.btn_text }}
+              </button>
+              <div class="bundle-error-msg"></div>
+            </div>
+
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="text-center" style="padding: 50px 0;">
+        <p>Please add Bundle Tabs from the Theme Editor.</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+  function formatMoney(cents) {
+    return '$' + (cents / 100).toFixed(2);
+  }
+
+  function switchPremiumTab(blockId, btnElement) {
+    document.querySelectorAll('.bundle-tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.bundle-content-pane').forEach(pane => pane.classList.remove('active'));
+    
+    btnElement.classList.add('active');
+    document.getElementById('bundle-pane-' + blockId).classList.add('active');
+  }
+
+  function updateBundlePrice(blockId, basePrice) {
+    var sectionEl = document.querySelector('[data-section-type="premium-bundle-section"]');
+    var discountPercent = parseInt(sectionEl.getAttribute('data-discount')) || 0;
+    var qty = parseInt(document.getElementById('qty-' + blockId).value) || 1;
+    if(qty < 1) {
+      qty = 1;
+      document.getElementById('qty-' + blockId).value = 1;
+    }
+    
+    var totalPrice = basePrice * qty;
+    var finalPrice = totalPrice;
+    if (discountPercent > 0) {
+      finalPrice = totalPrice * ((100 - discountPercent) / 100);
+    }
+    
+    var priceNewEl = document.getElementById('price-new-' + blockId);
+    var priceOldEl = document.getElementById('price-old-' + blockId);
+    
+    var formatFunc = (window.Shopify && window.Shopify.formatMoney && window.money_format) 
+      ? function(amt) { return window.Shopify.formatMoney(amt, window.money_format); }
+      : formatMoney;
+
+    if (priceNewEl) priceNewEl.innerHTML = formatFunc(finalPrice);
+    if (priceOldEl && discountPercent > 0) priceOldEl.innerHTML = formatFunc(totalPrice);
+  }
+
+  async function addBundleItemsToCart(btn) {
+    var v1 = btn.getAttribute('data-v1');
+    var v2 = btn.getAttribute('data-v2');
+    var v3 = btn.getAttribute('data-v3');
+    var v4 = btn.getAttribute('data-v4');
+    var blockId = btn.getAttribute('data-block-id');
+    var qty = parseInt(document.getElementById('qty-' + blockId).value) || 1;
+    
+    var variants = [v1, v2, v3, v4].filter(v => v && v !== '');
+    if (variants.length === 0) return;
+
+    var originalText = btn.innerText;
+    var errorDiv = btn.nextElementSibling;
+    
+    btn.disabled = true;
+    btn.innerText = 'ADDING TO CART...';
+    errorDiv.style.display = 'none';
+
+    try {
+      var items = variants.map(function(vid) {
+        return { id: parseInt(vid), quantity: qty };
+      });
+
+      var response = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: items })
+      });
+
+      if (!response.ok) throw new Error('Failed to add bundle to cart.');
+
+      window.location.href = '/cart';
+
+    } catch (err) {
+      errorDiv.innerText = err.message || "Error adding items.";
+      errorDiv.style.display = 'block';
+      btn.disabled = false;
+      btn.innerText = originalText;
+    }
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Custom Product Bundle",
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Bundle Discount"
+    },
+    {
+      "type": "range",
+      "id": "bundle_discount",
+      "label": "Discount Percentage",
+      "info": "Visually shows a discount. To apply it at checkout, ensure an Automatic Discount matches these products in Shopify Admin.",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "%"
+    },
+    {
+      "type": "header",
+      "content": "Background Settings"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "transparent"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image (Fixed Scroll)"
+    },
+    {
+      "type": "color",
+      "id": "bg_overlay_color",
+      "label": "Background Overlay Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "bg_overlay_opacity",
+      "label": "Background Overlay Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 0,
+      "unit": "%"
+    },
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "title_heading",
+      "label": "Section Title",
+      "default": "Shop Our Premium Sets"
+    },
+    {
+      "type": "color",
+      "id": "color_title",
+      "label": "Title & Main Text Color",
+      "default": "#222"
+    },
+    {
+      "type": "text",
+      "id": "sub_heading",
+      "label": "Sub Heading",
+      "default": "Choose a prebuilt bundle below"
+    },
+    {
+      "type": "color",
+      "id": "color_sub_title",
+      "label": "Sub Title Color",
+      "default": "#666"
+    },
+    {
+      "type": "header",
+      "content": "Tab Colors"
+    },
+    {
+      "type": "color",
+      "id": "tab_bg_color",
+      "label": "Tab Background Color",
+      "default": "transparent"
+    },
+    {
+      "type": "color",
+      "id": "tab_text_color",
+      "label": "Tab Text Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_bg_color",
+      "label": "Tab Active Background Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "tab_active_text_color",
+      "label": "Tab Active Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "tab_border_color",
+      "label": "Tab Border Color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "header",
+      "content": "Cart Box & Button Settings"
+    },
+    {
+      "type": "color",
+      "id": "box_bg_color",
+      "label": "Cart Box Background",
+      "default": "#fafafa"
+    },
+    {
+      "type": "color",
+      "id": "box_border_color",
+      "label": "Cart Box Border",
+      "default": "#f0f0f0"
+    },
+    {
+      "type": "checkbox",
+      "id": "box_blur",
+      "label": "Enable Glassmorphism Blur on Box",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "btn_text",
+      "label": "Button Text",
+      "default": "ADD BUNDLE TO CART"
+    },
+    {
+      "type": "color",
+      "id": "btn_bg_color",
+      "label": "Button Background Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "btn_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "btn_hover_bg_color",
+      "label": "Button Hover Background Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "btn_hover_text_color",
+      "label": "Button Hover Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "text",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "default": "50"
+    },
+    {
+      "type": "text",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "default": "50"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "bundle_tab",
+      "name": "Bundle Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tab_title",
+          "label": "Tab Name",
+          "default": "Shot Glass with 4 Mockups"
+        },
+        {
+          "type": "product",
+          "id": "product_1",
+          "label": "Product 1"
+        },
+        {
+          "type": "product",
+          "id": "product_2",
+          "label": "Product 2"
+        },
+        {
+          "type": "product",
+          "id": "product_3",
+          "label": "Product 3"
+        },
+        {
+          "type": "product",
+          "id": "product_4",
+          "label": "Product 4"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Product Bundle",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,1171 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "contact_hero_banner_dbBwgp": {
+      "type": "contact-hero-banner",
+      "name": "Contact Hero Banner",
+      "settings": {
+        "background_image": "shopify://shop_images/about_banner.png",
+        "background_color": "rgba(0,0,0,0)",
+        "bg_image_opacity": 100,
+        "overlay_color": "#0a1628",
+        "overlay_opacity": 55,
+        "accent_color": "#c9a84c",
+        "show_eyebrow": true,
+        "eyebrow_text": "ABOUT US",
+        "eyebrow_icon": "✦",
+        "heading": "CELEBRATE FREEDOM",
+        "heading_color": "#ffffff",
+        "heading_text_transform": "uppercase",
+        "subtext": "Premium commemorative glassware inspired by America’s\n250th Anniversary — designed for collectors,\ncelebrations, and meaningful moments.",
+        "subtext_color": "#b0bec5",
+        "show_bottom_divider": true,
+        "bottom_icon": "★",
+        "eyebrow_font_weight": "600",
+        "eyebrow_letter_spacing": 0.2,
+        "heading_font_weight": "800",
+        "heading_line_height": 1.1,
+        "heading_letter_spacing": 0,
+        "subtext_font_weight": "400",
+        "subtext_line_height": 1.9,
+        "subtext_max_width": 600,
+        "content_max_width": 1100,
+        "desktop_min_height": 500,
+        "desktop_padding_top": 60,
+        "desktop_padding_bottom": 60,
+        "desktop_padding_horizontal": 40,
+        "desktop_margin_top": 0,
+        "desktop_margin_bottom": 0,
+        "desktop_eyebrow_font_size": 13,
+        "desktop_eyebrow_icon_size": 10,
+        "desktop_eyebrow_mb": 12,
+        "desktop_heading_font_size": 60,
+        "desktop_heading_mb": 16,
+        "desktop_subtext_font_size": 16,
+        "desktop_subtext_mb": 20,
+        "desktop_bottom_icon_size": 14,
+        "mobile_min_height": 140,
+        "mobile_padding_top": 40,
+        "mobile_padding_bottom": 40,
+        "mobile_padding_horizontal": 20,
+        "mobile_margin_top": 0,
+        "mobile_margin_bottom": 0,
+        "mobile_eyebrow_font_size": 11,
+        "mobile_eyebrow_icon_size": 8,
+        "mobile_eyebrow_mb": 10,
+        "mobile_heading_font_size": 30,
+        "mobile_heading_mb": 12,
+        "mobile_subtext_font_size": 14,
+        "mobile_subtext_mb": 16,
+        "mobile_bottom_icon_size": 12
+      }
+    },
+    "image_with_text_PDwdbB": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_LdbGJq": {
+          "type": "heading",
+          "settings": {
+            "title": "Honoring 250 Years of American Freedom",
+            "title_highlight_color": "#6d388b",
+            "heading_size": "h2"
+          }
+        },
+        "text_rqWMHg": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Patriot 250th was created to honor America’s 250-year legacy through timeless glassware designs.Every piece in our collection is crafted to combine patriotic pride with premium quality — turning everyday drinkware into meaningful keepsakes.From whiskey glasses to pint glasses and commemorative shot glasses, our goal is simple: create products that celebrate freedom, heritage, and memorable moments.</p><h3></h3>",
+            "text_style": "body"
+          }
+        },
+        "button_7fAFL7": {
+          "type": "button",
+          "settings": {
+            "button_label": "EXPLORE",
+            "button_link": "shopify://collections/all",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_LdbGJq",
+        "text_rqWMHg",
+        "button_7fAFL7"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "image": "shopify://shop_images/1152550263604478850_2048.jpg",
+        "video_autoplay": true,
+        "video_loop": true,
+        "height": "medium",
+        "color_scheme": "background-1",
+        "section_color_scheme": "background-1",
+        "full_desktop_width": false,
+        "content_layout": "no-overlap",
+        "desktop_media_width": 45,
+        "layout": "image_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_full_media_width": false,
+        "mobile_direction": "normal",
+        "mobile_image_quanlity": "1",
+        "mobile_content_alignment": "center",
+        "mobile_padding_top": 24,
+        "mobile_padding_bottom": 16,
+        "desktop_padding_top": 44,
+        "desktop_padding_bottom": 36,
+        "custom_colors_background": "#2e2a39",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#ffffff",
+        "custom_colors_solid_button_background": "#dd1d1d",
+        "custom_colors_solid_button_text": "#ffffff",
+        "custom_colors_outline_button": "#dd1d1d",
+        "custom_section_colors_background": "#ffffff",
+        "custom_section_gradient_background": ""
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "title": "Subscribe to our emails",
+            "title_highlight_color": "#6d388b",
+            "heading_size": "h1"
+          }
+        },
+        "paragraph": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Join our email list for exclusive offers and the latest news. </p>"
+          }
+        },
+        "email-form": {
+          "type": "email_form",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "heading",
+        "paragraph",
+        "email-form"
+      ],
+      "disabled": true,
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "button_type": "solid",
+        "button_label": "Sign up",
+        "button_style_secondary": false,
+        "color_scheme": "background-2",
+        "full_width": true,
+        "padding_top": 68,
+        "padding_bottom": 52,
+        "custom_colors_background": "#ffffff",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#2e2a39",
+        "custom_colors_solid_button_background": "#dd1d1d",
+        "custom_colors_solid_button_text": "#ffffff"
+      }
+    },
+    "slideshow_y8WM3L": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_RNqhci": {
+          "type": "slide",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/contact-us.png",
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "title_highlight_color": "#6d388b",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "atc_button_label": "",
+            "atc_product": "",
+            "atc_skip_cart": false,
+            "box_align": "middle-center",
+            "show_text_box": false,
+            "text_alignment": "center",
+            "color_scheme": "background-1",
+            "transparent_container_color": "white",
+            "text_alignment_mobile": "center",
+            "custom_colors_background": "#ffffff",
+            "custom_gradient_background": "",
+            "custom_colors_text": "#2e2a39",
+            "custom_colors_solid_button_background": "#dd1d1d",
+            "custom_colors_solid_button_text": "#ffffff",
+            "custom_colors_outline_button": "#dd1d1d"
+          }
+        },
+        "slide_GypLpw": {
+          "type": "slide",
+          "disabled": true,
+          "settings": {
+            "image_overlay_opacity": 0,
+            "heading": "Image slide",
+            "title_highlight_color": "#6d388b",
+            "heading_size": "h1",
+            "subheading": "Tell your brand's story through images",
+            "button_label": "Button label",
+            "link": "",
+            "button_style_secondary": false,
+            "atc_button_label": "",
+            "atc_product": "",
+            "atc_skip_cart": false,
+            "box_align": "middle-center",
+            "show_text_box": true,
+            "text_alignment": "center",
+            "color_scheme": "background-1",
+            "transparent_container_color": "white",
+            "text_alignment_mobile": "center",
+            "custom_colors_background": "#ffffff",
+            "custom_gradient_background": "",
+            "custom_colors_text": "#2e2a39",
+            "custom_colors_solid_button_background": "#dd1d1d",
+            "custom_colors_solid_button_text": "#ffffff",
+            "custom_colors_outline_button": "#dd1d1d"
+          }
+        }
+      },
+      "block_order": [
+        "slide_RNqhci",
+        "slide_GypLpw"
+      ],
+      "name": "t:sections.slideshow.presets.name",
+      "settings": {
+        "visibility": "always-display",
+        "layout": "full_bleed",
+        "slide_height": "medium",
+        "slider_visual": "dots",
+        "desktop_pagination_position": "over",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "show_text_below": true,
+        "mobile_pagination_position": "under",
+        "accessibility_info": "Slideshow about our brand"
+      }
+    },
+    "icon_bar_Mc4aVV": {
+      "type": "icon-bar",
+      "blocks": {
+        "column_pichRL": {
+          "type": "column",
+          "settings": {
+            "icon": "check_circle",
+            "filled_icon": false,
+            "image": "shopify://shop_images/crystal.png",
+            "title": "TOP QUALITY",
+            "text": "<p>Durable, crystal-clear glass crafted for long-lasting everyday use.</p>"
+          }
+        },
+        "column_hz9Vjy": {
+          "type": "column",
+          "settings": {
+            "icon": "check_circle",
+            "filled_icon": false,
+            "image": "shopify://shop_images/loyalty-program.png",
+            "title": "UNIQUE DESIGNS",
+            "text": "<p>Original artwork designed to make a bold statement.</p>"
+          }
+        },
+        "column_L8HRNY": {
+          "type": "column",
+          "settings": {
+            "icon": "check_circle",
+            "filled_icon": false,
+            "image": "shopify://shop_images/shopping-cart.png",
+            "title": "MADE TO ORDER",
+            "text": "<p>Printed, packed, and prepared just for you with premium care.</p>"
+          }
+        },
+        "column_NdazG4": {
+          "type": "column",
+          "settings": {
+            "icon": "check_circle",
+            "filled_icon": false,
+            "image": "shopify://shop_images/recycle.png",
+            "title": "SUSTAINABLE",
+            "text": "<p>Thoughtful packaging and eco-friondly practices.</p><p></p>"
+          }
+        }
+      },
+      "block_order": [
+        "column_pichRL",
+        "column_hz9Vjy",
+        "column_L8HRNY",
+        "column_NdazG4"
+      ],
+      "name": "Icon Bar",
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "title": "",
+        "title_highlight_color": "#6d388b",
+        "heading_size": "h2",
+        "text": "",
+        "color_scheme": "custom",
+        "icon_layout": "vertical",
+        "icon_size": "small",
+        "icon_color": "accent-1",
+        "cards_color_scheme": "background-1",
+        "type": "slide",
+        "autoplay": false,
+        "autoplay_speed": 5,
+        "arrows_color_scheme": "inverse",
+        "transparent_arrows": true,
+        "dots_color_scheme": "inverse",
+        "desktop_full_page": false,
+        "columns_desktop": 4,
+        "slider_desktop": false,
+        "per_move_desktop": 1,
+        "desktop_spacing": 40,
+        "desktop_side_padding": 0,
+        "desktop_padding_calc": true,
+        "desktop_adaptive_height": false,
+        "desktop_dots_position": "under",
+        "desktop_arrows_position": "sides",
+        "columns_mobile": "1",
+        "slider_mobile": true,
+        "enable_mobile_preview": false,
+        "mobile_adaptive_height": false,
+        "mobile_dots_position": "under",
+        "mobile_arrows_position": "under",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_colors_background": "#ffffff",
+        "custom_gradient_background": "",
+        "custom_image_background": "shopify://shop_images/dp_daub_bright.png",
+        "custom_colors_text": "#2e2a39",
+        "custom_cards_colors_background": "#f3f3f3",
+        "custom_cards_gradient_background": "",
+        "custom_cards_colors_text": "#2e2a39"
+      }
+    },
+    "image_with_text_L7CrLa": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_RwNRqJ": {
+          "type": "heading",
+          "settings": {
+            "title": "Quality You Can See. Care You Can Feel.",
+            "title_highlight_color": "#6d388b",
+            "heading_size": "h1"
+          }
+        },
+        "text_QbeHJU": {
+          "type": "text",
+          "settings": {
+            "text": "<p>From the first sketch to the final sip, every piece of POD Glasoware is crafted with attention to detall and a passion for perfection.</p>",
+            "text_style": "body"
+          }
+        },
+        "button_bjngw8": {
+          "type": "button",
+          "settings": {
+            "button_label": "Shop Now",
+            "button_link": "shopify://collections/all",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_RwNRqJ",
+        "text_QbeHJU",
+        "button_bjngw8"
+      ],
+      "disabled": true,
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "image": "shopify://shop_images/17980636952662476025_2048.jpg",
+        "video_autoplay": true,
+        "video_loop": true,
+        "height": "medium",
+        "color_scheme": "background-1",
+        "section_color_scheme": "background-1",
+        "full_desktop_width": false,
+        "content_layout": "no-overlap",
+        "desktop_media_width": 50,
+        "layout": "image_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_full_media_width": false,
+        "mobile_direction": "normal",
+        "mobile_image_quanlity": "2",
+        "mobile_content_alignment": "left",
+        "mobile_padding_top": 0,
+        "mobile_padding_bottom": 16,
+        "desktop_padding_top": 36,
+        "desktop_padding_bottom": 36,
+        "custom_colors_background": "#2e2a39",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#ffffff",
+        "custom_colors_solid_button_background": "#dd1d1d",
+        "custom_colors_solid_button_text": "#ffffff",
+        "custom_colors_outline_button": "#dd1d1d",
+        "custom_section_colors_background": "#ffffff",
+        "custom_section_gradient_background": ""
+      }
+    },
+    "trustpilot_reviews_VNKNHy": {
+      "type": "trustpilot-reviews",
+      "blocks": {
+        "column_Tmexnz": {
+          "type": "column",
+          "settings": {
+            "star_color": "#00b67a",
+            "bg_star_color": "#c8c8c8",
+            "star_symbol_color": "#fff",
+            "stars_rating": 5,
+            "title": "",
+            "text": "<p>\"Amazing quality and the design turned out perfect! This is my go-to for gifts now.\"</p>",
+            "author": "- Jason R."
+          }
+        },
+        "column_zReBpm": {
+          "type": "column",
+          "settings": {
+            "star_color": "#00b67a",
+            "bg_star_color": "#c8c8c8",
+            "star_symbol_color": "#fff",
+            "stars_rating": 5,
+            "title": "",
+            "text": "<p>\"Fast shipping, beautiful packaging, and the glass feels premium. Highly recommended!\"  </p>",
+            "author": "- Emily T."
+          }
+        },
+        "column_eQTrgT": {
+          "type": "column",
+          "settings": {
+            "star_color": "#00b67a",
+            "bg_star_color": "#c8c8c8",
+            "star_symbol_color": "#fff",
+            "stars_rating": 5,
+            "title": "",
+            "text": "<p>\"I ordered a custom set and it exceeded my expectations. Will definitely order again!\".\"</p>",
+            "author": "- Mark D."
+          }
+        }
+      },
+      "block_order": [
+        "column_Tmexnz",
+        "column_zReBpm",
+        "column_eQTrgT"
+      ],
+      "disabled": true,
+      "name": "Trustpilot reviews",
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "color_scheme": "custom",
+        "desktop_content_position": "above",
+        "desktop_content_alignment": "center",
+        "title": "What Our Customer Say",
+        "title_highlight_color": "#6d388b",
+        "heading_size": "h1",
+        "subtitle": "Excellent [rating] <strong>/ 5</strong> [rating_star]",
+        "subheading_rating_text": "<strong>4.8</strong>",
+        "subheading_mobile_text_size": 18,
+        "subheading_desktop_text_size": 20,
+        "subheading_font": "body",
+        "star_color": "#00b67a",
+        "bg_star_color": "#c8c8c8",
+        "star_symbol_color": "#fff",
+        "stars_rating": 5,
+        "text": "",
+        "cards_border_radius": 16,
+        "card_alignment": "center",
+        "show_stars": true,
+        "cards_color_scheme": "background-2",
+        "type": "slide",
+        "autoplay": false,
+        "autoplay_speed": 5,
+        "arrows_color_scheme": "inverse",
+        "transparent_arrows": true,
+        "dots_color_scheme": "inverse",
+        "desktop_full_page": false,
+        "columns_desktop": 3,
+        "slider_desktop": false,
+        "per_move_desktop": 1,
+        "desktop_spacing": 24,
+        "desktop_side_padding": 0,
+        "desktop_padding_calc": true,
+        "desktop_adaptive_height": false,
+        "desktop_dots_position": "under",
+        "desktop_arrows_position": "sides",
+        "slider_mobile": true,
+        "enable_mobile_preview": false,
+        "mobile_adaptive_height": false,
+        "mobile_dots_position": "under",
+        "mobile_arrows_position": "under",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_colors_background": "#ffffff",
+        "custom_gradient_background": "",
+        "custom_image_background": "shopify://shop_images/dp_daub_bright.png",
+        "custom_colors_text": "#2e2a39",
+        "custom_cards_colors_background": "#f3f3f3",
+        "custom_cards_gradient_background": "",
+        "custom_cards_colors_text": "#2e2a39"
+      }
+    },
+    "how_we_create_aRyhT3": {
+      "type": "how-we-create",
+      "blocks": {
+        "step_mnXhiM": {
+          "type": "step",
+          "settings": {
+            "icon_image": "shopify://shop_images/ux.png",
+            "icon_text": "",
+            "title": "Design",
+            "description": "Our designs are inspired by American heritage, freedom, and timeless symbolism."
+          }
+        },
+        "step_nPEmJw": {
+          "type": "step",
+          "settings": {
+            "icon_image": "shopify://shop_images/watercolor.png",
+            "icon_text": "",
+            "title": "Craft",
+            "description": "We carefully print and inspect every glass for premium presentation and quality."
+          }
+        },
+        "step_RCFxmT": {
+          "type": "step",
+          "settings": {
+            "icon_image": "shopify://shop_images/delivery-man.png",
+            "icon_text": "",
+            "title": "Deliver",
+            "description": "Each order is securely packaged and shipped with care, precision, and premium protection."
+          }
+        }
+      },
+      "block_order": [
+        "step_mnXhiM",
+        "step_nPEmJw",
+        "step_RCFxmT"
+      ],
+      "name": "How We Create",
+      "settings": {
+        "bg_color": "#ffffff",
+        "accent_color": "#b5914a",
+        "heading_color": "#1c1c1c",
+        "circle_bg_color": "#3d5a3e",
+        "circle_text_color": "#ffffff",
+        "connector_color": "#b5914a",
+        "icon_color": "#3d5a3e",
+        "step_title_color": "#1c1c1c",
+        "step_desc_color": "#5a5a5a",
+        "show_eyebrow": true,
+        "eyebrow_text": "Our Process",
+        "eyebrow_icon": "★",
+        "heading": "How We Create",
+        "heading_text_transform": "uppercase",
+        "eyebrow_font_weight": "600",
+        "eyebrow_letter_spacing": 0.2,
+        "heading_font_weight": "800",
+        "heading_line_height": 1.1,
+        "heading_letter_spacing": 0,
+        "step_title_font_weight": "700",
+        "step_title_text_transform": "uppercase",
+        "step_title_letter_spacing": 0.1,
+        "step_desc_font_weight": "400",
+        "step_desc_line_height": 1.6,
+        "circle_size": 40,
+        "circle_font_weight": "700",
+        "connector_offset_top": 20,
+        "content_max_width": 1100,
+        "desktop_margin_top": 0,
+        "desktop_margin_bottom": 0,
+        "desktop_padding_top": 60,
+        "desktop_padding_bottom": 60,
+        "desktop_padding_horizontal": 40,
+        "desktop_eyebrow_mb": 12,
+        "desktop_eyebrow_font_size": 12,
+        "desktop_eyebrow_icon_size": 10,
+        "desktop_heading_font_size": 48,
+        "desktop_heading_mb": 48,
+        "desktop_circle_font_size": 16,
+        "desktop_circle_mb": 16,
+        "desktop_icon_size": 36,
+        "desktop_icon_img_size": 48,
+        "desktop_icon_mb": 12,
+        "desktop_step_title_font_size": 15,
+        "desktop_step_title_mb": 10,
+        "desktop_step_desc_font_size": 14,
+        "mobile_margin_top": 0,
+        "mobile_margin_bottom": 0,
+        "mobile_padding_top": 40,
+        "mobile_padding_bottom": 40,
+        "mobile_padding_horizontal": 20,
+        "mobile_step_gap": 12,
+        "mobile_eyebrow_mb": 10,
+        "mobile_eyebrow_font_size": 11,
+        "mobile_eyebrow_icon_size": 9,
+        "mobile_heading_font_size": 32,
+        "mobile_heading_mb": 32,
+        "mobile_circle_font_size": 14,
+        "mobile_circle_mb": 12,
+        "mobile_icon_size": 24,
+        "mobile_icon_img_size": 40,
+        "mobile_icon_mb": 10,
+        "mobile_step_title_font_size": 18,
+        "mobile_step_title_mb": 8,
+        "mobile_step_desc_font_size": 14
+      }
+    },
+    "icon_bar_GGUXNt": {
+      "type": "icon-bar",
+      "blocks": {
+        "column_CbGD6H": {
+          "type": "column",
+          "settings": {
+            "icon": "check_circle",
+            "filled_icon": false,
+            "image": "shopify://shop_images/fast-delivery.png",
+            "title": "FAST & FREE",
+            "text": "<p>SHIPPING orders over $7S</p><p></p>"
+          }
+        },
+        "column_mjQFPY": {
+          "type": "column",
+          "settings": {
+            "icon": "check_circle",
+            "filled_icon": false,
+            "image": "shopify://shop_images/checked.png",
+            "title": "HASSLE-FREE",
+            "text": "<p>RETURNS 30-day eaay returns</p>"
+          }
+        },
+        "column_tqKNAk": {
+          "type": "column",
+          "settings": {
+            "icon": "check_circle",
+            "filled_icon": false,
+            "image": "shopify://shop_images/checked_88917294-4da0-493b-9974-2da01a44c2e3.png",
+            "title": "SECURE PAYMENTS",
+            "text": "<p>100% safe & secure</p>"
+          }
+        },
+        "column_yLdL6p": {
+          "type": "column",
+          "settings": {
+            "icon": "check_circle",
+            "filled_icon": false,
+            "image": "shopify://shop_images/made-in-usa.png",
+            "title": "MADE WITH",
+            "text": "<p>LOVE Designed for you</p>"
+          }
+        }
+      },
+      "block_order": [
+        "column_CbGD6H",
+        "column_mjQFPY",
+        "column_tqKNAk",
+        "column_yLdL6p"
+      ],
+      "disabled": true,
+      "name": "Icon Bar",
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "title": "Responsibility",
+        "title_highlight_color": "#6d388b",
+        "heading_size": "h1",
+        "text": "",
+        "color_scheme": "background-2",
+        "icon_layout": "horizontal",
+        "icon_size": "medium",
+        "icon_color": "accent-1",
+        "cards_color_scheme": "background-1",
+        "type": "slide",
+        "autoplay": false,
+        "autoplay_speed": 5,
+        "arrows_color_scheme": "inverse",
+        "transparent_arrows": true,
+        "dots_color_scheme": "inverse",
+        "desktop_full_page": false,
+        "columns_desktop": 4,
+        "slider_desktop": false,
+        "per_move_desktop": 1,
+        "desktop_spacing": 40,
+        "desktop_side_padding": 0,
+        "desktop_padding_calc": true,
+        "desktop_adaptive_height": false,
+        "desktop_dots_position": "under",
+        "desktop_arrows_position": "sides",
+        "columns_mobile": "1",
+        "slider_mobile": true,
+        "enable_mobile_preview": false,
+        "mobile_adaptive_height": false,
+        "mobile_dots_position": "under",
+        "mobile_arrows_position": "under",
+        "padding_top": 44,
+        "padding_bottom": 68,
+        "custom_colors_background": "#ffffff",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#2e2a39",
+        "custom_cards_colors_background": "#f3f3f3",
+        "custom_cards_gradient_background": "",
+        "custom_cards_colors_text": "#2e2a39"
+      }
+    },
+    "rich_text_PJEcwj": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_Pxqnkn": {
+          "type": "heading",
+          "settings": {
+            "title": "Why We Exist",
+            "title_highlight_color": "#6d388b",
+            "heading_size": "h1"
+          }
+        },
+        "text_KVyEqE": {
+          "type": "text",
+          "settings": {
+            "text": "<p>At Patriot 250th, we believe the moments that matter deserve more than ordinary glassware.<br/>We exist to celebrate freedom, heritage, and the spirit of America through thoughtfully crafted drinkware inspired by the values that bring people together.Our collection was created to honor the 250th anniversary of the United States — a tribute to the courage, pride, and traditions that shaped a nation. From backyard gatherings and family celebrations to raising a glass with friends, every piece is designed to turn everyday moments into meaningful memories.</p><p>We combine premium craftsmanship with bold patriotic designs to create glassware that feels personal, timeless, and made to be shared. Whether you're commemorating history, gifting someone special, or building your own collection, our goal is simple:</p><p>To create products that people are proud to hold, display, gift, and remember.</p><p>Because great stories deserve a great glass.</p>"
+          }
+        },
+        "button_nEN3Q6": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_Pxqnkn",
+        "text_KVyEqE",
+        "button_nEN3Q6"
+      ],
+      "disabled": true,
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "full_width": true,
+        "color_scheme": "background-1",
+        "padding_top": 40,
+        "padding_bottom": 52,
+        "custom_colors_background": "#ffffff",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#2e2a39",
+        "custom_colors_solid_button_background": "#dd1d1d",
+        "custom_colors_solid_button_text": "#ffffff",
+        "custom_colors_outline_button": "#dd1d1d"
+      }
+    },
+    "content_tabs_hjNRzX": {
+      "type": "content-tabs",
+      "blocks": {
+        "tab_UVfEXw": {
+          "type": "tab",
+          "settings": {
+            "btn_label": "Tab button",
+            "btn_icon": "",
+            "filled_btn_icon": false,
+            "loop": false,
+            "muted_autoplay": false,
+            "btn_color_scheme": "accent-1",
+            "btn_animation": false,
+            "title": "Tab heading",
+            "title_highlight_color": "#6d388b",
+            "heading_size": "h1",
+            "text": "<p>Use this section to display different benefits or different products that are sorted by clickable tabs.</p>",
+            "button_label": "Button label",
+            "link": "",
+            "button_style_secondary": false,
+            "atc_button_label": "",
+            "atc_skip_cart": false,
+            "product": "",
+            "desktop_media_width": "half",
+            "desktop_media_position": "media_first",
+            "desktop_text_alignment": "center",
+            "mobile_media_position": "media_first",
+            "mobile_text_alignment": "mobile-center"
+          }
+        },
+        "tab_RHAEyq": {
+          "type": "tab",
+          "settings": {
+            "btn_label": "Tab button",
+            "btn_icon": "",
+            "filled_btn_icon": false,
+            "loop": false,
+            "muted_autoplay": false,
+            "btn_color_scheme": "accent-1",
+            "btn_animation": false,
+            "title": "Tab heading",
+            "title_highlight_color": "#6d388b",
+            "heading_size": "h1",
+            "text": "<p>Use this section to display different benefits or different products that are sorted by clickable tabs.</p>",
+            "button_label": "Button label",
+            "link": "",
+            "button_style_secondary": false,
+            "atc_button_label": "",
+            "atc_skip_cart": false,
+            "product": "",
+            "desktop_media_width": "half",
+            "desktop_media_position": "media_first",
+            "desktop_text_alignment": "center",
+            "mobile_media_position": "media_first",
+            "mobile_text_alignment": "mobile-center"
+          }
+        },
+        "tab_8Ethdy": {
+          "type": "tab",
+          "disabled": true,
+          "settings": {
+            "btn_label": "Tab button",
+            "btn_icon": "",
+            "filled_btn_icon": false,
+            "loop": false,
+            "muted_autoplay": false,
+            "btn_color_scheme": "accent-1",
+            "btn_animation": false,
+            "title": "Tab heading",
+            "title_highlight_color": "#6d388b",
+            "heading_size": "h1",
+            "text": "<p>Use this section to display different benefits or different products that are sorted by clickable tabs.</p>",
+            "button_label": "Button label",
+            "link": "",
+            "button_style_secondary": false,
+            "atc_button_label": "",
+            "atc_skip_cart": false,
+            "product": "",
+            "desktop_media_width": "half",
+            "desktop_media_position": "media_first",
+            "desktop_text_alignment": "center",
+            "mobile_media_position": "media_first",
+            "mobile_text_alignment": "mobile-center"
+          }
+        }
+      },
+      "block_order": [
+        "tab_UVfEXw",
+        "tab_RHAEyq",
+        "tab_8Ethdy"
+      ],
+      "disabled": true,
+      "name": "Content tabs",
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "title": "Content tabs",
+        "title_highlight_color": "#6d388b",
+        "heading_size": "h1",
+        "text": "",
+        "color_scheme": "background-1",
+        "container_width": "100",
+        "buttons_color_scheme": "accent-1",
+        "button_border_radius": 6,
+        "buttons_style": "outlined",
+        "active_button_animation": "moving",
+        "header_layout": "horizontal",
+        "buttons_desktop_font_size": 15,
+        "desktop_full_size_buttons": false,
+        "buttons_mobile_font_size": 13,
+        "mobile_full_size_buttons": true,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_colors_background": "#ffffff",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#2e2a39",
+        "custom_colors_solid_button_background": "#dd1d1d",
+        "custom_colors_solid_button_text": "#ffffff",
+        "custom_colors_outline_button": "#dd1d1d",
+        "custom_tabs_color": "#000000",
+        "custom_tabs_color_label": "#ffffff"
+      }
+    },
+    "slideshow_b7c4JF": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_gqweYd": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/banner_new_updated.png",
+            "image_overlay_opacity": 0,
+            "heading": "CELEBRATE 250 YEARSOF FREEDOM",
+            "title_highlight_color": "#6d388b",
+            "heading_size": "h1",
+            "subheading": "Explore our premium patriotic glassware collection.",
+            "button_label": "SHOP COLLECTION",
+            "link": "shopify://collections",
+            "button_style_secondary": false,
+            "atc_button_label": "",
+            "atc_product": "",
+            "atc_skip_cart": false,
+            "box_align": "middle-left",
+            "show_text_box": true,
+            "text_alignment": "left",
+            "color_scheme": "custom",
+            "transparent_container_color": "white",
+            "text_alignment_mobile": "center",
+            "custom_colors_background": "rgba(0,0,0,0)",
+            "custom_gradient_background": "",
+            "custom_colors_text": "#ffffff",
+            "custom_colors_solid_button_background": "#787878",
+            "custom_colors_solid_button_text": "#ffffff",
+            "custom_colors_outline_button": "#dd1d1d"
+          }
+        }
+      },
+      "block_order": [
+        "slide_gqweYd"
+      ],
+      "name": "t:sections.slideshow.presets.name",
+      "settings": {
+        "visibility": "always-display",
+        "layout": "full_bleed",
+        "slide_height": "small",
+        "slider_visual": "dots",
+        "desktop_pagination_position": "over",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "show_text_below": true,
+        "mobile_pagination_position": "under",
+        "accessibility_info": "Slideshow about our brand"
+      }
+    },
+    "testimonials_kaJcWW": {
+      "type": "testimonials",
+      "blocks": {
+        "column_Wz9Ezi": {
+          "type": "column",
+          "settings": {
+            "star_rating": 5,
+            "title": "",
+            "text": "<p>“Beautiful quality and the designs look even better in person.”<br/></p>",
+            "author_avatar": "shopify://shop_images/Michael.jpg",
+            "author": "<strong>James R</strong>"
+          }
+        },
+        "column_KCVVAx": {
+          "type": "column",
+          "settings": {
+            "star_rating": 5,
+            "title": "",
+            "text": "<p>“Perfect gift for collectors and patriotic celebrations.”<br/></p>",
+            "author_avatar": "shopify://shop_images/William.jpg",
+            "author": "<strong>Linda M.</strong>"
+          }
+        },
+        "column_GLFnNF": {
+          "type": "column",
+          "settings": {
+            "star_rating": 5,
+            "title": "",
+            "text": "<p>“Fast shipping and premium packaging. Highly recommended.”</p>",
+            "author_avatar": "shopify://shop_images/james.jpg",
+            "author": "Michael T."
+          }
+        }
+      },
+      "block_order": [
+        "column_Wz9Ezi",
+        "column_KCVVAx",
+        "column_GLFnNF"
+      ],
+      "name": "Testimonials",
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "title": "WHAT CUSTOMERS SAY",
+        "title_highlight_color": "#6d388b",
+        "heading_size": "h1",
+        "text": "",
+        "color_scheme": "background-2",
+        "image_width": "full",
+        "image_ratio": "square",
+        "column_alignment": "center",
+        "show_stars": true,
+        "inactive_stars_style": "solid",
+        "star_color": "#ffcc00",
+        "bg_star_color": "#ececec",
+        "show_quotes": true,
+        "quotes_color_scheme": "background-2",
+        "cards_color_scheme": "bg-overlay",
+        "type": "loop",
+        "autoplay": true,
+        "autoplay_speed": 5,
+        "arrows_color_scheme": "inverse",
+        "transparent_arrows": true,
+        "dots_color_scheme": "accent-1",
+        "desktop_full_page": false,
+        "columns_desktop": 3,
+        "slider_desktop": true,
+        "per_move_desktop": 1,
+        "desktop_spacing": 40,
+        "desktop_side_padding": 0,
+        "desktop_padding_calc": true,
+        "desktop_adaptive_height": false,
+        "desktop_dots_position": "under",
+        "desktop_arrows_position": "sides",
+        "slider_mobile": true,
+        "enable_mobile_preview": false,
+        "mobile_adaptive_height": false,
+        "mobile_dots_position": "under",
+        "mobile_arrows_position": "under",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_colors_background": "#ffffff",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#2e2a39",
+        "custom_cards_colors_background": "#f3f3f3",
+        "custom_cards_gradient_background": "",
+        "custom_cards_colors_text": "#2e2a39"
+      }
+    },
+    "collapsible_content_Hn6kLt": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_rwxXzc": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "1. How long does shipping take?",
+            "icon": "{{ block.settings.page.title }}",
+            "filled_icon": false,
+            "row_content": "<p>Most orders are processed within 2–5 business days. Shipping times may vary depending on your location and seasonal demand.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_BEhD8y": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "2. Do you offer custom glass designs?",
+            "icon": "{{ block.settings.page.title }}",
+            "filled_icon": false,
+            "row_content": "<p><br/>Yes. We specialize in custom POD glassware including names, monograms, quotes, logos, and personalized artwork.<br/><br/></p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_AAf6hB": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "3. Are the glasses dishwasher safe?",
+            "icon": "{{ block.settings.page.title }}",
+            "filled_icon": false,
+            "row_content": "<p>Most of our glassware is dishwasher safe. However, we recommend gentle hand washing for long-lasting print quality.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_VqTLnj": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "4. Can I preview my custom design before ordering?",
+            "icon": "{{ block.settings.page.title }}",
+            "filled_icon": false,
+            "row_content": "<p>For selected custom products, preview options are available. Some personalized requests may also receive a manual proof before production.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_hNqpDU": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "5. What if my order arrives damaged?",
+            "icon": "{{ block.settings.page.title }}",
+            "filled_icon": false,
+            "row_content": "<p><br/>If your item arrives damaged or incorrect, contact us within 7 days with photos of the issue and we’ll make it right.<br/><br/></p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_Qbfw8q": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "6. Do you ship internationally?",
+            "icon": "{{ block.settings.page.title }}",
+            "filled_icon": false,
+            "row_content": "<p>Yes, we ship to many countries worldwide. Shipping rates and delivery times are calculated at checkout.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_rwxXzc",
+        "collapsible_row_BEhD8y",
+        "collapsible_row_AAf6hB",
+        "collapsible_row_VqTLnj",
+        "collapsible_row_hNqpDU",
+        "collapsible_row_Qbfw8q"
+      ],
+      "name": "t:sections.collapsible_content.presets.name",
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "caption": "",
+        "title": "FAQ",
+        "title_highlight_color": "#6d388b",
+        "heading_size": "h1",
+        "heading_alignment": "center",
+        "layout": "none",
+        "color_scheme": "custom",
+        "container_color_scheme": "background-1",
+        "open_first_collapsible_row": false,
+        "video_muted_autoplay": true,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "row_heading_size": "medium",
+        "collapse_icon": "carret",
+        "display_top_border": true,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_colors_background": "#ffffff",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#2e2a39",
+        "custom_contaner_colors_background": "#ffffff",
+        "custom_container_gradient_background": "",
+        "custom_contaner_colors_text": "#2e2a39"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "contact_hero_banner_dbBwgp",
+    "image_with_text_PDwdbB",
+    "newsletter",
+    "slideshow_y8WM3L",
+    "icon_bar_Mc4aVV",
+    "image_with_text_L7CrLa",
+    "trustpilot_reviews_VNKNHy",
+    "how_we_create_aRyhT3",
+    "icon_bar_GGUXNt",
+    "rich_text_PJEcwj",
+    "content_tabs_hjNRzX",
+    "slideshow_b7c4JF",
+    "testimonials_kaJcWW",
+    "collapsible_content_Hn6kLt"
+  ]
+}

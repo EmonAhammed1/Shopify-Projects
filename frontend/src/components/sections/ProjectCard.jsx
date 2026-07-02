@@ -8,7 +8,7 @@ import styles from './ProjectCard.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function ProjectCard({ project, index, isFlying, filterKey }) {
+export default function ProjectCard({ project, index, isFlying, filterKey, scatterMode = false, totalCount = 3 }) {
   const cardRef = useRef(null);
   const glowRef = useRef(null);
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -21,6 +21,7 @@ export default function ProjectCard({ project, index, isFlying, filterKey }) {
     // Always clear previous props to avoid styling leftovers from recycled DOM elements
     gsap.set(cardRef.current, { clearProps: "all" });
 
+    // ── CASE 1: Normal scroll-in animation ───────────────────────────────
     if (!isFlying) {
       let ctx = gsap.context(() => {
         const card = cardRef.current;
@@ -48,7 +49,127 @@ export default function ProjectCard({ project, index, isFlying, filterKey }) {
       return () => ctx.revert();
     }
 
-    // Flying card animation (re-syncs to globe coordinates)
+    // ── CASE 2: Scatter mode — pages without globe (All Projects, Category) ─
+    if (scatterMode) {
+      const card = cardRef.current;
+
+      // Wait briefly for DOM to settle, then set up animation
+      const timer = setTimeout(() => {
+        if (!cardRef.current) return;
+
+        // Find hero section — used as scroll trigger
+        const heroEl = document.getElementById('scatter-hero');
+
+        // If hero not found, just do normal entrance animation
+        if (!heroEl) {
+          gsap.set(card, { opacity: 1, x: 0, y: 0 });
+          return;
+        }
+
+        // If user already scrolled past the hero, show at final position
+        const heroRect = heroEl.getBoundingClientRect();
+        const isPastHero = heroRect.bottom < 0;
+        if (isPastHero) {
+          gsap.set(card, { opacity: 1, x: 0, y: 0, rotation: 0, rotationX: 0, rotationY: 0, scale: 1, zIndex: 1 });
+          return;
+        }
+
+        const w = typeof window !== 'undefined' ? window.innerWidth : 1200;
+        const h = typeof window !== 'undefined' ? window.innerHeight : 800;
+
+        // Skip scatter layout on mobile/tablets for optimal readability and layout responsiveness
+        if (w < 992) {
+          gsap.set(card, { opacity: 1, x: 0, y: 0, scale: 1, rotation: 0, rotationX: 0, rotationY: 0, zIndex: 1 });
+          return;
+        }
+
+        // Layout targets depending on how many projects are active in this view
+        let targets;
+        if (totalCount === 1) {
+          // Center of the right side hero space (shifted further right)
+          targets = [
+            { cx: w * 0.76, cy: h * 0.46, scale: 0.65, opacity: 0.95 }
+          ];
+        } else if (totalCount === 2) {
+          // Two cards side-by-side (pasha-pashi, shifted further right)
+          targets = [
+            { cx: w * 0.66, cy: h * 0.46, scale: 0.60, opacity: 0.92 },
+            { cx: w * 0.85, cy: h * 0.46, scale: 0.60, opacity: 0.92 }
+          ];
+        } else {
+          // Three or more cards in a clean diagonal staircase cascade (shifted further right)
+          targets = [
+            { cx: w * 0.65, cy: h * 0.34, scale: 0.62, opacity: 0.92 },
+            { cx: w * 0.76, cy: h * 0.48, scale: 0.62, opacity: 0.92 },
+            { cx: w * 0.87, cy: h * 0.62, scale: 0.62, opacity: 0.92 }
+          ];
+        }
+
+
+        const cfg = targets[index % targets.length];
+
+        const cardRect = card.getBoundingClientRect();
+        const cardCenterX = cardRect.left + cardRect.width / 2;
+        const cardCenterY = cardRect.top + cardRect.height / 2;
+
+        // Account for any active scroll offset when calculating natural top position
+        const scrollYVal = typeof window !== 'undefined' ? window.scrollY : 0;
+        const deltaX = cfg.cx - cardCenterX;
+        const deltaY = (cfg.cy - cardCenterY) + scrollYVal;
+
+        // Use fromTo directly so ScrollTrigger knows exact starting coordinates
+        // Using multiples of 360 degrees makes the cards look perfectly straight at start (0 scroll),
+        // but they will flip and spin 3D as they animate to 0 degrees on scroll.
+        gsap.fromTo(card,
+          {
+            x: deltaX,
+            y: deltaY,
+            rotation: 0,
+            rotationX: -360,
+            rotationY: 0,
+            scale: cfg.scale,
+            transformPerspective: 1200,
+            opacity: cfg.opacity,
+            zIndex: 30 - index,
+          },
+          {
+            x: 0,
+            y: 0,
+            rotation: 0,
+            rotationX: 0,
+            rotationY: 0,
+            scale: 1,
+            opacity: 1,
+            zIndex: 1,
+            transformPerspective: 1200,
+            ease: 'none',
+            force3D: true,
+            scrollTrigger: {
+              id: `scatter-${index}`,
+              trigger: heroEl,
+              start: 'top top',
+              end: '+=280',        // animation completes after just 280px of scrolling
+              scrub: 1.2,          // slightly faster scrub response
+            },
+          }
+        );
+
+
+
+
+        ScrollTrigger.refresh();
+      }, 100); // ensure DOM is ready
+
+      return () => {
+        clearTimeout(timer);
+        ScrollTrigger.getAll()
+          .filter(st => st.vars?.id === `scatter-${index}`)
+          .forEach(st => st.kill());
+        gsap.set(cardRef.current, { clearProps: 'all' });
+      };
+    }
+
+    // ── CASE 3: Globe flying animation (home page) — unchanged ───────────
     let ctx;
     let checkInterval = setInterval(() => {
       const anchor = document.getElementById(`globe-anchor-${index}`);
@@ -149,7 +270,8 @@ export default function ProjectCard({ project, index, isFlying, filterKey }) {
       clearInterval(checkInterval);
       if (ctx) ctx.revert();
     };
-  }, [index, isFlying, filterKey]);
+  }, [index, isFlying, filterKey, scatterMode]);
+
 
   // Mouse move handler for glow effect (tilt disabled)
   const handleMouseMove = (e) => {

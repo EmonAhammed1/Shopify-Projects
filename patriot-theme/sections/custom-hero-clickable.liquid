@@ -1,0 +1,352 @@
+{%- style -%}
+  .custom-hero-{{ section.id }}-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    {%- if section.settings.banner_width == 'boxed' -%}
+      padding: 2rem 0;
+    {%- endif -%}
+  }
+
+  .custom-hero-{{ section.id }} {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    overflow: hidden;
+    line-height: 0;
+    margin: 0 auto;
+    {%- if section.settings.banner_width == 'boxed' -%}
+      width: 90vw;
+      /* On desktop, limits to 60-70vw as requested */
+      max-width: 70vw; 
+      border-radius: 12px;
+    {%- else -%}
+      width: 100%;
+    {%- endif -%}
+  }
+  
+  .custom-hero-{{ section.id }}__image-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .custom-hero-{{ section.id }}__image {
+    width: 100%;
+    display: block;
+    /* If adapt is chosen, height auto prevents cropping */
+    {%- if section.settings.banner_height == 'adapt' -%}
+      height: auto;
+      object-fit: contain;
+    {%- else -%}
+      object-fit: cover;
+    {%- endif -%}
+  }
+  
+  /* Height Settings */
+  {%- if section.settings.banner_height == 'small' -%}
+    .custom-hero-{{ section.id }}__image { height: 40vh; min-height: 300px; }
+  {%- elsif section.settings.banner_height == 'medium' -%}
+    .custom-hero-{{ section.id }}__image { height: 60vh; min-height: 400px; }
+  {%- elsif section.settings.banner_height == 'large' -%}
+    .custom-hero-{{ section.id }}__image { height: 80vh; min-height: 500px; }
+  {%- endif -%}
+  
+  .custom-hero-{{ section.id }}__image.placeholder-svg {
+    background-color: #f3f3f3;
+    /* ensure placeholder has height if adapt is selected and no image is present */
+    {%- if section.settings.banner_height == 'adapt' -%}
+      height: 60vh; 
+    {%- endif -%}
+  }
+  
+  .custom-hero-{{ section.id }}__image--desktop {
+    display: none;
+  }
+  
+  .custom-hero-{{ section.id }}__image--mobile {
+    display: block;
+  }
+  
+  @media screen and (min-width: 768px) {
+    .custom-hero-{{ section.id }}__image--desktop {
+      display: block;
+    }
+    .custom-hero-{{ section.id }}__image--mobile {
+      display: none;
+    }
+  }
+
+  .custom-hero-{{ section.id }}__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, {{ section.settings.overlay_opacity | divided_by: 100.0 }});
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem;
+    align-items: {% if section.settings.text_alignment == 'left' %}flex-start{% elsif section.settings.text_alignment == 'right' %}flex-end{% else %}center{% endif %};
+    text-align: {{ section.settings.text_alignment }};
+    line-height: 1.5;
+    transition: background-color 0.3s ease;
+  }
+
+  .custom-hero-{{ section.id }}:hover .custom-hero-{{ section.id }}__overlay {
+    background-color: rgba(0, 0, 0, {{ section.settings.overlay_opacity | plus: 10 | at_most: 100 | divided_by: 100.0 }});
+  }
+
+  .custom-hero-{{ section.id }}__content {
+    color: {{ section.settings.text_color }};
+    max-width: 800px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: {% if section.settings.text_alignment == 'left' %}flex-start{% elsif section.settings.text_alignment == 'right' %}flex-end{% else %}center{% endif %};
+  }
+
+  .custom-hero-{{ section.id }}__heading {
+    color: inherit;
+    margin: 0;
+    font-size: 2.5rem;
+    line-height: 1.2;
+    font-weight: bold;
+  }
+
+  .custom-hero-{{ section.id }}__subheading {
+    color: inherit;
+    margin: 0;
+    font-size: 1.125rem;
+    line-height: 1.5;
+  }
+
+  .custom-hero-{{ section.id }}__button-span {
+    display: inline-block;
+    padding: 12px 28px;
+    border: 2px solid {{ section.settings.text_color }};
+    color: {{ section.settings.text_color }};
+    background: transparent;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+    margin-top: 0.5rem;
+  }
+
+  .custom-hero-{{ section.id }}:hover .custom-hero-{{ section.id }}__button-span {
+    background: {{ section.settings.text_color }};
+    color: {% if section.settings.text_color == '#ffffff' or section.settings.text_color == '#fff' or section.settings.text_color == '#FFFFFF' %}#000000{% else %}#ffffff{% endif %};
+  }
+
+  @media screen and (min-width: 768px) {
+    .custom-hero-{{ section.id }}__overlay {
+      padding: 4rem;
+    }
+    .custom-hero-{{ section.id }}__heading {
+      font-size: 3.5rem;
+    }
+    .custom-hero-{{ section.id }}__subheading {
+      font-size: 1.25rem;
+    }
+  }
+{%- endstyle -%}
+
+<div class="custom-hero-{{ section.id }}-wrapper">
+  <a href="{{ section.settings.link_url | default: '#' }}" class="custom-hero-{{ section.id }}">
+    <div class="custom-hero-{{ section.id }}__image-wrapper">
+      {%- capture desktop_placeholder_class -%}custom-hero-{{ section.id }}__image custom-hero-{{ section.id }}__image--desktop{%- endcapture -%}
+      {%- capture mobile_placeholder_class -%}custom-hero-{{ section.id }}__image custom-hero-{{ section.id }}__image--mobile{%- endcapture -%}
+
+      {%- if section.settings.image_desktop != blank -%}
+        {{ section.settings.image_desktop | image_url: width: 2500 | image_tag: 
+          class: desktop_placeholder_class,
+          loading: 'lazy',
+          widths: '500, 750, 1000, 1500, 2000, 2500'
+        }}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: desktop_placeholder_class | append: ' placeholder-svg' }}
+      {%- endif -%}
+
+      {%- if section.settings.image_mobile != blank -%}
+        {{ section.settings.image_mobile | image_url: width: 1000 | image_tag: 
+          class: mobile_placeholder_class,
+          loading: 'lazy',
+          widths: '375, 500, 750'
+        }}
+      {%- else -%}
+        {%- if section.settings.image_desktop != blank -%}
+          {{ section.settings.image_desktop | image_url: width: 1000 | image_tag: 
+            class: mobile_placeholder_class,
+            loading: 'lazy',
+            widths: '375, 500, 750'
+          }}
+        {%- else -%}
+          {{ 'lifestyle-2' | placeholder_svg_tag: mobile_placeholder_class | append: ' placeholder-svg' }}
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+
+    <div class="custom-hero-{{ section.id }}__overlay">
+      <div class="custom-hero-{{ section.id }}__content">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="custom-hero-{{ section.id }}__heading">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        
+        {%- if section.settings.subheading != blank -%}
+          <p class="custom-hero-{{ section.id }}__subheading">{{ section.settings.subheading | escape }}</p>
+        {%- endif -%}
+        
+        {%- if section.settings.button_label != blank -%}
+          <span class="custom-hero-{{ section.id }}__button-span">
+            {{ section.settings.button_label | escape }}
+          </span>
+        {%- endif -%}
+      </div>
+    </div>
+  </a>
+</div>
+
+{% schema %}
+{
+  "name": "Clickable Hero Banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "banner_width",
+      "label": "Banner width",
+      "options": [
+        {
+          "value": "full",
+          "label": "Full width (100%)"
+        },
+        {
+          "value": "boxed",
+          "label": "Boxed (70vw)"
+        }
+      ],
+      "default": "full"
+    },
+    {
+      "type": "select",
+      "id": "banner_height",
+      "label": "Banner height",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "adapt",
+          "label": "Adapt to image (Shows full content)"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "header",
+      "content": "Image Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Desktop Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Mobile Image",
+      "info": "Optional. Will use desktop image if left blank."
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link URL",
+      "info": "The entire hero section will be clickable and redirect to this URL."
+    },
+    {
+      "type": "header",
+      "content": "Text Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading text",
+      "default": "Welcome to our store"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading text",
+      "default": "Discover our amazing products and offers."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label (optional)",
+      "info": "Leave blank to hide the button.",
+      "default": "Shop Now"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 30
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Clickable Hero Banner",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}
