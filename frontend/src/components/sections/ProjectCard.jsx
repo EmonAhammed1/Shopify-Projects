@@ -57,8 +57,15 @@ export default function ProjectCard({ project, index, isFlying, filterKey, scatt
       const timer = setTimeout(() => {
         if (!cardRef.current) return;
 
+        // Force scroll to 0 immediately to ensure bounding rects are calculated at top-of-page
+        if (typeof window !== 'undefined') {
+          window.scrollTo(0, 0);
+        }
+        ScrollTrigger.clearScrollMemory();
+
         // Find hero section — used as scroll trigger
         const heroEl = document.getElementById('scatter-hero');
+
 
         // If hero not found, just do normal entrance animation
         if (!heroEl) {
@@ -165,9 +172,13 @@ export default function ProjectCard({ project, index, isFlying, filterKey, scatt
         gsap.set(cardRef.current, { clearProps: 'all' });
       };
     }
+    
+    // Prevent CASE 3 (Globe animation) from running if we are in scatterMode
+    if (scatterMode) return;
 
     // ── CASE 3: Globe flying animation (home page) — unchanged ───────────
     let ctx;
+
     let checkInterval = setInterval(() => {
       const anchor = document.getElementById(`globe-anchor-${index}`);
       const loaderExists = document.getElementById('site-intro-loader') !== null;
