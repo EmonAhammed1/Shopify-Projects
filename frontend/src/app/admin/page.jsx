@@ -54,7 +54,7 @@ export default function AdminLogin() {
           <div className={styles.field}>
             <label htmlFor="email">Email</label>
             <input
-              id="email" type="email" placeholder="admin@portfolio.com"
+              id="email" type="email" placeholder="Enter your email"
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               required className={styles.input}
@@ -80,10 +80,6 @@ export default function AdminLogin() {
             )}
           </button>
         </form>
-
-        <p className={styles.hint}>
-          Default: admin@portfolio.com / admin123456
-        </p>
       </div>
     </div>
   );
