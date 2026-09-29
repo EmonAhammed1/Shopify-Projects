@@ -612,3 +612,212 @@
   color: #fff;
   border-color: #ff6b8a;
 }
+
+/* ─── Image Upload & Dropzone (ImgBB) ─────────────────────── */
+.uploadDropzone {
+  border: 2px dashed rgba(108, 99, 255, 0.35);
+  border-radius: var(--radius-md);
+  padding: 1.2rem 1rem;
+  background: rgba(108, 99, 255, 0.03);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+
+.uploadDropzone:hover,
+.uploadDropzoneActive {
+  border-color: var(--accent);
+  background: rgba(108, 99, 255, 0.08);
+  box-shadow: 0 0 20px rgba(108, 99, 255, 0.15);
+}
+
+.uploadDropzoneActive {
+  border-color: var(--accent-2);
+  background: rgba(0, 245, 212, 0.06);
+}
+
+.uploadIcon {
+  width: 28px;
+  height: 28px;
+  color: var(--accent);
+  transition: transform 0.2s ease;
+}
+
+.uploadDropzone:hover .uploadIcon {
+  transform: translateY(-2px);
+}
+
+.uploadTitle {
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.uploadTitle span {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.uploadSub {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+}
+
+.uploadKbd {
+  display: inline-block;
+  padding: 1px 5px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  font-size: 0.68rem;
+  color: var(--text-primary);
+  font-family: monospace;
+}
+
+.uploadLoadingWrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 1.2rem;
+  justify-content: center;
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.uploadPreviewWrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-surface);
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.5rem;
+}
+
+.uploadPreviewImg {
+  width: 60px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: #000;
+  flex-shrink: 0;
+}
+
+.uploadPreviewInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.uploadPreviewBadge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--accent-2);
+  text-transform: uppercase;
+}
+
+.uploadPreviewUrl {
+  font-size: 0.74rem;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.uploadActionBtns {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.uploadReplaceBtn {
+  padding: 4px 10px;
+  background: rgba(108, 99, 255, 0.1);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  font-size: 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.uploadReplaceBtn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.uploadRemoveBtn {
+  padding: 4px 10px;
+  background: rgba(255, 107, 138, 0.1);
+  border: 1px solid rgba(255, 107, 138, 0.3);
+  color: #ff6b8a;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.uploadRemoveBtn:hover {
+  background: #ff6b8a;
+  color: #fff;
+}
+
+.screenshotsPreviewList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.screenshotThumbCard {
+  position: relative;
+  width: 72px;
+  height: 52px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #000;
+}
+
+.screenshotThumbCard img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.screenshotRemoveBtn {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 18px;
+  height: 18px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #ff6b8a;
+  border: none;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.screenshotRemoveBtn:hover {
+  background: #ff6b8a;
+  color: #fff;
+}

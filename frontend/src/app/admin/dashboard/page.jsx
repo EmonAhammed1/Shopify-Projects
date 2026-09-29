@@ -1,10 +1,10 @@
 'use client';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
   getProjects, createProject, updateProject, deleteProject, reorderProjects,
-  getMessages, toggleMessageRead, deleteMessage,
+  getMessages, toggleMessageRead, deleteMessage, uploadImage,
 } from '@/lib/api';
 import styles from '../admin.module.css';
 
@@ -56,6 +56,13 @@ export default function AdminDashboard() {
   const [dragOverIndex, setDragOverIndex] = useState(null);
   const [orderToast, setOrderToast] = useState('');
 
+  // Upload states & refs
+  const [thumbUploading, setThumbUploading] = useState(false);
+  const [screenshotsUploading, setScreenshotsUploading] = useState(false);
+  const [thumbDragOver, setThumbDragOver] = useState(false);
+  const thumbInputRef = useRef(null);
+  const shotsInputRef = useRef(null);
+
   // Auth guard
   useEffect(() => {
     const token = localStorage.getItem('portfolio_token');
@@ -94,6 +101,87 @@ export default function AdminDashboard() {
     localStorage.removeItem('portfolio_token');
     localStorage.removeItem('portfolio_admin');
     router.push('/admin');
+  };
+
+  // Global Paste Listener (Ctrl+V) when modal is open
+  useEffect(() => {
+    if (!modal) return;
+
+    const handleGlobalPaste = (e) => {
+      const items = e.clipboardData?.items;
+      if (!items) return;
+
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf('image') !== -1) {
+          const file = items[i].getAsFile();
+          if (file) {
+            e.preventDefault();
+            uploadThumbnailFile(file);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('paste', handleGlobalPaste);
+    return () => window.removeEventListener('paste', handleGlobalPaste);
+  }, [modal]);
+
+  // Upload thumbnail to ImgBB
+  const uploadThumbnailFile = async (file) => {
+    if (!file) return;
+    setThumbUploading(true);
+    try {
+      const url = await uploadImage(file);
+      if (url) {
+        setFormData((prev) => ({ ...prev, thumbnail: url }));
+        console.log('✅ Thumbnail uploaded to ImgBB:', url);
+      }
+    } catch (err) {
+      console.error('❌ Thumbnail upload failed:', err);
+      alert('Failed to upload thumbnail to ImgBB: ' + (err.response?.data?.message || err.message));
+    } finally {
+      setThumbUploading(false);
+    }
+  };
+
+  // Upload screenshots to ImgBB
+  const uploadScreenshotsFiles = async (fileList) => {
+    if (!fileList || fileList.length === 0) return;
+    setScreenshotsUploading(true);
+    try {
+      const files = Array.from(fileList);
+      const urls = [];
+      for (const file of files) {
+        const url = await uploadImage(file);
+        if (url) urls.push(url);
+      }
+      if (urls.length > 0) {
+        setFormData((prev) => {
+          const existing = prev.screenshots
+            ? prev.screenshots.split(',').map((s) => s.trim()).filter(Boolean)
+            : [];
+          return { ...prev, screenshots: [...existing, ...urls].join(', ') };
+        });
+        console.log('✅ Screenshots uploaded to ImgBB:', urls);
+      }
+    } catch (err) {
+      console.error('❌ Screenshots upload failed:', err);
+      alert('Failed to upload screenshot to ImgBB: ' + (err.response?.data?.message || err.message));
+    } finally {
+      setScreenshotsUploading(false);
+    }
+  };
+
+  // Remove single screenshot
+  const removeScreenshot = (indexToRemove) => {
+    setFormData((prev) => {
+      const existing = prev.screenshots
+        ? prev.screenshots.split(',').map((s) => s.trim()).filter(Boolean)
+        : [];
+      const filtered = existing.filter((_, idx) => idx !== indexToRemove);
+      return { ...prev, screenshots: filtered.join(', ') };
+    });
   };
 
   // Drag & Drop reordering handlers
@@ -449,13 +537,169 @@ export default function AdminDashboard() {
                   <input name="order" type="number" value={formData.order} onChange={handleChange} className={styles.modalInput} />
                 </div>
               </div>
+              {/* Thumbnail Upload + Input (ImgBB + Ctrl+V) */}
               <div className={styles.modalField}>
-                <label>Thumbnail URL</label>
-                <input name="thumbnail" value={formData.thumbnail} onChange={handleChange} className={styles.modalInput} placeholder="https://..." />
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <label>Thumbnail Image *</label>
+                  <span style={{ fontSize: '0.72rem', color: 'var(--text-dim)' }}>
+                    Paste (<kbd className={styles.uploadKbd}>Ctrl+V</kbd>), Drop, or Enter URL
+                  </span>
+                </div>
+
+                {/* Hidden file input */}
+                <input
+                  type="file"
+                  ref={thumbInputRef}
+                  accept="image/*"
+                  style={{ display: 'none' }}
+                  onChange={(e) => {
+                    if (e.target.files?.[0]) {
+                      uploadThumbnailFile(e.target.files[0]);
+                      e.target.value = '';
+                    }
+                  }}
+                />
+
+                {/* Active preview if thumbnail exists */}
+                {formData.thumbnail && !thumbUploading ? (
+                  <div className={styles.uploadPreviewWrap}>
+                    <img
+                      src={formData.thumbnail}
+                      alt="Thumbnail preview"
+                      className={styles.uploadPreviewImg}
+                      onError={(e) => { e.target.style.display = 'none'; }}
+                    />
+                    <div className={styles.uploadPreviewInfo}>
+                      <span className={styles.uploadPreviewBadge}>✓ Current Thumbnail</span>
+                      <span className={styles.uploadPreviewUrl} title={formData.thumbnail}>
+                        {formData.thumbnail}
+                      </span>
+                    </div>
+                    <div className={styles.uploadActionBtns}>
+                      <button
+                        type="button"
+                        className={styles.uploadReplaceBtn}
+                        onClick={() => thumbInputRef.current?.click()}
+                      >
+                        Change
+                      </button>
+                      <button
+                        type="button"
+                        className={styles.uploadRemoveBtn}
+                        onClick={() => setFormData((prev) => ({ ...prev, thumbnail: '' }))}
+                      >
+                        ✕ Remove
+                      </button>
+                    </div>
+                  </div>
+                ) : thumbUploading ? (
+                  <div className={`${styles.uploadDropzone} ${styles.uploadLoadingWrap}`}>
+                    <div className={styles.spinner} />
+                    <span>Uploading thumbnail to ImgBB...</span>
+                  </div>
+                ) : (
+                  <div
+                    className={`${styles.uploadDropzone} ${thumbDragOver ? styles.uploadDropzoneActive : ''}`}
+                    onClick={() => thumbInputRef.current?.click()}
+                    onDragOver={(e) => { e.preventDefault(); setThumbDragOver(true); }}
+                    onDragLeave={() => setThumbDragOver(false)}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      setThumbDragOver(false);
+                      if (e.dataTransfer.files?.[0]) {
+                        uploadThumbnailFile(e.dataTransfer.files[0]);
+                      }
+                    }}
+                  >
+                    <svg className={styles.uploadIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="17 8 12 3 7 8" />
+                      <line x1="12" y1="3" x2="12" y2="15" />
+                    </svg>
+                    <div className={styles.uploadTitle}>
+                      <span>Click to browse image</span> or drag & drop here
+                    </div>
+                    <div className={styles.uploadSub}>
+                      Or copy screenshot & press <kbd className={styles.uploadKbd}>Ctrl + V</kbd> to paste
+                    </div>
+                  </div>
+                )}
+
+                {/* Direct/Manual URL input */}
+                <input
+                  name="thumbnail"
+                  value={formData.thumbnail}
+                  onChange={handleChange}
+                  className={styles.modalInput}
+                  placeholder="https://i.ibb.co/... (or auto-filled via upload above)"
+                />
               </div>
+
+              {/* Screenshots Upload + Input */}
               <div className={styles.modalField}>
-                <label>Screenshots URLs (comma separated)</label>
-                <input name="screenshots" value={formData.screenshots} onChange={handleChange} className={styles.modalInput} placeholder="https://image1.com, https://image2.com" />
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <label>Screenshots (Optional)</label>
+                  <button
+                    type="button"
+                    className={styles.uploadReplaceBtn}
+                    onClick={() => shotsInputRef.current?.click()}
+                    disabled={screenshotsUploading}
+                  >
+                    {screenshotsUploading ? 'Uploading...' : '+ Upload Screenshot(s)'}
+                  </button>
+                </div>
+
+                <input
+                  type="file"
+                  ref={shotsInputRef}
+                  accept="image/*"
+                  multiple
+                  style={{ display: 'none' }}
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files.length > 0) {
+                      uploadScreenshotsFiles(e.target.files);
+                      e.target.value = '';
+                    }
+                  }}
+                />
+
+                {/* Preview list of screenshots */}
+                {formData.screenshots && (
+                  <div className={styles.screenshotsPreviewList}>
+                    {formData.screenshots
+                      .split(',')
+                      .map((s) => s.trim())
+                      .filter(Boolean)
+                      .map((url, idx) => (
+                        <div key={idx} className={styles.screenshotThumbCard} title={url}>
+                          <img src={url} alt={`Screenshot ${idx + 1}`} onError={(e) => { e.target.style.display = 'none'; }} />
+                          <button
+                            type="button"
+                            className={styles.screenshotRemoveBtn}
+                            onClick={() => removeScreenshot(idx)}
+                            title="Remove screenshot"
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      ))}
+                  </div>
+                )}
+
+                {screenshotsUploading && (
+                  <div className={styles.uploadLoadingWrap} style={{ padding: '0.6rem 0' }}>
+                    <div className={styles.spinner} />
+                    <span>Uploading screenshot(s) to ImgBB...</span>
+                  </div>
+                )}
+
+                <input
+                  name="screenshots"
+                  value={formData.screenshots}
+                  onChange={handleChange}
+                  className={styles.modalInput}
+                  placeholder="https://image1.com, https://image2.com (comma separated or upload above)"
+                />
               </div>
               <div className={styles.modalField}>
                 <label>Tag</label>
