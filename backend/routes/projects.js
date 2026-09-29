@@ -59,6 +59,33 @@ router.post('/', protect, async (req, res) => {
   }
 });
 
+// @route   POST /api/projects/reorder
+// @desc    Bulk update project orders
+// @access  Private
+router.post('/reorder', protect, async (req, res) => {
+  try {
+    const { orders } = req.body;
+    if (!Array.isArray(orders) || orders.length === 0) {
+      return res.status(400).json({ message: 'Invalid orders array' });
+    }
+
+    console.log(`📦 Reordering ${orders.length} projects...`);
+    const bulkOps = orders.map((item) => ({
+      updateOne: {
+        filter: { _id: item.id || item._id },
+        update: { $set: { order: Number(item.order) } },
+      },
+    }));
+
+    await Project.bulkWrite(bulkOps);
+    console.log('✅ Projects reordered successfully');
+    res.json({ message: 'Projects reordered successfully' });
+  } catch (err) {
+    console.error('❌ Reorder projects error:', err.message);
+    res.status(500).json({ message: err.message || 'Server error' });
+  }
+});
+
 // @route   PUT /api/projects/:id
 // @desc    Update project
 // @access  Private

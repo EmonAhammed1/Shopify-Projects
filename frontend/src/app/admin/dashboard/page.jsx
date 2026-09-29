@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
-  getProjects, createProject, updateProject, deleteProject,
+  getProjects, createProject, updateProject, deleteProject, reorderProjects,
   getMessages, toggleMessageRead, deleteMessage,
 } from '@/lib/api';
 import styles from '../admin.module.css';
@@ -52,6 +52,9 @@ export default function AdminDashboard() {
   const [editing, setEditing] = useState(null); // null = add, obj = edit
   const [formData, setFormData] = useState(EMPTY_PROJECT);
   const [saving, setSaving] = useState(false);
+  const [draggedIndex, setDraggedIndex] = useState(null);
+  const [dragOverIndex, setDragOverIndex] = useState(null);
+  const [orderToast, setOrderToast] = useState('');
 
   // Auth guard
   useEffect(() => {
@@ -93,6 +96,65 @@ export default function AdminDashboard() {
     router.push('/admin');
   };
 
+  // Drag & Drop reordering handlers
+  const handleDragStart = (e, index) => {
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', index);
+  };
+
+  const handleDragOver = (e, index) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    if (dragOverIndex !== index) {
+      setDragOverIndex(index);
+    }
+  };
+
+  const handleDragEnd = () => {
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
+  const handleDrop = async (e, targetIndex) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === targetIndex) {
+      setDraggedIndex(null);
+      setDragOverIndex(null);
+      return;
+    }
+
+    const updatedProjects = [...projects];
+    const [draggedItem] = updatedProjects.splice(draggedIndex, 1);
+    updatedProjects.splice(targetIndex, 0, draggedItem);
+
+    // Recalculate 1-based sequential order
+    const reordered = updatedProjects.map((item, idx) => ({
+      ...item,
+      order: idx + 1,
+    }));
+
+    setProjects(reordered);
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+
+    try {
+      setOrderToast('Saving order...');
+      const ordersPayload = reordered.map((item) => ({
+        id: item._id,
+        order: item.order,
+      }));
+      await reorderProjects(ordersPayload);
+      setOrderToast('✓ Order updated');
+      setTimeout(() => setOrderToast(''), 2500);
+    } catch (err) {
+      console.error('❌ Failed to save reordered projects:', err);
+      setOrderToast('❌ Failed to save order');
+      setTimeout(() => setOrderToast(''), 3000);
+      await fetchProjects();
+    }
+  };
+
   // Modal handlers
   const openAdd = () => { setEditing(null); setFormData(EMPTY_PROJECT); setModal(true); };
   const openEdit = (p) => {
@@ -123,7 +185,6 @@ export default function AdminDashboard() {
       : [...currentTags, tagVal];
     setFormData((prev) => ({ ...prev, techStack: updatedTags.join(', ') }));
   };
-
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -249,12 +310,17 @@ export default function AdminDashboard() {
         {tab === 'projects' && (
           <div className={styles.tableWrap}>
             <div className={styles.tableHead}>
-              <span className={styles.tableHeadTitle}>All Projects</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <span className={styles.tableHeadTitle}>All Projects</span>
+                <span className={styles.dragTip}>⠿ Drag & drop rows to reorder</span>
+                {orderToast && <span className={styles.orderToast}>{orderToast}</span>}
+              </div>
               <button className={styles.addBtn} onClick={openAdd}>+ Add Project</button>
             </div>
             <table className={styles.dataTable}>
               <thead>
                 <tr className={styles.theadRow}>
+                  <th className={styles.dragTh} title="Drag handle"></th>
                   <th className={styles.theadTh}>Title</th>
                   <th className={styles.theadTh}>Category</th>
                   <th className={styles.theadTh}>Featured</th>
@@ -265,15 +331,39 @@ export default function AdminDashboard() {
               <tbody>
                 {projects.length === 0 ? (
                   <tr className={`${styles.tbodyRow} ${styles.emptyRow}`}>
-                    <td className={styles.tdCell} colSpan={5}>No projects yet — add your first one!</td>
+                    <td className={styles.tdCell} colSpan={6}>No projects yet — add your first one!</td>
                   </tr>
                 ) : (
                   projects.map((p, idx) => (
-                    <tr key={p._id} className={`${styles.tbodyRow} ${idx === projects.length - 1 ? styles.lastRow : ''}`}>
+                    <tr
+                      key={p._id}
+                      draggable
+                      onDragStart={(e) => handleDragStart(e, idx)}
+                      onDragOver={(e) => handleDragOver(e, idx)}
+                      onDragEnd={handleDragEnd}
+                      onDrop={(e) => handleDrop(e, idx)}
+                      className={`${styles.tbodyRow} ${idx === projects.length - 1 ? styles.lastRow : ''} ${
+                        draggedIndex === idx ? styles.draggingRow : ''
+                      } ${dragOverIndex === idx && draggedIndex !== idx ? styles.dragOverRow : ''}`}
+                    >
+                      <td className={styles.dragTd}>
+                        <span className={styles.dragHandle} title="Drag to reorder">
+                          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+                            <circle cx="5" cy="3" r="1.5" />
+                            <circle cx="11" cy="3" r="1.5" />
+                            <circle cx="5" cy="8" r="1.5" />
+                            <circle cx="11" cy="8" r="1.5" />
+                            <circle cx="5" cy="13" r="1.5" />
+                            <circle cx="11" cy="13" r="1.5" />
+                          </svg>
+                        </span>
+                      </td>
                       <td className={`${styles.tdCell} ${styles.tdFirst}`}>{p.title}</td>
                       <td className={styles.tdCell}>{p.category}</td>
                       <td className={styles.tdCell}>{p.featured ? <span className={styles.featuredPill}>Featured</span> : '—'}</td>
-                      <td className={styles.tdCell}>{p.order}</td>
+                      <td className={styles.tdCell}>
+                        <span className={styles.orderBadge}>{p.order}</span>
+                      </td>
                       <td className={styles.tdCell}>
                         <div className={styles.actionBtns}>
                           <button className={styles.editBtn} onClick={() => openEdit(p)}>Edit</button>
