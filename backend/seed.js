@@ -15,7 +15,7 @@ const demoProjects = [
     shortDesc: 'A premium fashion Shopify store with custom sections and conversion-optimized UX.',
     description:
       'LuxeWear is a full-featured fashion e-commerce store built on Shopify. The project included custom theme development, unique product section designs, cart upsell integrations, and a streamlined checkout flow. Resulted in a 38% increase in conversion rate post-launch.',
-    category: 'Shopify',
+    category: 'Fashion & Apparel Store',
     thumbnail: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80',
     screenshots: [
       'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80',
@@ -33,7 +33,7 @@ const demoProjects = [
     shortDesc: 'Eco-friendly product store with subscription boxes and loyalty program.',
     description:
       'GreenCart is an organic food and wellness Shopify store featuring subscription box functionality, loyalty rewards, and deep integration with Recharge Payments. Custom theme with earthy aesthetics and fast load times.',
-    category: 'Shopify',
+    category: 'Health & Wellness Store',
     thumbnail: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&q=80',
     screenshots: [
       'https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&q=80',
@@ -51,7 +51,7 @@ const demoProjects = [
     shortDesc: 'High-performance electronics Shopify store with advanced filtering and comparison.',
     description:
       'TechDrop is a sleek electronics e-commerce store with advanced product filtering, comparison tools, and real-time inventory management. Integrated with multiple payment gateways and shipping APIs.',
-    category: 'E-commerce',
+    category: 'Electronics & Gadgets Store',
     thumbnail: 'https://images.unsplash.com/photo-1498049794561-7780e7231661?w=800&q=80',
     screenshots: [
       'https://images.unsplash.com/photo-1498049794561-7780e7231661?w=800&q=80',
@@ -69,7 +69,7 @@ const demoProjects = [
     shortDesc: 'Beauty & skincare DTC brand with quiz-based product recommendations.',
     description:
       'SkinGlow is a direct-to-consumer beauty brand built on Shopify with a custom skin quiz for personalized product recommendations, before/after galleries, and influencer affiliate tracking.',
-    category: 'Shopify',
+    category: 'Beauty & Personal Care Store',
     thumbnail: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80',
     screenshots: [
       'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80',
@@ -87,7 +87,7 @@ const demoProjects = [
     shortDesc: 'Multi-sport athletic gear store with custom bundle builder.',
     description:
       'SportZone is an athletic gear store featuring a custom bundle builder app, size guide integration, and a performance-optimized mobile experience. Reduced bounce rate by 45% with improved UX.',
-    category: 'Shopify',
+    category: 'Sports & Outdoor Store',
     thumbnail: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80',
     screenshots: [
       'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80',
@@ -105,7 +105,7 @@ const demoProjects = [
     shortDesc: 'Multi-vendor handmade marketplace built on Shopify with custom storefront.',
     description:
       'CraftHaven is a multi-vendor marketplace concept built on Shopify with a headless storefront. Features vendor onboarding, custom storefronts per vendor, and a unified cart experience.',
-    category: 'E-commerce',
+    category: 'Marketplace / Multi-Vendor Store',
     thumbnail: 'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=800&q=80',
     screenshots: [
       'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?w=800&q=80',
