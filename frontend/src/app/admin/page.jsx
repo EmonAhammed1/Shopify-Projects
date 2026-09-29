@@ -22,7 +22,10 @@ export default function AdminLogin() {
     setStatus('loading');
     setError('');
     try {
-      const { data } = await loginAdmin(form);
+      const { data } = await loginAdmin({
+        email: form.email.trim(),
+        password: form.password.trim(),
+      });
       localStorage.setItem('portfolio_token', data.token);
       localStorage.setItem('portfolio_admin', JSON.stringify(data.admin));
       console.log('✅ Admin logged in:', data.admin.email);

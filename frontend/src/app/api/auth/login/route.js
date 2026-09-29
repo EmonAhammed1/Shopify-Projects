@@ -14,15 +14,25 @@ export async function POST(request) {
       return NextResponse.json({ message: 'Please provide email and password' }, { status: 400 });
     }
 
-    const admin = await Admin.findOne({ email });
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanPassword = password.trim();
+
+    const admin = await Admin.findOne({
+      $or: [
+        { email: cleanEmail },
+        { email: new RegExp(`^${cleanEmail}$`, 'i') },
+        { username: cleanEmail }
+      ]
+    });
+
     if (!admin) {
-      console.log('❌ Admin not found:', email);
+      console.log('❌ Admin not found for:', cleanEmail);
       return NextResponse.json({ message: 'Invalid credentials' }, { status: 401 });
     }
 
-    const isMatch = await admin.comparePassword(password);
+    const isMatch = await admin.comparePassword(cleanPassword);
     if (!isMatch) {
-      console.log('❌ Wrong password for:', email);
+      console.log('❌ Wrong password for:', cleanEmail);
       return NextResponse.json({ message: 'Invalid credentials' }, { status: 401 });
     }
 
