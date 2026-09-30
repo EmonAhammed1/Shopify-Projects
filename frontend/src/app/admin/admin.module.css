@@ -70,6 +70,37 @@
 .input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
 .input::placeholder { color: var(--text-dim); }
 
+.passwordWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.passwordInput {
+  padding-right: 44px !important;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all var(--transition);
+}
+
+.passwordToggle:hover {
+  color: var(--accent);
+  background: rgba(108, 99, 255, 0.1);
+}
+
 .errorMsg {
   font-size: 0.82rem;
   color: #ff6b8a;
