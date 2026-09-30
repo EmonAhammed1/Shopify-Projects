@@ -503,9 +503,20 @@ export default function AdminDashboard() {
 
       {/* Add/Edit Modal */}
       {modal && (
-        <div className={styles.modalOverlay} onClick={(e) => e.target === e.currentTarget && closeModal()}>
+        <div className={styles.modalOverlay}>
           <div className={styles.modal}>
-            <h2 className={styles.modalTitle}>{editing ? 'Edit Project' : 'Add New Project'}</h2>
+            <div className={styles.modalHeader}>
+              <h2 className={styles.modalTitle}>{editing ? 'Edit Project' : 'Add New Project'}</h2>
+              <button
+                type="button"
+                className={styles.modalCloseBtn}
+                onClick={closeModal}
+                title="Close form"
+                aria-label="Close"
+              >
+                ✕
+              </button>
+            </div>
             <form className={styles.modalForm} onSubmit={handleSave}>
               <div className={styles.modalRow}>
                 <div className={styles.modalField}>
