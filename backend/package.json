@@ -1,11 +1,11 @@
 {
   "name": "portfolio-backend",
   "version": "1.0.0",
-  "description": "Portfolio backend — Node.js + Express + MongoDB",
+  "description": "Portfolio backend \u2014 Node.js + Express + MongoDB",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
+    "start": "node api.js && node server.js",
+    "dev": "node api.js && nodemon server.js",
     "seed": "node seed.js"
   },
   "keywords": [],
