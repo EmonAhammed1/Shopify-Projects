@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
+const crypto = require('crypto');
 const { protect } = require('../middleware/auth');
 
 const upload = multer({
@@ -8,10 +9,14 @@ const upload = multer({
   limits: { fileSize: 32 * 1024 * 1024 }, // 32MB
 });
 
-const CLIENT_ID = process.env.GOOGLE_DRIVE_CLIENT_ID;
-const CLIENT_SECRET = process.env.GOOGLE_DRIVE_CLIENT_SECRET;
-const REFRESH_TOKEN = process.env.GOOGLE_DRIVE_REFRESH_TOKEN;
-const FOLDER_ID = process.env.GOOGLE_DRIVE_FOLDER_ID || '1XLfNTP1_YYaybvOAjoprP0PZMpxxg7Dt';
+const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME;
+const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY;
+const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET;
+
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_DRIVE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_DRIVE_CLIENT_SECRET;
+const GOOGLE_REFRESH_TOKEN = process.env.GOOGLE_DRIVE_REFRESH_TOKEN;
+const GOOGLE_FOLDER_ID = process.env.GOOGLE_DRIVE_FOLDER_ID || '1XLfNTP1_YYaybvOAjoprP0PZMpxxg7Dt';
 
 let cachedAccessToken = null;
 let tokenExpiry = 0;
@@ -22,7 +27,7 @@ async function getGoogleAccessToken() {
     return cachedAccessToken;
   }
 
-  if (!CLIENT_ID || !CLIENT_SECRET || !REFRESH_TOKEN) {
+  if (!GOOGLE_CLIENT_ID || !GOOGLE_CLIENT_SECRET || !GOOGLE_REFRESH_TOKEN) {
     throw new Error('Google Drive API credentials are not configured in environment variables');
   }
 
@@ -30,9 +35,9 @@ async function getGoogleAccessToken() {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams({
-      client_id: CLIENT_ID,
-      client_secret: CLIENT_SECRET,
-      refresh_token: REFRESH_TOKEN,
+      client_id: GOOGLE_CLIENT_ID,
+      client_secret: GOOGLE_CLIENT_SECRET,
+      refresh_token: GOOGLE_REFRESH_TOKEN,
       grant_type: 'refresh_token',
     }).toString(),
   });
@@ -49,7 +54,7 @@ async function getGoogleAccessToken() {
 }
 
 // @route   POST /api/upload
-// @desc    Upload image to Google Drive
+// @desc    Upload image/video to Cloudinary (or Google Drive fallback)
 // @access  Private
 router.post('/', protect, upload.single('image'), async (req, res) => {
   try {
@@ -57,11 +62,45 @@ router.post('/', protect, upload.single('image'), async (req, res) => {
       return res.status(400).json({ message: 'No file uploaded' });
     }
 
-    const accessToken = await getGoogleAccessToken();
+    // 1. Try Cloudinary (Primary Ultra-Fast CDN)
+    if (CLOUDINARY_CLOUD_NAME && CLOUDINARY_API_KEY && CLOUDINARY_API_SECRET) {
+      const isVideo = req.file.mimetype.startsWith('video/');
+      const resourceType = isVideo ? 'video' : 'image';
+      const timestamp = Math.floor(Date.now() / 1000);
+      const folder = 'shopify_projects';
 
+      const paramsToSign = `folder=${folder}&timestamp=${timestamp}${CLOUDINARY_API_SECRET}`;
+      const signature = crypto.createHash('sha1').update(paramsToSign).digest('hex');
+      const base64Data = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+
+      const formData = new FormData();
+      formData.append('file', base64Data);
+      formData.append('api_key', CLOUDINARY_API_KEY);
+      formData.append('timestamp', timestamp.toString());
+      formData.append('folder', folder);
+      formData.append('signature', signature);
+
+      const cloudRes = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      const cloudData = await cloudRes.json();
+      if (cloudRes.ok && cloudData.secure_url) {
+        let optimizedUrl = cloudData.secure_url;
+        if (optimizedUrl.includes('/image/upload/')) {
+          optimizedUrl = optimizedUrl.replace('/image/upload/', '/image/upload/f_auto,q_auto/');
+        }
+        console.log('✅ Uploaded to Cloudinary:', optimizedUrl);
+        return res.json({ url: optimizedUrl, secureUrl: cloudData.secure_url, publicId: cloudData.public_id });
+      }
+    }
+
+    // 2. Google Drive Fallback
+    const accessToken = await getGoogleAccessToken();
     const metadata = {
       name: req.file.originalname || `shopify_${Date.now()}.png`,
-      parents: [FOLDER_ID],
+      parents: [GOOGLE_FOLDER_ID],
     };
 
     const boundary = 'gdrive_upload_' + Date.now();
@@ -95,12 +134,11 @@ router.post('/', protect, upload.single('image'), async (req, res) => {
     const fileData = await uploadRes.json();
     if (!uploadRes.ok || !fileData.id) {
       console.error('❌ Backend Google Drive upload error:', fileData);
-      return res.status(400).json({ message: fileData.error?.message || 'Google Drive upload failed' });
+      return res.status(400).json({ message: fileData.error?.message || 'Upload failed' });
     }
 
     const fileId = fileData.id;
 
-    // Make public
     try {
       await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}/permissions`, {
         method: 'POST',
