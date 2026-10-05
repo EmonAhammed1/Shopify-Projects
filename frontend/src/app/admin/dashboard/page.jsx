@@ -127,7 +127,7 @@ export default function AdminDashboard() {
     return () => window.removeEventListener('paste', handleGlobalPaste);
   }, [modal]);
 
-  // Upload thumbnail to Google Drive
+  // Upload thumbnail
   const uploadThumbnailFile = async (file) => {
     if (!file) return;
     setThumbUploading(true);
@@ -135,17 +135,17 @@ export default function AdminDashboard() {
       const url = await uploadImage(file);
       if (url) {
         setFormData((prev) => ({ ...prev, thumbnail: url }));
-        console.log('✅ Thumbnail uploaded to Google Drive:', url);
+        console.log('✅ Thumbnail uploaded:', url);
       }
     } catch (err) {
       console.error('❌ Thumbnail upload failed:', err);
-      alert('Failed to upload thumbnail to Google Drive: ' + (err.response?.data?.message || err.message));
+      alert('Failed to upload thumbnail: ' + (err.response?.data?.message || err.message));
     } finally {
       setThumbUploading(false);
     }
   };
 
-  // Upload screenshots to Google Drive
+  // Upload screenshots
   const uploadScreenshotsFiles = async (fileList) => {
     if (!fileList || fileList.length === 0) return;
     setScreenshotsUploading(true);
@@ -163,11 +163,11 @@ export default function AdminDashboard() {
             : [];
           return { ...prev, screenshots: [...existing, ...urls].join(', ') };
         });
-        console.log('✅ Screenshots uploaded to Google Drive:', urls);
+        console.log('✅ Screenshots uploaded:', urls);
       }
     } catch (err) {
       console.error('❌ Screenshots upload failed:', err);
-      alert('Failed to upload screenshot to Google Drive: ' + (err.response?.data?.message || err.message));
+      alert('Failed to upload screenshot: ' + (err.response?.data?.message || err.message));
     } finally {
       setScreenshotsUploading(false);
     }
@@ -606,7 +606,7 @@ export default function AdminDashboard() {
                 ) : thumbUploading ? (
                   <div className={`${styles.uploadDropzone} ${styles.uploadLoadingWrap}`}>
                     <div className={styles.spinner} />
-                    <span>Uploading thumbnail to Google Drive...</span>
+                    <span>Uploading thumbnail...</span>
                   </div>
                 ) : (
                   <div
@@ -642,7 +642,7 @@ export default function AdminDashboard() {
                   value={formData.thumbnail}
                   onChange={handleChange}
                   className={styles.modalInput}
-                  placeholder="https://drive.google.com/uc?export=view&id=... (or auto-filled via upload above)"
+                  placeholder="https://res.cloudinary.com/... or paste image directly above"
                 />
               </div>
 
@@ -700,7 +700,7 @@ export default function AdminDashboard() {
                 {screenshotsUploading && (
                   <div className={styles.uploadLoadingWrap} style={{ padding: '0.6rem 0' }}>
                     <div className={styles.spinner} />
-                    <span>Uploading screenshot(s) to Google Drive...</span>
+                    <span>Uploading screenshot(s)...</span>
                   </div>
                 )}
 

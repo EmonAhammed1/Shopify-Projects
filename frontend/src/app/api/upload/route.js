@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { verifyAdmin } from '@/lib/auth';
+import { uploadToCloudinary } from '@/lib/cloudinary';
 import { uploadImageToDrive } from '@/lib/googleDrive';
 
 export async function POST(request) {
@@ -10,31 +11,52 @@ export async function POST(request) {
 
   try {
     const formData = await request.formData();
-    const file = formData.get('image') || formData.get('file');
+    const file = formData.get('image') || formData.get('file') || formData.get('video');
 
     if (!file) {
-      return NextResponse.json({ message: 'No image file provided' }, { status: 400 });
+      return NextResponse.json({ message: 'No file provided' }, { status: 400 });
     }
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
+    const mimeType = file.type || 'image/png';
+    const filename = file.name || `upload_${Date.now()}`;
 
-    const result = await uploadImageToDrive({
-      name: file.name || `shopify_${Date.now()}.png`,
-      mimeType: file.type || 'image/png',
+    // Prefer Cloudinary for ultra-fast CDN & auto WebP/video delivery
+    if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET) {
+      const result = await uploadToCloudinary({
+        buffer,
+        mimeType,
+        filename,
+      });
+
+      return NextResponse.json({
+        success: true,
+        url: result.url,
+        secureUrl: result.secureUrl,
+        publicId: result.publicId,
+        provider: 'cloudinary',
+      });
+    }
+
+    // Fallback to Google Drive
+    const driveResult = await uploadImageToDrive({
+      name: filename,
+      mimeType,
       buffer,
     });
 
     return NextResponse.json({
       success: true,
-      url: result.url,
-      fileId: result.fileId,
-      webViewLink: result.webViewLink,
+      url: driveResult.url,
+      fileId: driveResult.fileId,
+      webViewLink: driveResult.webViewLink,
+      provider: 'google_drive',
     });
   } catch (err) {
-    console.error('❌ Google Drive upload API error:', err.message);
+    console.error('❌ Upload API error:', err.message);
     return NextResponse.json(
-      { message: err.message || 'Google Drive upload failed' },
+      { message: err.message || 'Upload failed' },
       { status: 500 }
     );
   }
