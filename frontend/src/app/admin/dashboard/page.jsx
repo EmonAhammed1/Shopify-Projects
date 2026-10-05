@@ -127,7 +127,7 @@ export default function AdminDashboard() {
     return () => window.removeEventListener('paste', handleGlobalPaste);
   }, [modal]);
 
-  // Upload thumbnail to ImgBB
+  // Upload thumbnail to Google Drive
   const uploadThumbnailFile = async (file) => {
     if (!file) return;
     setThumbUploading(true);
@@ -135,17 +135,17 @@ export default function AdminDashboard() {
       const url = await uploadImage(file);
       if (url) {
         setFormData((prev) => ({ ...prev, thumbnail: url }));
-        console.log('✅ Thumbnail uploaded to ImgBB:', url);
+        console.log('✅ Thumbnail uploaded to Google Drive:', url);
       }
     } catch (err) {
       console.error('❌ Thumbnail upload failed:', err);
-      alert('Failed to upload thumbnail to ImgBB: ' + (err.response?.data?.message || err.message));
+      alert('Failed to upload thumbnail to Google Drive: ' + (err.response?.data?.message || err.message));
     } finally {
       setThumbUploading(false);
     }
   };
 
-  // Upload screenshots to ImgBB
+  // Upload screenshots to Google Drive
   const uploadScreenshotsFiles = async (fileList) => {
     if (!fileList || fileList.length === 0) return;
     setScreenshotsUploading(true);
@@ -163,11 +163,11 @@ export default function AdminDashboard() {
             : [];
           return { ...prev, screenshots: [...existing, ...urls].join(', ') };
         });
-        console.log('✅ Screenshots uploaded to ImgBB:', urls);
+        console.log('✅ Screenshots uploaded to Google Drive:', urls);
       }
     } catch (err) {
       console.error('❌ Screenshots upload failed:', err);
-      alert('Failed to upload screenshot to ImgBB: ' + (err.response?.data?.message || err.message));
+      alert('Failed to upload screenshot to Google Drive: ' + (err.response?.data?.message || err.message));
     } finally {
       setScreenshotsUploading(false);
     }
@@ -548,7 +548,7 @@ export default function AdminDashboard() {
                   <input name="order" type="number" value={formData.order} onChange={handleChange} className={styles.modalInput} />
                 </div>
               </div>
-              {/* Thumbnail Upload + Input (ImgBB + Ctrl+V) */}
+              {/* Thumbnail Upload + Input (Google Drive + Ctrl+V) */}
               <div className={styles.modalField}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <label>Thumbnail Image *</label>
@@ -606,7 +606,7 @@ export default function AdminDashboard() {
                 ) : thumbUploading ? (
                   <div className={`${styles.uploadDropzone} ${styles.uploadLoadingWrap}`}>
                     <div className={styles.spinner} />
-                    <span>Uploading thumbnail to ImgBB...</span>
+                    <span>Uploading thumbnail to Google Drive...</span>
                   </div>
                 ) : (
                   <div
@@ -642,7 +642,7 @@ export default function AdminDashboard() {
                   value={formData.thumbnail}
                   onChange={handleChange}
                   className={styles.modalInput}
-                  placeholder="https://i.ibb.co/... (or auto-filled via upload above)"
+                  placeholder="https://drive.google.com/uc?export=view&id=... (or auto-filled via upload above)"
                 />
               </div>
 
@@ -700,7 +700,7 @@ export default function AdminDashboard() {
                 {screenshotsUploading && (
                   <div className={styles.uploadLoadingWrap} style={{ padding: '0.6rem 0' }}>
                     <div className={styles.spinner} />
-                    <span>Uploading screenshot(s) to ImgBB...</span>
+                    <span>Uploading screenshot(s) to Google Drive...</span>
                   </div>
                 )}
 

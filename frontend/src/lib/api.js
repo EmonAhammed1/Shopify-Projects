@@ -32,30 +32,19 @@ export const getMessages = () => api.get('/contact');
 export const toggleMessageRead = (id) => api.patch(`/contact/${id}`);
 export const deleteMessage = (id) => api.delete(`/contact/${id}`);
 
-// ─── Upload (ImgBB) ─────────────────────────────────────────
+// ─── Upload (Google Drive) ──────────────────────────────────
 export const uploadImage = async (file) => {
   const formData = new FormData();
   formData.append('image', file);
 
-  // Try direct ImgBB upload first
-  try {
-    const res = await fetch('https://api.imgbb.com/1/upload?key=81995afd703f5d59b1fca06f9266fd65', {
-      method: 'POST',
-      body: formData,
-    });
-    const data = await res.json();
-    if (data.success && data.data?.url) {
-      return data.data.url;
-    }
-  } catch (err) {
-    console.warn('Direct ImgBB upload failed, falling back to /api/upload', err);
-  }
-
-  // Fallback to internal /api/upload
   const { data } = await api.post('/upload', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
-  return data.url;
+
+  if (data?.url) {
+    return data.url;
+  }
+  throw new Error(data?.message || 'Upload failed');
 };
 
 // ─── Auth ────────────────────────────────────────────────────
